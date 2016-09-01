@@ -1,0 +1,32 @@
+version: 2
+importPivots: 1
+tpsheetFileNames:
+- Assets/Resources/Texture/character/girl1.tpsheet
+- Assets/Resources/Texture/character/girl4.tpsheet
+- Assets/Resources/Texture/character/girl8.tpsheet
+- Assets/Resources/Texture/character/girl6.tpsheet
+- Assets/Resources/Texture/character/girl5.tpsheet
+- Assets/Resources/Texture/character/girl2.tpsheet
+- Assets/Resources/Texture/character/girl7.tpsheet
+- Assets/Resources/Texture/character/girl3.tpsheet
+- Assets/Resources/Texture/character/boy1.tpsheet
+textureFileNames:
+- Assets/Resources/Texture/character/girl1.png
+- Assets/Resources/Texture/character/girl4.png
+- Assets/Resources/Texture/character/girl8.png
+- Assets/Resources/Texture/character/girl6.png
+- Assets/Resources/Texture/character/girl5.png
+- Assets/Resources/Texture/character/girl2.png
+- Assets/Resources/Texture/character/girl7.png
+- Assets/Resources/Texture/character/girl3.png
+- Assets/Resources/Texture/character/boy1.png
+normalmapFileNames:
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 
+- 

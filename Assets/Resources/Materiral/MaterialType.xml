@@ -1,0 +1,4 @@
+<TypeList >
+	<Type ID="1" Name="不可燃" Image="actionIcon_92"/>
+	<Type ID="2" Name="可燃" Image="actionIcon_91"/>
+</TypeList>

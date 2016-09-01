@@ -1,0 +1,14 @@
+<PropertyList>
+  <Property ID="1" Name="自然之力" Image="actionIcon_93" des="这一个中文描述1" Effet="1"/>
+  <Property ID="2" Name="自然精华" Image="actionIcon_94"   des="这一个中文描述2" Effet="2"/>
+  <Property ID="3" Name="自然奇迹" Image="actionIcon_95" des="这一个中文描述3" Effet="3"/>
+  <Property ID="4" Name="自然神" Image="actionIcon_96" des="这一个中文描述4" Effet="4"/>
+  <Property ID="5" Name="火焰之力" Image="actionIcon_67" des="这一个中文描述5" Effet="4"/>
+  <Property ID="6" Name="大火精华" Image="actionIcon_71" des="这一个中文描述6" Effet="4"/>
+  <Property ID="7" Name="火焰奇迹" Image="actionIcon_75" des="这一个中文描述7" Effet="4"/>
+  <Property ID="8" Name="火焰神" Image="actionIcon_79" des="这一个中文描述7" Effet="4"/>
+  <Property ID="9" Name="风火之力" Image="actionIcon_69" des="这一个中文描述7" Effet="4"/>
+  <Property ID="10" Name="风火之精" Image="actionIcon_73" des="这一个中文描述7" Effet="4"/>
+  <Property ID="11" Name="风火奇迹" Image="actionIcon_77" des="这一个中文描述7" Effet="4"/>
+  <Property ID="12" Name="风火限定" Image="actionIcon_81" des="这一个中文描述7" Effet="4"/>
+</PropertyList>

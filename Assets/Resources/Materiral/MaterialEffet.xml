@@ -1,0 +1,6 @@
+<MaterialEffetList>
+  <MaterialEffet ID="1" Name="锋利" Image="actionIcon_94" des="这一个中文描述1" Effet="1"/>
+  <MaterialEffet ID="2" Name="钝器" Image="actionIcon_49" des="actionIcon_95" Effet="2"/>
+  <MaterialEffet ID="3" Name="有香气" Image="actionIcon_96" des="这一个中文描述3" Effet="3"/>
+  <MaterialEffet ID="4" Name="不能吃" Image="actionIcon_97" des="这一个中文描述4" Effet="4"/>
+</MaterialEffetList>

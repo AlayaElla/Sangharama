@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PropertyRecipeList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<PropertyRecipe ID="1" Target="2">
+		<Property1>1</Property1>
+		<Property2>1</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="2" Target="3">
+		<Property1>2</Property1>
+		<Property2>2</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="3" Target="4">
+		<Property1>3</Property1>
+		<Property2>3</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="4" Target="6">
+		<Property1>5</Property1>
+		<Property2>5</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="5" Target="7">
+		<Property1>6</Property1>
+		<Property2>6</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="6" Target="8">
+		<Property1>7</Property1>
+		<Property2>7</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="7" Target="9">
+		<Property1>1</Property1>
+		<Property2>5</Property2>
+	</PropertyRecipe>	
+	<PropertyRecipe ID="8" Target="10">
+		<Property1>2</Property1>
+		<Property2>6</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="9" Target="11">
+		<Property1>3</Property1>
+		<Property2>7</Property2>
+	</PropertyRecipe>
+	<PropertyRecipe ID="10" Target="12">
+		<Property1>4</Property1>
+		<Property2>9</Property2>
+	</PropertyRecipe>	
+</PropertyRecipeList>

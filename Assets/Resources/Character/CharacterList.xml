@@ -1,0 +1,10 @@
+<CharacterList>
+  <Character ID="1" Name="小红" Skin="girl1" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="111" />
+  <Character ID="2" Name="肉肉" Skin="girl2" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="222" />
+  <Character ID="3" Name="阿狸" Skin="girl3" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="333" />
+  <Character ID="4" Name="小红" Skin="girl4" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="111" />
+  <Character ID="5" Name="肉肉" Skin="girl5" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="222" />
+  <Character ID="6" Name="阿狸" Skin="girl6" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="333" />
+  <Character ID="7" Name="小红" Skin="girl7" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="111" />
+  <Character ID="8" Name="肉肉" Skin="girl8" Sex="1" OutTime="1"  FavoriteItems="1,2" FavoriteMinds="3,4"  Weight="1" Des="222" />
+</CharacterList>

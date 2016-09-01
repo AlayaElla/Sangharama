@@ -1,0 +1,297 @@
+fileFormatVersion: 2
+guid: 15fc1062959379944b132712070e68f8
+timeCreated: 1465575148
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: girl4_01
+    21300002: girl4_02
+    21300004: girl4_03
+    21300006: girl4_04
+    21300008: girl4_05
+    21300010: girl4_06
+    21300012: girl4_07
+    21300014: girl4_08
+    21300016: girl4_09
+    21300018: girl4_10
+    21300020: girl4_11
+    21300022: girl4_12
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: girl4_01
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 35
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 16}
+        - {x: -12, y: -7}
+        - {x: -9, y: -16}
+        - {x: 7, y: -16}
+        - {x: 13, y: -12}
+        - {x: 13, y: 15}
+        - {x: 8, y: 16}
+    - name: girl4_02
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 35
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 16}
+        - {x: -12, y: 10}
+        - {x: -12, y: 0}
+        - {x: -11, y: -10}
+        - {x: -7, y: -16}
+        - {x: 7, y: -16}
+        - {x: 13, y: -10}
+        - {x: 13, y: 13}
+        - {x: 9, y: 16}
+    - name: girl4_03
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 35
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 16}
+        - {x: -12, y: -12}
+        - {x: -6, y: -16}
+        - {x: 9, y: -16}
+        - {x: 13, y: -9}
+        - {x: 13, y: 15}
+        - {x: 11, y: 16}
+    - name: girl4_04
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 35
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13, y: 13}
+        - {x: 6, y: 16}
+        - {x: -9, y: 16}
+        - {x: -12, y: 12}
+        - {x: -12, y: -1}
+        - {x: -9, y: -14}
+        - {x: -8, y: -16}
+        - {x: 9, y: -16}
+        - {x: 11, y: -13}
+        - {x: 13, y: -5}
+    - name: girl4_05
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 35
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 16}
+        - {x: -12, y: 11}
+        - {x: -12, y: -11}
+        - {x: -11, y: -16}
+        - {x: 10, y: -16}
+        - {x: 13, y: -7}
+        - {x: 13, y: 14}
+        - {x: 9, y: 16}
+    - name: girl4_06
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 35
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 16}
+        - {x: -7, y: 16}
+        - {x: -12, y: 14}
+        - {x: -12, y: -7}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 13, y: -11}
+        - {x: 13, y: 12}
+    - name: girl4_07
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 16}
+        - {x: -13, y: 13}
+        - {x: -13, y: -12}
+        - {x: -10, y: -16}
+        - {x: 11, y: -16}
+        - {x: 12, y: -6}
+        - {x: 12, y: 14}
+        - {x: 11, y: 16}
+    - name: girl4_08
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 16}
+        - {x: -13, y: 10}
+        - {x: -13, y: -1}
+        - {x: -11, y: -13}
+        - {x: -8, y: -16}
+        - {x: 6, y: -16}
+        - {x: 10, y: -15}
+        - {x: 12, y: -12}
+        - {x: 12, y: 13}
+        - {x: 11, y: 16}
+    - name: girl4_09
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 16}
+        - {x: -13, y: 13}
+        - {x: -13, y: -12}
+        - {x: -10, y: -16}
+        - {x: 10, y: -16}
+        - {x: 12, y: -5}
+        - {x: 12, y: 15}
+        - {x: 11, y: 16}
+    - name: girl4_10
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: -16}
+        - {x: 13, y: -16}
+        - {x: 13, y: 10}
+        - {x: 11, y: 16}
+        - {x: -11, y: 16}
+        - {x: -12, y: 11}
+    - name: girl4_11
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 16}
+        - {x: -12, y: 11}
+        - {x: -12, y: -9}
+        - {x: -6, y: -16}
+        - {x: 11, y: -16}
+        - {x: 13, y: -9}
+        - {x: 13, y: 14}
+        - {x: 11, y: 16}
+    - name: girl4_12
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 1
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 16}
+        - {x: -12, y: 12}
+        - {x: -12, y: -16}
+        - {x: 8, y: -16}
+        - {x: 13, y: -14}
+        - {x: 13, y: 10}
+        - {x: 9, y: 16}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

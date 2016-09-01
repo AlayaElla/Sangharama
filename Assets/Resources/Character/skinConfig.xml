@@ -1,0 +1,11 @@
+<SkinList>
+  <Skin SkinName="boy1" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl1" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl2" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl3" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl4" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl5" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl6" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl7" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+  <Skin SkinName="girl8" Action1="down:0,2" Action2="left:3,5" Action3="right:6,8" Action4="up:9,11"/>
+</SkinList>
