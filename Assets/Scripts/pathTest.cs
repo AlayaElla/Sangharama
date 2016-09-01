@@ -1,23 +1,96 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class pathTest : MonoBehaviour {
 
+    public Transform pathpoint;
 
+	public Transform[] trans;
 
-    public Vector3 piont1;
-    public Vector3 piont2;
-    public Vector3 piont3;
-    public Vector3 piont4;
+    LTBezierPath bcr;
+    LTSpline cr;
 
+    public bool showBezier = true;
+    public bool showspline = true;
 
-	// Use this for initialization
+	void OnEnable(){
+		// create the path
+
+		Vector3[] points=new Vector3[trans.Length];
+		for(int i=0;i<trans.Length;i++)
+		{
+	        points[i]=trans[i].position;
+		}
+        bcr = new LTBezierPath(points);
+        cr = new LTSpline(points);
+	}
+
 	void Start () {
-        LeanTween.drawBezierPath(piont1, piont2, piont3, piont4);
+
 	}
 	
-	// Update is called once per frame
 	void Update () {
-	
+
 	}
+
+
+	void OnDrawGizmos(){
+
+		if(trans!=null)
+			OnEnable();
+		Gizmos.color = Color.red;
+        if (cr != null && showspline)
+        {
+            cr.gizmoDraw(); // To Visualize the path, use this method
+        }
+
+        if (bcr != null && showBezier)
+        {
+            bcr.gizmoDraw(); // To Visualize the path, use this method
+        }
+        //DrawLine();
+    }
+
+    void DrawLine()
+    {
+        if (cr == null || bcr == null)
+        {
+            Debug.Log("dont have points");
+            return;
+        }
+
+        if (showspline)
+        {
+            if (pathpoint.childCount <= cr.ptsAdj.Length / 100)
+            {
+                for (int i = 0; i < cr.ptsAdj.Length; i += 100)
+                {
+                    Transform t = Instantiate(pathpoint);
+                    t.position = cr.ptsAdj[i];
+                    t.SetParent(pathpoint);
+                }
+            }
+        }
+        else
+        {
+            if (pathpoint.childCount != 0)
+            {
+                foreach (Transform _t in pathpoint)
+                {
+                    Destroy(_t.gameObject);
+                }
+            }
+        }
+
+        if (showBezier)
+        {
+
+        }
+        else
+        {
+
+        }
+
+    }
 }

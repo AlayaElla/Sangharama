@@ -58,11 +58,14 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: girl3_01
+    - serializedVersion: 2
+      name: girl3_01
       rect:
         serializedVersion: 2
         x: 1
@@ -72,17 +75,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 11, y: 16}
-        - {x: -10, y: 16}
-        - {x: -15, y: 14}
-        - {x: -15, y: -13}
-        - {x: -8, y: -16}
-        - {x: 12, y: -16}
-        - {x: 16, y: -11}
-        - {x: 16, y: 3}
-        - {x: 14, y: 12}
-    - name: girl3_02
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_02
       rect:
         serializedVersion: 2
         x: 35
@@ -92,17 +88,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -9, y: 16}
-        - {x: -11, y: 12}
-        - {x: -14, y: 3}
-        - {x: -14, y: -8}
-        - {x: -7, y: -16}
-        - {x: 7, y: -16}
-        - {x: 15, y: -8}
-        - {x: 15, y: 10}
-        - {x: 11, y: 16}
-    - name: girl3_03
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_03
       rect:
         serializedVersion: 2
         x: 69
@@ -112,17 +101,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 12, y: 16}
-        - {x: -9, y: 16}
-        - {x: -15, y: 14}
-        - {x: -15, y: -9}
-        - {x: -7, y: -16}
-        - {x: 8, y: -16}
-        - {x: 16, y: -10}
-        - {x: 16, y: 6}
-        - {x: 14, y: 13}
-    - name: girl3_04
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_04
       rect:
         serializedVersion: 2
         x: 103
@@ -132,16 +114,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -10, y: 16}
-        - {x: -11, y: 15}
-        - {x: -11, y: -4}
-        - {x: -9, y: -16}
-        - {x: 9, y: -16}
-        - {x: 16, y: -13}
-        - {x: 16, y: 15}
-        - {x: 12, y: 16}
-    - name: girl3_05
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_05
       rect:
         serializedVersion: 2
         x: 137
@@ -151,16 +127,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -11, y: 16}
-        - {x: -11, y: -8}
-        - {x: -9, y: -15}
-        - {x: -7, y: -16}
-        - {x: 5, y: -16}
-        - {x: 15, y: -7}
-        - {x: 15, y: 5}
-        - {x: 10, y: 16}
-    - name: girl3_06
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_06
       rect:
         serializedVersion: 2
         x: 171
@@ -170,17 +140,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 5, y: 16}
-        - {x: -8, y: 16}
-        - {x: -11, y: 13}
-        - {x: -11, y: -5}
-        - {x: -10, y: -16}
-        - {x: 10, y: -16}
-        - {x: 16, y: -9}
-        - {x: 16, y: 3}
-        - {x: 14, y: 13}
-    - name: girl3_07
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_07
       rect:
         serializedVersion: 2
         x: 1
@@ -190,16 +153,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -11, y: 16}
-        - {x: -16, y: 7}
-        - {x: -16, y: -12}
-        - {x: -12, y: -16}
-        - {x: 9, y: -16}
-        - {x: 11, y: -6}
-        - {x: 11, y: 14}
-        - {x: 6, y: 16}
-    - name: girl3_08
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_08
       rect:
         serializedVersion: 2
         x: 35
@@ -209,18 +166,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 9, y: 16}
-        - {x: -8, y: 16}
-        - {x: -14, y: 14}
-        - {x: -15, y: 11}
-        - {x: -15, y: -8}
-        - {x: -11, y: -16}
-        - {x: 8, y: -16}
-        - {x: 10, y: -15}
-        - {x: 11, y: -1}
-        - {x: 11, y: 13}
-    - name: girl3_09
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_09
       rect:
         serializedVersion: 2
         x: 69
@@ -230,17 +179,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -7, y: 16}
-        - {x: -15, y: 13}
-        - {x: -16, y: 6}
-        - {x: -16, y: -11}
-        - {x: -11, y: -16}
-        - {x: 10, y: -16}
-        - {x: 11, y: -9}
-        - {x: 11, y: 14}
-        - {x: 9, y: 16}
-    - name: girl3_10
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_10
       rect:
         serializedVersion: 2
         x: 103
@@ -250,17 +192,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 7, y: 16}
-        - {x: -9, y: 16}
-        - {x: -15, y: 6}
-        - {x: -15, y: -10}
-        - {x: -9, y: -16}
-        - {x: 7, y: -16}
-        - {x: 16, y: -10}
-        - {x: 16, y: 6}
-        - {x: 14, y: 12}
-    - name: girl3_11
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_11
       rect:
         serializedVersion: 2
         x: 137
@@ -270,17 +205,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -9, y: 16}
-        - {x: -11, y: 12}
-        - {x: -14, y: 3}
-        - {x: -14, y: -8}
-        - {x: -7, y: -16}
-        - {x: 7, y: -16}
-        - {x: 15, y: -8}
-        - {x: 15, y: 10}
-        - {x: 11, y: 16}
-    - name: girl3_12
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: girl3_12
       rect:
         serializedVersion: 2
         x: 171
@@ -290,15 +218,8 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -15, y: -9}
-        - {x: -11, y: -16}
-        - {x: 9, y: -16}
-        - {x: 16, y: -13}
-        - {x: 16, y: 14}
-        - {x: 8, y: 16}
-        - {x: -8, y: 16}
-        - {x: -15, y: 9}
+      outline: []
+      tessellationDetail: -1
     outline: []
   spritePackingTag: 
   userData: 
