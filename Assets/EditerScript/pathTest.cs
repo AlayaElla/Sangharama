@@ -70,8 +70,8 @@ public class pathTest : MonoBehaviour
     [ContextMenu("CleanLine")]
     void CleanLine()
     {
-        if (transform.Find("/Canvas/Scroll View/Viewport/Content/pathLine") != null)
-            Tools.DestroyImmediate(transform.Find("/Canvas/Scroll View/Viewport/Content/pathLine").gameObject);
+        if (transform.Find("/Canvas/Scroll View/Viewport/Content/map/pathLine") != null)
+            Tools.DestroyImmediate(transform.Find("/Canvas/Scroll View/Viewport/Content/map/pathLine").gameObject);
     }
 
 }
