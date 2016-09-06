@@ -15,7 +15,7 @@ public class CollectAction : MonoBehaviour {
     //素材按钮框
     RectTransform MateriralList;
 
-    string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action/";
+    string actionRoot = "Canvas/Scroll View/Viewport/Content/map/";
 
     //////////////////////
     //逻辑相关
@@ -45,9 +45,22 @@ public class CollectAction : MonoBehaviour {
         XmlTool xt = new XmlTool();
         CollectionList = xt.loadCollectionXmlToArray();
 
-        for (int i = 1; i <= 7; i++)
+        Transform root = GameObject.Find(actionRoot).transform;
+        int childscount = root.childCount;
+
+        for (int index = 0; index < childscount; index++)
         {
-            EventTriggerListener.Get(GameObject.Find(actionRoot + i.ToString())).onClick = CollectionAction;
+            if (root.GetChild(index).name.StartsWith("action"))
+            {
+                Transform actionroot = root.GetChild(index);
+                int actioncount = actionroot.childCount;
+                for (int i = 1; i < actioncount; i++)
+                {
+                    //TODO：判断字符串是否是数字，如果是则添加按钮相应。
+                    //actionroot.GetChild(i).name
+                    //EventTriggerListener.Get(GameObject.Find(actionRoot + i.ToString())).onClick = CollectionAction;
+                }
+            }
         }
 	}
 	
@@ -286,5 +299,11 @@ public class CollectAction : MonoBehaviour {
         ItemInfoUI info = Instantiate(iteminfo).GetComponent<ItemInfoUI>();
         info.Ini();
         info.OpenItemInfo(goods);
+    }
+
+    //判断是字符串是否是数字
+    void isNumber(string str)
+    {
+ 
     }
 }
