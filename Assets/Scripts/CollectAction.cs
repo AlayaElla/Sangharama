@@ -56,9 +56,12 @@ public class CollectAction : MonoBehaviour {
                 int actioncount = actionroot.childCount;
                 for (int i = 1; i < actioncount; i++)
                 {
-                    //TODO：判断字符串是否是数字，如果是则添加按钮相应。
-                    //actionroot.GetChild(i).name
-                    //EventTriggerListener.Get(GameObject.Find(actionRoot + i.ToString())).onClick = CollectionAction;
+                    //如果是数字则就是采集点
+                    if (MathTool.isNumber(actionroot.GetChild(i).name))
+                    {
+                        EventTriggerListener.Get(actionroot.GetChild(i)).onClick = CollectionAction;
+                        Debug.Log("add " + actionroot.GetChild(i).name);
+                    }
                 }
             }
         }
@@ -301,9 +304,4 @@ public class CollectAction : MonoBehaviour {
         info.OpenItemInfo(goods);
     }
 
-    //判断是字符串是否是数字
-    void isNumber(string str)
-    {
- 
-    }
 }
