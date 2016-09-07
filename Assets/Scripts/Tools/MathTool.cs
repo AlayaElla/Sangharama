@@ -34,4 +34,18 @@ public class MathTool {
         }
     }
 
+    //判断是字符串是否是数字
+    public static bool isNumber(string str)
+    {
+        for (int i = 0; i < str.Length; i++)
+        {
+            if (char.IsNumber(str, i))
+                continue;
+            else
+                return false;
+        }
+        return true;
+    }
+
+
 }
