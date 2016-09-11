@@ -82,4 +82,17 @@ public class pathTest : MonoBehaviour
             Tools.DestroyImmediate(transform.Find("/Canvas/Scroll View/Viewport/Content/map/pathLine" + idstr).gameObject);
     }
 
+    [ContextMenu("ShowEditorPoint")]
+    void ShowEditorPoint()
+    {
+        for (int i = 0; i < root.childCount; i++)
+        {
+            string name = root.GetChild(i).name;
+            if (name == "start" || name == "end" || name.Contains("point"))
+            {
+
+                root.GetChild(i).gameObject.SetActive(!root.GetChild(i).gameObject.activeSelf);
+            }
+        }
+    }
 }

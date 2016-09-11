@@ -15,7 +15,7 @@ public class UITEST : MonoBehaviour {
 
     public void LoadTestLevel()
     {
-        Application.LoadLevel("Test");
+        Application.LoadLevel("Map");
     }
 
     public void LoadTest2Level()

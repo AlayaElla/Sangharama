@@ -48,8 +48,8 @@ public class CharacterController : MonoBehaviour {
     /// </summary>
     int actionStep = 1;
 
-    Character.CharacterInfo info = new Character.CharacterInfo();
-    Character.Skin skin = new Character.Skin();
+    CharacterModle.CharacterInfo info = new CharacterModle.CharacterInfo();
+    CharacterModle.Skin skin = new CharacterModle.Skin();
 
     ShopGood selectgoods = new ShopGood();
     Vector2 goodsVertor = new Vector2();
@@ -293,7 +293,7 @@ public class CharacterController : MonoBehaviour {
     }
 
 
-    public void Init(Character.CharacterInfo _info, Character.Skin _skin)
+    public void Init(CharacterModle.CharacterInfo _info, CharacterModle.Skin _skin)
     {
         targetPoint = null;
 

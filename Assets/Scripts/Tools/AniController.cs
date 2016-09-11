@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,6 +7,14 @@ public class AniController : MonoBehaviour {
 
     Sprite[] aniSprite;
     SpriteRenderer currentSprite;
+    Image currentUISprite;
+
+    enum SpriteType
+    {
+        Sprite2D,
+        SpriteUI,
+    }
+    SpriteType type = SpriteType.Sprite2D;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +48,11 @@ public class AniController : MonoBehaviour {
         if (currentSprite == null)
         {
             currentSprite = transform.GetComponent<SpriteRenderer>();
+            if (currentSprite == null)
+            {
+                type = SpriteType.SpriteUI;
+                currentUISprite = transform.GetComponent<Image>();
+            }
         }
         aniSprite = new Sprite[sprite.Length];
         aniSprite = sprite;
@@ -105,7 +119,7 @@ public class AniController : MonoBehaviour {
         time += Time.deltaTime;
         if (currentType == AniType.Loop)
         {
-            currentSprite.sprite = aniSprite[currentframe];
+            SetSprite(aniSprite[currentframe]);
             if (time >= 1.0f / anispeed)
             {
                 //帧序列切换
@@ -128,7 +142,7 @@ public class AniController : MonoBehaviour {
 
         else if (currentType == AniType.LoopBack)
         {
-            currentSprite.sprite = aniSprite[currentframe];
+            SetSprite(aniSprite[currentframe]);
             if (time >= 1.0f / anispeed)
             {
                 //限制帧清空
@@ -167,6 +181,18 @@ public class AniController : MonoBehaviour {
         {
             //TODO:
             return;
+        }
+    }
+
+    void SetSprite(Sprite sp)
+    {
+        if (type == SpriteType.Sprite2D)
+        {
+            currentSprite.sprite = sp;
+        }
+        else if (type == SpriteType.SpriteUI)
+        {
+            currentUISprite.sprite = sp;
         }
     }
 }

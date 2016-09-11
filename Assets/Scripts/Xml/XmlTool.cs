@@ -205,7 +205,7 @@ public class XmlTool
 
         foreach (XmlElement character in nodeList)
         {
-            Character.CharacterInfo _character = new Character.CharacterInfo();
+            CharacterModle.CharacterInfo _character = new CharacterModle.CharacterInfo();
 
             //读取node内属性，把string转化为对应的属性
             if (character.GetAttribute("ID") != "")
@@ -215,9 +215,9 @@ public class XmlTool
             if (character.GetAttribute("Skin") != "")
                 _character.Skin = character.GetAttribute("Skin");
             if (character.GetAttribute("Type") != "")
-                _character.Sex = (Character.SexType)int.Parse(character.GetAttribute("Sex"));
+                _character.Sex = (CharacterModle.SexType)int.Parse(character.GetAttribute("Sex"));
             if (character.GetAttribute("OutTime") != "")
-                _character.OutTime = (Character.TimeType)int.Parse(character.GetAttribute("OutTime"));
+                _character.OutTime = (CharacterModle.TimeType)int.Parse(character.GetAttribute("OutTime"));
 
             if (character.GetAttribute("FavoriteItems") != "")
             {
@@ -266,7 +266,7 @@ public class XmlTool
 
         foreach (XmlElement skin in nodeList)
         {
-            Character.Skin _skin = new Character.Skin();
+            CharacterModle.Skin _skin = new CharacterModle.Skin();
 
             //读取node内属性，把string转化为对应的属性
             if (skin.GetAttribute("SkinName") != "")
@@ -562,7 +562,65 @@ public class XmlTool
         return recipeList;
     }
 
+    //读取路径配置表
+    public ArrayList loadPathXmlToArray()
+    {
+        //保存路径
+        string filepath = "Map/MapPath";
 
+        string _result = Resources.Load(filepath).ToString();
+
+        ArrayList PathList = new ArrayList();
+
+        XmlDocument xmlDoc = new XmlDocument();
+
+        xmlDoc.LoadXml(_result);
+
+        XmlNodeList nodeList = xmlDoc.SelectSingleNode("PathList").ChildNodes;
+
+        foreach (XmlElement recipe in nodeList)
+        {
+
+            MapPathManager.Path _path = new MapPathManager.Path();
+
+            //读取node内属性，把string转化为对应的属性
+            if (recipe.GetAttribute("Map") != "")
+                _path.Map = int.Parse(recipe.GetAttribute("Map"));
+            if (recipe.GetAttribute("Next") != "")
+            {
+                string str_next = recipe.GetAttribute("Next");
+                if (str_next != "")
+                {
+                    string[] str_temp = str_next.Split(',');
+                    _path.Next = new int[str_temp.Length];
+                    for (int i = 0; i < _path.Next.Length; i++)
+                    {
+                        _path.Next[i] = int.Parse(str_temp[i]);
+                    }
+                }
+            }
+            if (recipe.GetAttribute("Pre") != "")
+            {
+                string str_pre = recipe.GetAttribute("Pre");
+                if (str_pre != "")
+                {
+                    string[] str_temp = str_pre.Split(',');
+                    _path.Pre = new int[str_temp.Length];
+                    for (int i = 0; i < _path.Pre.Length; i++)
+                    {
+                        _path.Pre[i] = int.Parse(str_temp[i]);
+                    }
+                }
+            }
+            if (recipe.GetAttribute("EndType") != "")
+                _path.EndType = int.Parse(recipe.GetAttribute("EndType"));
+            else
+                _path.EndType = 0;
+            //添加进itemList中
+            PathList.Add(_path);
+        }
+        return PathList;
+    }
 
 
     //获取路径//

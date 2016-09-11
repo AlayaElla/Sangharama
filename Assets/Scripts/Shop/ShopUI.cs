@@ -96,6 +96,8 @@ public class ShopUI : MonoBehaviour {
         ChangeRecipeUiState();
 
         PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
+        CharBag.SaveBagGoods();
+
     }
 
     void RemoveGoods(GameObject go, object parameter)

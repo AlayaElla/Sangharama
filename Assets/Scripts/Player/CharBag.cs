@@ -68,6 +68,11 @@ public class CharBag : MonoBehaviour {
         return uid;
     }
 
+    static public void SaveBagGoods()
+    {
+        PlayerData.BagData.UpdateBag(GoodsList);
+    }
+
     //计算物品价格
     static public Goods SetPrice(Goods goods)
     {
