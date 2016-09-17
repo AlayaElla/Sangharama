@@ -18,11 +18,22 @@ public class MapPathManager : MonoBehaviour {
     }
     MoveState state;
     static Path[] PathList;
-
     public Transform MovePlayer;
-    string Nowpoint;
-    string Targetpoint;
-    string startpoint = "1";
+
+    struct Points {
+        public int Nowpoint;
+        public int Targetpoint;
+        public enum PointsVecter
+        {
+            UP,
+            DOWN
+        }
+        public PointsVecter Vecter; 
+    }
+    Points playerPoints;
+
+    int startpoint = 9;
+    ArrayList pathBox = new ArrayList();  //用于保存路点
 
     CharacterModle charaModle;
 
@@ -31,7 +42,7 @@ public class MapPathManager : MonoBehaviour {
         //获取路径配置表
         GetPathConfig();
         state = MoveState.Stay;
-        Nowpoint = startpoint;
+        playerPoints.Nowpoint = startpoint;
 
         //读取角色配置表
         charaModle = GameObject.Find("/CollectionTools/CharacterModle").GetComponent<CharacterModle>();
@@ -129,18 +140,140 @@ public class MapPathManager : MonoBehaviour {
                     //如果是数字则就是采集点
                     if (MathTool.isNumber(actionroot.GetChild(i).name))
                     {
-                        EventTriggerListener.Get(actionroot.GetChild(i)).onClick = FindPath;
+                        EventTriggerListener.Get(actionroot.GetChild(i)).onClick = SetTarget;
                     }
                 }
             }
         }
     }
 
-    void FindPath(GameObject go)
+
+    void SetTarget(GameObject go)
     {
-        Debug.Log(go.name);
+        playerPoints.Targetpoint = int.Parse(go.name);
+        pathBox.Clear();
+        pathBox.Add(playerPoints.Targetpoint);
+        FindPath(playerPoints.Targetpoint);
+
+        string str = "";
+        foreach (int i in pathBox)
+        {
+            str += i.ToString() + ",";
+        }
+        Debug.Log("tagert:" + go.name + "   path:" + str);
     }
 
+    void FindPath(int path)
+    {
+
+        //先快速筛选前一个路点，查看是否到到目标地
+        //如果达到则保存到目标数组，如果不到达则遍历查找到达目标路点的上一个路点。
+        //保存目标路点为寻找到的路点，继续FindPath。
+        //如果目标路点为startpoint则停止查找。
+
+
+        int checkindex = GetCheckPoint();
+        //如果点击的路点就是当前路点，则没反应
+        if (playerPoints.Targetpoint == playerPoints.Nowpoint)
+            return;
+
+        Path _p = PathList[checkindex];
+        //////////////////////////////向上查找
+        if (playerPoints.Vecter == Points.PointsVecter.UP)
+        {
+            if (_p.Next != null)
+            {
+                for (int i = 0; i < _p.Next.Length; i++)
+                {
+                    if (_p.Next[i] == playerPoints.Targetpoint)
+                    {
+                        pathBox.Add(_p.Map);
+                        playerPoints.Targetpoint = _p.Map;
+                        FindPath(playerPoints.Targetpoint);
+                        break;
+                    }
+                }
+            }
+            //如果不能快速找到上一个则便利所有路点
+            else
+            {
+                for (int i = 0; i < PathList.Length; i++)
+                {
+                    Path __p = PathList[i];
+                    //跳过终点路点
+                    if (__p.Next == null)
+                        continue;
+
+                    for (int j = 0; j < __p.Next.Length; j++)
+                    {
+                        if (__p.Next[j] == playerPoints.Targetpoint)
+                        {
+                            pathBox.Add(__p.Map);
+                            playerPoints.Targetpoint = __p.Map;
+                            FindPath(playerPoints.Targetpoint);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        //////////////////////////////向下查找
+        else if (playerPoints.Vecter == Points.PointsVecter.DOWN)
+        {
+            if (_p.Next != null)
+            {
+                for (int i = 0; i < _p.Next.Length; i++)
+                {
+                    if (_p.Next[i] == playerPoints.Targetpoint)
+                    {
+                        pathBox.Add(_p.Map);
+                        playerPoints.Targetpoint = _p.Map;
+                        FindPath(playerPoints.Targetpoint);
+                        break;
+                    }
+                }
+            }
+            //如果不能快速找到上一个则便利所有路点
+            else
+            {
+                for (int i = 0; i < PathList.Length; i++)
+                {
+                    Path __p = PathList[i];
+                    //跳过终点路点
+                    if (__p.Next == null)
+                        continue;
+
+                    for (int j = 0; j < __p.Next.Length; j++)
+                    {
+                        if (__p.Next[j] == playerPoints.Targetpoint)
+                        {
+                            pathBox.Add(__p.Map);
+                            playerPoints.Targetpoint = __p.Map;
+                            FindPath(playerPoints.Targetpoint);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    int GetCheckPoint()
+    {
+        int check = 0;
+        //如果点击的路点大于当前路点则快速检查上一个路点是否是正确路径点
+        if (playerPoints.Targetpoint > playerPoints.Nowpoint)
+        {
+            playerPoints.Vecter = Points.PointsVecter.DOWN;
+            check = playerPoints.Targetpoint - 2;
+        }
+        else if (playerPoints.Targetpoint < playerPoints.Nowpoint)
+        {
+            playerPoints.Vecter = Points.PointsVecter.UP;
+            check = playerPoints.Targetpoint;
+        }
+        return check;
+    }
 
     //镜头跟随主角
     void CmameraFollowPlayer()
