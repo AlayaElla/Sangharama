@@ -165,57 +165,37 @@ public class MapPathManager : MonoBehaviour {
 
     void FindPath(int path)
     {
-
-        //先快速筛选前一个路点，查看是否到到目标地
-        //如果达到则保存到目标数组，如果不到达则遍历查找到达目标路点的上一个路点。
-        //保存目标路点为寻找到的路点，继续FindPath。
-        //如果目标路点为startpoint则停止查找。
-
+        //从起始点开始查找路点。
+        //双向查找——建立两个str[3]，第一个保存方向：0向上；1向下；第二个保存分支的下一个路点；第三个保存信息。
+        //如果遇到分叉路点，则新建立一个分叉，分支需要保存下一个查找的点
+        //如果遇到重复的点，则判断miss
+        //如果遇到到达的点不知目标点则miss
+        //如果计算完成则判断所有得出点的长度找出最短的，然后计入路点。
 
         int checkindex = GetCheckPoint();
         //如果点击的路点就是当前路点，则没反应
         if (playerPoints.Targetpoint == playerPoints.Nowpoint)
             return;
-
         Path _p = PathList[checkindex];
+
+        int nextcount=0;
+
+        if (_p.Next != null)
+        {
+            for (int i = 0; i < _p.Next.Length; i++)
+            {
+
+            }
+        }
+
+
+
+
+
         //////////////////////////////向上查找
         if (playerPoints.Vecter == Points.PointsVecter.UP)
         {
-            if (_p.Next != null)
-            {
-                for (int i = 0; i < _p.Next.Length; i++)
-                {
-                    if (_p.Next[i] == playerPoints.Targetpoint)
-                    {
-                        pathBox.Add(_p.Map);
-                        playerPoints.Targetpoint = _p.Map;
-                        FindPath(playerPoints.Targetpoint);
-                        break;
-                    }
-                }
-            }
-            //如果不能快速找到上一个则便利所有路点
-            else
-            {
-                for (int i = 0; i < PathList.Length; i++)
-                {
-                    Path __p = PathList[i];
-                    //跳过终点路点
-                    if (__p.Next == null)
-                        continue;
 
-                    for (int j = 0; j < __p.Next.Length; j++)
-                    {
-                        if (__p.Next[j] == playerPoints.Targetpoint)
-                        {
-                            pathBox.Add(__p.Map);
-                            playerPoints.Targetpoint = __p.Map;
-                            FindPath(playerPoints.Targetpoint);
-                            return;
-                        }
-                    }
-                }
-            }
         }
         //////////////////////////////向下查找
         else if (playerPoints.Vecter == Points.PointsVecter.DOWN)
