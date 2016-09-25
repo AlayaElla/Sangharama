@@ -152,7 +152,7 @@ public class MapPathManager : MonoBehaviour {
     {
         playerPoints.Targetpoint = int.Parse(go.name);
         pathBox.Clear();
-        pathBox.Add(playerPoints.Targetpoint);
+        pathBox.Add(playerPoints.Nowpoint.ToString() + ",");
         FindPath(playerPoints.Targetpoint);
 
         string str = "";
@@ -172,68 +172,61 @@ public class MapPathManager : MonoBehaviour {
         //如果遇到到达的点不知目标点则miss
         //如果计算完成则判断所有得出点的长度找出最短的，然后计入路点。
 
-        int checkindex = GetCheckPoint();
+        //int checkindex = GetCheckPoint();
         //如果点击的路点就是当前路点，则没反应
         if (playerPoints.Targetpoint == playerPoints.Nowpoint)
             return;
-        Path _p = PathList[checkindex];
+        Path _p = PathList[playerPoints.Nowpoint - 1];
 
-        int nextcount=0;
-
+        string _pathstring = "";
+        //向下查找
         if (_p.Next != null)
         {
             for (int i = 0; i < _p.Next.Length; i++)
             {
+                string _str = (string)pathBox[pathBox.Count - 1];
+                if (i > 0 && _p.Next.Length >= 2)
+                {
+                    pathBox.Add(_str);
+                }
 
+                //如果遇到和之前相同的路点，则表示绕了一圈。废弃当前路点。
+                if (_str.Contains(_p.Next[i].ToString()))
+                    continue;
+
+                _str += _p.Next[i] + ",";
+                pathBox[pathBox.Count - 1] = _str;
+
+                //如果到达终点则结束当前路点的循环。
+                if (_p.Next[i] == playerPoints.Targetpoint)
+                    break;
+
+                FindPath(_p.Next[i]);
             }
         }
-
-
-
-
-
-        //////////////////////////////向上查找
-        if (playerPoints.Vecter == Points.PointsVecter.UP)
+        //向下查找
+        if (_p.Pre != null)
         {
-
-        }
-        //////////////////////////////向下查找
-        else if (playerPoints.Vecter == Points.PointsVecter.DOWN)
-        {
-            if (_p.Next != null)
+            for (int i = 0; i < _p.Pre.Length; i++)
             {
-                for (int i = 0; i < _p.Next.Length; i++)
+                string _str = (string)pathBox[pathBox.Count - 1];
+                if (i > 0 && _p.Pre.Length >= 2)
                 {
-                    if (_p.Next[i] == playerPoints.Targetpoint)
-                    {
-                        pathBox.Add(_p.Map);
-                        playerPoints.Targetpoint = _p.Map;
-                        FindPath(playerPoints.Targetpoint);
-                        break;
-                    }
+                    pathBox.Add(_str);
                 }
-            }
-            //如果不能快速找到上一个则便利所有路点
-            else
-            {
-                for (int i = 0; i < PathList.Length; i++)
-                {
-                    Path __p = PathList[i];
-                    //跳过终点路点
-                    if (__p.Next == null)
-                        continue;
 
-                    for (int j = 0; j < __p.Next.Length; j++)
-                    {
-                        if (__p.Next[j] == playerPoints.Targetpoint)
-                        {
-                            pathBox.Add(__p.Map);
-                            playerPoints.Targetpoint = __p.Map;
-                            FindPath(playerPoints.Targetpoint);
-                            return;
-                        }
-                    }
-                }
+                //如果遇到和之前相同的路点，则表示绕了一圈。废弃当前路点。
+                if (_str.Contains(_p.Pre[i].ToString()))
+                    continue;
+
+                _str += _p.Pre[i] + ",";
+                pathBox[pathBox.Count - 1] = _str;
+
+                //如果到达终点则结束当前路点的循环。
+                if (_p.Pre[i] == playerPoints.Targetpoint)
+                    break;
+
+                FindPath(_p.Pre[i]);
             }
         }
     }
