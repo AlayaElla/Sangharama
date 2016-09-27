@@ -8,6 +8,7 @@ public class MapPathManager : MonoBehaviour {
         public int Map; //地图id
         public int[] Next;   //之后的路点集合
         public int[] Pre;  //之前的路点集合
+        public int[] Points;
         public int EndType; //终点类型，0是末尾是路点，1是起点是路点
     }
     //角色状态
@@ -64,6 +65,7 @@ public class MapPathManager : MonoBehaviour {
         PathList = new Path[_list.Count];
         _list.CopyTo(PathList);
         GetPrePath(PathList);
+        SetPoints();
     }
 
     void GetPrePath(Path[] list)
@@ -110,6 +112,31 @@ public class MapPathManager : MonoBehaviour {
             list[i] = _p;
         }
     }
+
+    void SetPoints()
+    {
+        for (int i = 0; i < PathList.Length; i++)
+        {
+            Path _p = PathList[i];
+            int precount = (_p.Pre == null) ? 0 : _p.Pre.Length;
+            int nextcount = (_p.Next == null) ? 0 : _p.Next.Length;
+            int len = precount + nextcount;
+
+            _p.Points = new int[len];
+            for (int j = 0; j < nextcount; j++)
+            {
+                _p.Points[j] = _p.Next[j];
+            }
+            for (int x = 0; x < precount; x++)
+            {
+                _p.Points[nextcount + x] = _p.Pre[x];
+            }
+
+            PathList[i] = _p;
+        }
+        Debug.Log("ok");
+    }
+
 
     void InstPlayer()
     {
@@ -180,53 +207,28 @@ public class MapPathManager : MonoBehaviour {
 
         string _pathstring = "";
         //向下查找
-        if (_p.Next != null)
+        if (_p.Points != null)
         {
-            for (int i = 0; i < _p.Next.Length; i++)
+            for (int i = 0; i < _p.Points.Length; i++)
             {
                 string _str = (string)pathBox[pathBox.Count - 1];
-                if (i > 0 && _p.Next.Length >= 2)
+                if (i > 0 && _p.Points.Length >= 2)
                 {
                     pathBox.Add(_str);
                 }
 
                 //如果遇到和之前相同的路点，则表示绕了一圈。废弃当前路点。
-                if (_str.Contains(_p.Next[i].ToString()))
+                if (_str.Contains(_p.Points[i].ToString()))
                     continue;
 
-                _str += _p.Next[i] + ",";
+                _str += _p.Points[i] + ",";
                 pathBox[pathBox.Count - 1] = _str;
 
                 //如果到达终点则结束当前路点的循环。
-                if (_p.Next[i] == playerPoints.Targetpoint)
+                if (_p.Points[i] == playerPoints.Targetpoint)
                     break;
 
-                FindPath(_p.Next[i]);
-            }
-        }
-        //向下查找
-        if (_p.Pre != null)
-        {
-            for (int i = 0; i < _p.Pre.Length; i++)
-            {
-                string _str = (string)pathBox[pathBox.Count - 1];
-                if (i > 0 && _p.Pre.Length >= 2)
-                {
-                    pathBox.Add(_str);
-                }
-
-                //如果遇到和之前相同的路点，则表示绕了一圈。废弃当前路点。
-                if (_str.Contains(_p.Pre[i].ToString()))
-                    continue;
-
-                _str += _p.Pre[i] + ",";
-                pathBox[pathBox.Count - 1] = _str;
-
-                //如果到达终点则结束当前路点的循环。
-                if (_p.Pre[i] == playerPoints.Targetpoint)
-                    break;
-
-                FindPath(_p.Pre[i]);
+                FindPath(_p.Points[i]);
             }
         }
     }
