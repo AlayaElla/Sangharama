@@ -179,14 +179,10 @@ public class MapPathManager : MonoBehaviour {
     {
         playerPoints.Targetpoint = int.Parse(go.name);
         pathBox.Clear();
-        pathBox.Add(playerPoints.Nowpoint.ToString() + ",");
-        FindPath(playerPoints.Targetpoint);
+        pathBox.Add("," + playerPoints.Nowpoint.ToString() + ",");
+        FindPath(playerPoints.Nowpoint);
 
         string str = "";
-        foreach (int i in pathBox)
-        {
-            str += i.ToString() + ",";
-        }
         Debug.Log("tagert:" + go.name + "   path:" + str);
     }
 
@@ -203,26 +199,27 @@ public class MapPathManager : MonoBehaviour {
         //如果点击的路点就是当前路点，则没反应
         if (playerPoints.Targetpoint == playerPoints.Nowpoint)
             return;
-        Path _p = PathList[playerPoints.Nowpoint - 1];
+        Path _p = PathList[path - 1];
 
         string _pathstring = "";
         //向下查找
         if (_p.Points != null)
         {
+            int pointsindex = pathBox.Count - 1;
+            string _str = (string)pathBox[pointsindex];
             for (int i = 0; i < _p.Points.Length; i++)
             {
-                string _str = (string)pathBox[pathBox.Count - 1];
+                //如果遇到和之前相同的路点，则表示绕了一圈。废弃当前路点。
+                if (_str.Contains("," + _p.Points[i].ToString() + ","))
+                    continue;
+                
                 if (i > 0 && _p.Points.Length >= 2)
                 {
                     pathBox.Add(_str);
                 }
 
-                //如果遇到和之前相同的路点，则表示绕了一圈。废弃当前路点。
-                if (_str.Contains(_p.Points[i].ToString()))
-                    continue;
-
-                _str += _p.Points[i] + ",";
-                pathBox[pathBox.Count - 1] = _str;
+                string pointstr = _str + _p.Points[i] + ",";
+                pathBox[pathBox.Count - 1] = pointstr;
 
                 //如果到达终点则结束当前路点的循环。
                 if (_p.Points[i] == playerPoints.Targetpoint)
