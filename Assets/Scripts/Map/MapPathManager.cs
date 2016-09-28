@@ -182,6 +182,8 @@ public class MapPathManager : MonoBehaviour {
         pathBox.Add("," + playerPoints.Nowpoint.ToString() + ",");
         FindPath(playerPoints.Nowpoint);
 
+        ArrayList paths = GetBestPath(pathBox);
+
         string str = "";
         Debug.Log("tagert:" + go.name + "   path:" + str);
     }
@@ -230,22 +232,31 @@ public class MapPathManager : MonoBehaviour {
         }
     }
 
-    int GetCheckPoint()
+    ArrayList GetBestPath(ArrayList list)
     {
-        int check = 0;
-        //如果点击的路点大于当前路点则快速检查上一个路点是否是正确路径点
-        if (playerPoints.Targetpoint > playerPoints.Nowpoint)
+        int ckeckLen = 99999;
+        ArrayList path = new ArrayList();
+        foreach (string _str in list)
         {
-            playerPoints.Vecter = Points.PointsVecter.DOWN;
-            check = playerPoints.Targetpoint - 2;
+            if (_str.Contains("," + playerPoints.Targetpoint.ToString() + ","))
+            {
+                //筛选出最短路径
+                if (ckeckLen > _str.Length)
+                {
+                    string[] str_temp = _str.Split(',');
+                    int offest = 1; //跳过第n个和最后n个循环
+                    for (int j = offest; j < str_temp.Length - offest; j++)
+                    {
+                        path.Add(int.Parse(str_temp[j]));
+                    }
+
+                    ckeckLen = _str.Length;
+                }
+            }
         }
-        else if (playerPoints.Targetpoint < playerPoints.Nowpoint)
-        {
-            playerPoints.Vecter = Points.PointsVecter.UP;
-            check = playerPoints.Targetpoint;
-        }
-        return check;
+        return path;
     }
+
 
     //镜头跟随主角
     void CmameraFollowPlayer()
