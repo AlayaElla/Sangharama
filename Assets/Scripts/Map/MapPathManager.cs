@@ -23,6 +23,7 @@ public class MapPathManager : MonoBehaviour {
 
     struct Points {
         public int Nowpoint;
+        public int Nextpoint;
         public int Targetpoint;
         public enum PointsVecter
         {
@@ -35,6 +36,7 @@ public class MapPathManager : MonoBehaviour {
 
     int startpoint = 9;
     ArrayList pathBox = new ArrayList();  //用于保存路点
+    ArrayList Bestpaths = new ArrayList();
 
     CharacterModle charaModle;
 
@@ -47,15 +49,15 @@ public class MapPathManager : MonoBehaviour {
 
         //读取角色配置表
         charaModle = GameObject.Find("/CollectionTools/CharacterModle").GetComponent<CharacterModle>();
-       
-        InstPlayer();
+
+        InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
     void GetPathConfig()
@@ -134,13 +136,12 @@ public class MapPathManager : MonoBehaviour {
 
             PathList[i] = _p;
         }
-        Debug.Log("ok");
     }
 
 
-    void InstPlayer()
+    void InstPlayer(int point)
     {
-        string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + startpoint + "/" + startpoint;
+        string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
         Transform root = GameObject.Find(actionRoot).transform;
         MovePlayer.position = root.position;
 
@@ -162,7 +163,7 @@ public class MapPathManager : MonoBehaviour {
             {
                 Transform actionroot = root.GetChild(index);
                 int actioncount = actionroot.childCount;
-                for (int i = 1; i < actioncount; i++)
+                for (int i = 0; i < actioncount; i++)
                 {
                     //如果是数字则就是采集点
                     if (MathTool.isNumber(actionroot.GetChild(i).name))
@@ -177,15 +178,28 @@ public class MapPathManager : MonoBehaviour {
 
     void SetTarget(GameObject go)
     {
+        //如果正在移动则跳过
+        if (state != MoveState.Stay)
+        {
+            SmallNoticeUI sNotice = new SmallNoticeUI();
+            sNotice = sNotice.INIT();
+            sNotice.SetMaxNotice(2, MovePlayer);
+            sNotice.SetAlignType(SmallNoticeList.Align.UP, MovePlayer);
+            sNotice.SetFirstPosition(new Vector3(0, Screen.height / 2, 0), MovePlayer);
+
+            string str = "移动中...";
+            sNotice.OpenNotice(str, 2f, MovePlayer);
+            return;
+        }
+
         playerPoints.Targetpoint = int.Parse(go.name);
         pathBox.Clear();
         pathBox.Add("," + playerPoints.Nowpoint.ToString() + ",");
         FindPath(playerPoints.Nowpoint);
+        Bestpaths = GetBestPath(pathBox);
 
-        ArrayList paths = GetBestPath(pathBox);
-
-        string str = "";
-        Debug.Log("tagert:" + go.name + "   path:" + str);
+        MovePath();
+        //InstPlayer(playerPoints.Targetpoint);
     }
 
     void FindPath(int path)
@@ -203,7 +217,6 @@ public class MapPathManager : MonoBehaviour {
             return;
         Path _p = PathList[path - 1];
 
-        string _pathstring = "";
         //向下查找
         if (_p.Points != null)
         {
@@ -255,6 +268,91 @@ public class MapPathManager : MonoBehaviour {
             }
         }
         return path;
+    }
+
+
+    void MovePath()
+    {
+        string root = "/Canvas/Scroll View/Viewport/Content/map/pathList/";
+        string pathline = "";
+        Transform[] _ts = new Transform[0];
+
+        //如果到达终点则打断
+        if (playerPoints.Nowpoint == playerPoints.Targetpoint)
+        {
+            state = MoveState.Stay;
+            return;
+        }
+
+        //找到移动的路径
+        for (int i = 0; i <= Bestpaths.Count - 2; i++)
+        {
+            //根据方向排序
+            if ((int)Bestpaths[i] == playerPoints.Nowpoint)
+            {
+                if ((int)Bestpaths[i + 1] > (int)Bestpaths[i])
+                {
+                    pathline = "pathLine_" + Bestpaths[i].ToString() + "_" + Bestpaths[i + 1].ToString();
+                    Transform t = transform.Find(root + pathline);
+                    if (t != null)
+                    {
+                        _ts = new Transform[t.childCount];
+                        for (int j = 0; j < t.childCount; j++)
+                        {
+                            _ts[j] = t.GetChild(j);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("can't find pathline:" + root + pathline);
+                    }
+
+                }
+                else
+                {
+                    pathline = "pathLine_" + Bestpaths[i+1].ToString() + "_" + Bestpaths[i].ToString();
+                    Transform t = transform.Find(root + pathline);
+                    if (t != null)
+                    {
+                        _ts = new Transform[t.childCount];
+                        for (int j = 0; j < t.childCount; j++)
+                        {
+                            _ts[j] = t.GetChild(t.childCount - 1 - j);
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("can't find pathline:" + root + pathline);
+                    }
+                }
+                playerPoints.Nextpoint = (int)Bestpaths[i + 1];
+                break;
+            }
+        }
+
+        //移动方法
+        if (_ts.Length != 0)
+        {
+            playerPoints.Nowpoint = playerPoints.Nextpoint;
+            Transform _map = transform.Find("/Canvas/Scroll View/Viewport/Content/map");
+            Vector3[] vecs = new Vector3[_ts.Length + 2];
+
+            for (int i = 0; i < _ts.Length; i++)
+            {
+                vecs[i + 1] = _ts[i].position - _map.position;
+            }
+            vecs[0] = vecs[1];
+            vecs[vecs.Length - 1] = vecs[vecs.Length - 2];
+
+            state = MoveState.Moving;
+            LTSpline cr = new LTSpline(vecs);
+            float time = cr.distance / 300;
+            LeanTween.moveLocal(MovePlayer.gameObject, cr, time).setOnComplete(() =>
+                {
+                    playerPoints.Nowpoint = playerPoints.Nextpoint;
+                    MovePath();
+                });
+        }
     }
 
 

@@ -353,7 +353,6 @@ public class RecipeUI : MonoBehaviour{
         {
             if (slot.slot.Name == null)
             {
-                //TODO:添加提示框
                 SmallNoticeUI sNotice = new SmallNoticeUI();
                 sNotice = sNotice.INIT();
 
