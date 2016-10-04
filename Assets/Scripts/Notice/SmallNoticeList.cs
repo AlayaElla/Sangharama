@@ -9,6 +9,18 @@ public class SmallNoticeList : MonoBehaviour {
     int noticeCount = 0;
     ArrayList TargetPosition = new ArrayList();
 
+    //对齐模式
+    public enum Align
+    {
+        UP,
+        MID,
+        DOWN
+    }
+    Align AlignType = Align.MID;
+
+    //初始位置
+    Vector3 FirstPosition = new Vector3(0, 0, 0);
+
 	// Use this for initialization
 	void Start () {
         RectTransform rect = transform.GetComponent<RectTransform>();
@@ -63,7 +75,7 @@ public class SmallNoticeList : MonoBehaviour {
 
             if (i == transform.childCount - 1)
             {
-                Vector3 Position = new Vector3(_rect.localPosition.x, 0, _rect.localPosition.z);
+                Vector3 Position = SetPositonByAlign(AlignType, _rect);
                 TargetPosition.Add(Position.y);
                 last_rect = _rect;
                 offset = Position.y;
@@ -76,5 +88,43 @@ public class SmallNoticeList : MonoBehaviour {
                 offset = Position.y;
             }
         }
+    }
+
+    Vector3 SetPositonByAlign(Align type, RectTransform _rect)
+    {
+        Vector3 Position = new Vector3();
+        if (AlignType == Align.UP)
+        {
+            Position = new Vector3(FirstPosition.x, FirstPosition.y - _rect.sizeDelta.y / 2, FirstPosition.z);
+        }
+        else if (AlignType == Align.MID)
+        {
+            Position = new Vector3(FirstPosition.x, FirstPosition.y, FirstPosition.z);
+        }
+        else if (AlignType == Align.DOWN)
+        {
+            Position = new Vector3(FirstPosition.x, FirstPosition.y + _rect.sizeDelta.y / 2, FirstPosition.z);
+        }
+
+        return Position;
+    }
+
+
+    //设置最大显示条数
+    public void SetshowMax(int count)
+    {
+        showMax = count;
+    }
+
+    //设置对齐方式
+    public void SetAligh(Align type)
+    {
+        AlignType = type;
+    }
+
+    //设置初始位置
+    public void SetFirstPosition(Vector3 position)
+    {
+        FirstPosition = position;
     }
 }

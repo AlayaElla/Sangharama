@@ -10,6 +10,10 @@ public class SmallNoticeUI : MonoBehaviour {
     float duratrionTime = 2f;
     float ActionTime = 0.25f;
 
+    //初始位置
+    Vector3 FirstPosition = new Vector3(0, 0, 0);
+
+
 	// Use this for initialization
 	void Start () {
         
@@ -60,8 +64,7 @@ public class SmallNoticeUI : MonoBehaviour {
 
         rect.sizeDelta = new Vector2(0, Screen.height / 15 * line);
         rect.localScale = new Vector3(rect.localScale.x, 0, rect.localScale.z);
-        rect.localPosition = new Vector3(0, 0, 0);
-
+        rect.localPosition = FirstPosition;
         ShowNoticeAction(_notice);
     }
 
@@ -73,5 +76,50 @@ public class SmallNoticeUI : MonoBehaviour {
             }
             );
     }
+
+
+    Transform GetList(Transform t)
+    {
+        //查找UI画布的最顶层
+        Canvas c = t.GetComponent<Canvas>();
+        while (t != null && c == null)
+        {
+            c = t.gameObject.GetComponent<Canvas>();
+            t = t.parent;
+        }
+        Transform list = c.transform.FindChild("NoticeList");
+        if (list == null)
+        {
+            list = Instantiate(smallNoticeList).transform;
+            list.name = "NoticeList";
+            list.transform.SetParent(c.transform);
+            list.transform.SetAsLastSibling();
+        }
+
+        return list;
+    }
+
+    //设置显示最大的信息数
+    public void SetMaxNotice(int count,Transform t)
+    {
+        Transform list = GetList(t);
+        list.GetComponent<SmallNoticeList>().SetshowMax(count);
+    }
+
+    //设置初始位置
+    public void SetFirstPosition(Vector3 position, Transform t)
+    {
+        Transform list = GetList(t);
+        list.GetComponent<SmallNoticeList>().SetFirstPosition(position);
+        FirstPosition = position;
+    }
+
+    //设置对齐模式
+    public void SetAlignType(SmallNoticeList.Align type, Transform t)
+    {
+        Transform list = GetList(t);
+        list.GetComponent<SmallNoticeList>().SetAligh(type);
+    }
+
 
 }
