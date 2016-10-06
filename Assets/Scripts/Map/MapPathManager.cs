@@ -145,9 +145,8 @@ public class MapPathManager : MonoBehaviour {
         Transform root = GameObject.Find(actionRoot).transform;
         MovePlayer.position = root.position;
 
-        AniController.Get(MovePlayer).AddSprite(charaModle.GetSkinSprite("boy1"));
-        CharacterModle.Skin skin = charaModle.GetSkin("boy1");
-        AniController.Get(MovePlayer).PlayAniCanBreak(skin.ActionList["down"][0], skin.ActionList["down"][1], AniController.AniType.LoopBack, 10);
+        AniController.Get(MovePlayer).AddSprite(charaModle.GetSkinSprite("boy1"), charaModle.GetSkin("boy1"));
+        AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
     }
 
 
@@ -181,14 +180,14 @@ public class MapPathManager : MonoBehaviour {
         //如果正在移动则跳过
         if (state != MoveState.Stay)
         {
-            SmallNoticeUI sNotice = new SmallNoticeUI();
+            SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
             sNotice = sNotice.INIT();
             sNotice.SetMaxNotice(2, MovePlayer);
             sNotice.SetAlignType(SmallNoticeList.Align.UP, MovePlayer);
-            sNotice.SetFirstPosition(new Vector3(0, Screen.height / 2, 0), MovePlayer);
+            sNotice.SetFirstPosition(new Vector3(0, Screen.height / 2 - 50, 0), MovePlayer);
 
             string str = "移动中...";
-            sNotice.OpenNotice(str, 2f, MovePlayer);
+            sNotice.OpenNotice(str, 0.5f, MovePlayer);
             return;
         }
 
@@ -281,6 +280,7 @@ public class MapPathManager : MonoBehaviour {
         if (playerPoints.Nowpoint == playerPoints.Targetpoint)
         {
             state = MoveState.Stay;
+            AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
             return;
         }
 
@@ -346,20 +346,51 @@ public class MapPathManager : MonoBehaviour {
 
             state = MoveState.Moving;
             LTSpline cr = new LTSpline(vecs);
-            float time = cr.distance / 300;
+            float time = cr.distance / 200;
             LeanTween.moveLocal(MovePlayer.gameObject, cr, time).setOnComplete(() =>
                 {
                     playerPoints.Nowpoint = playerPoints.Nextpoint;
                     MovePath();
                 });
+
+            SetCharacterVecter(vecs);
         }
+    }
+
+    //设定角色方向
+    void SetCharacterVecter(Vector3[] vecs)
+    {
+        Vector3 target = vecs[vecs.Length - 1] - vecs[0];
+        float angle = Vector3.Angle(Vector3.right, vecs[vecs.Length - 1] - vecs[0]);
+
+        if (angle < 45)
+        {
+            AniController.Get(MovePlayer).PlayAniBySkin("right", AniController.AniType.LoopBack, 10);
+        }
+        else if (angle < 135)
+        {
+            if (vecs[vecs.Length - 1].y > vecs[0].y)
+            {
+                AniController.Get(MovePlayer).PlayAniBySkin("up", AniController.AniType.LoopBack, 10);
+            }
+            else
+            {
+                AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 10);
+            }
+        }
+        else
+        {
+            AniController.Get(MovePlayer).PlayAniBySkin("left", AniController.AniType.LoopBack, 10);
+        }
+
+        Debug.Log("angle: " + angle);
     }
 
 
     //镜头跟随主角
     void CmameraFollowPlayer()
     {
- 
+
     }
 
 
