@@ -105,12 +105,12 @@ public class Character : MonoBehaviour {
         }
         AniController.Get(_char).AddSprite(CharacterSprites[c.Skin]);
   
-        CharacterController.Get(_char).Init(c, skin);
-        CharacterController.Get(_char).speed = cSpeed;
+        MyCharacterController.Get(_char).Init(c, skin);
+        MyCharacterController.Get(_char).speed = cSpeed;
         
         if (c.startPiont == 0)
-            CharacterController.Get(_char).SetTarget("finish2");
+            MyCharacterController.Get(_char).SetTarget("finish2");
         else
-            CharacterController.Get(_char).SetTarget("finish1");
+            MyCharacterController.Get(_char).SetTarget("finish1");
     }
 }
