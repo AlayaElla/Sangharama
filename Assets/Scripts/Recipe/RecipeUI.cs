@@ -353,11 +353,11 @@ public class RecipeUI : MonoBehaviour{
         {
             if (slot.slot.Name == null)
             {
-                SmallNoticeUI sNotice = new SmallNoticeUI();
+                SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
                 sNotice = sNotice.INIT();
 
                 string str = "请放入材料！";
-                sNotice.OpenNotice(str, 2f, Plane.transform);
+                sNotice.OpenNotice(str, 2f, Plane.transform);                
                 return;
             }
         }

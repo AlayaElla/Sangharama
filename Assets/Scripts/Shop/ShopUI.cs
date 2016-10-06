@@ -127,7 +127,7 @@ public class ShopUI : MonoBehaviour {
         PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
     }
 
-    public void BuyedGoods(CharacterController.ShopGood goods)
+    public void BuyedGoods(MyCharacterController.ShopGood goods)
     {
         //如果货架上有商品则移除
         if (goodslist[goods.slotID - 1].Name != null && goodslist[goods.slotID - 1].ID != 0)

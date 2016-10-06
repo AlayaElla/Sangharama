@@ -7,7 +7,7 @@ public class SmallNoticeUI : MonoBehaviour {
 
     private GameObject smallNoticeObject;
     private GameObject smallNoticeList;
-    float duratrionTime = 2f;
+    float NoticeDuratrionTime = 2f;
     float ActionTime = 0.25f;
 
     //初始位置
@@ -23,23 +23,20 @@ public class SmallNoticeUI : MonoBehaviour {
 	void Update () {
 	}
 
-    public SmallNoticeUI()
+    public SmallNoticeUI INIT()
     {
         smallNoticeObject = Resources.Load<GameObject>("Prefab/Notice/SmallNotice");
         smallNoticeList = Resources.Load<GameObject>("Prefab/Notice/NoticeList");
-    }
-
-    public SmallNoticeUI INIT()
-    {
         return this;
     }
 
-    public void OpenNotice(string str, float durationTime,Transform t)
+    public void OpenNotice(string str, float durationtime,Transform t)
     {
         GameObject _notice = Instantiate(smallNoticeObject);
         Text info = _notice.transform.FindChild("Text").GetComponent<Text>();
         info.text = str;
         int line = Mathf.CeilToInt(info.preferredWidth / Screen.width);
+        NoticeDuratrionTime = durationtime;
 
         //查找UI画布的最顶层
         Canvas c = _notice.GetComponent<Canvas>();
@@ -66,13 +63,14 @@ public class SmallNoticeUI : MonoBehaviour {
         rect.localScale = new Vector3(rect.localScale.x, 0, rect.localScale.z);
         rect.localPosition = FirstPosition;
         ShowNoticeAction(_notice);
+        Destroy(this);
     }
 
     void ShowNoticeAction(GameObject notice)
     {
         LeanTween.scaleY(notice, 1, ActionTime).setOnComplete(
             () => {
-                LeanTween.scaleY(notice, 0, ActionTime).setDelay(duratrionTime).setDestroyOnComplete(true);
+                LeanTween.scaleY(notice, 0, ActionTime).setDelay(NoticeDuratrionTime).setDestroyOnComplete(true);
             }
             );
     }
