@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class AniController : MonoBehaviour {
 
     Sprite[] aniSprite;
+    CharacterModle.Skin aniskin = new CharacterModle.Skin();
+
     SpriteRenderer currentSprite;
     Image currentUISprite;
 
@@ -56,6 +58,22 @@ public class AniController : MonoBehaviour {
         }
         aniSprite = new Sprite[sprite.Length];
         aniSprite = sprite;
+    }
+
+    public void AddSprite(Sprite[] sprite,CharacterModle.Skin skin)
+    {
+        if (currentSprite == null)
+        {
+            currentSprite = transform.GetComponent<SpriteRenderer>();
+            if (currentSprite == null)
+            {
+                type = SpriteType.SpriteUI;
+                currentUISprite = transform.GetComponent<Image>();
+            }
+        }
+        aniSprite = new Sprite[sprite.Length];
+        aniSprite = sprite;
+        aniskin = skin;
     }
 
     public enum AniType
@@ -111,6 +129,20 @@ public class AniController : MonoBehaviour {
         isPlay = true;
     }
 
+    //播放动画的简便方法，读取对应skin中的帧数
+    public void PlayAniBySkin(string name, AniType type, int speed)
+    {
+        frameLoop[0] = aniskin.ActionList[name][0];
+        frameLoop[1] = aniskin.ActionList[name][1];
+
+        currentType = type;
+        anispeed = speed;
+
+        currentframe = aniskin.ActionList[name][0];
+
+        isPlay = true;
+    }
+    
 
 
     public void PlayUpdate()
