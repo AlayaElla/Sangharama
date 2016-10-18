@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MapPathManager : MonoBehaviour {
@@ -6,10 +7,11 @@ public class MapPathManager : MonoBehaviour {
     public struct Path
     {
         public int Map; //地图id
+        public string Name; //地图名字
         public int[] Next;   //之后的路点集合
         public int[] Pre;  //之前的路点集合
         public int[] Points;
-        public int EndType; //终点类型，0是末尾是路点，1是起点是路点
+        public int Price; //从这个路点经过所需的费用
     }
     //角色状态
     enum MoveState
@@ -20,6 +22,7 @@ public class MapPathManager : MonoBehaviour {
     MoveState state;
     static Path[] PathList;
     public Transform MovePlayer;
+    public RectTransform pathPoint;
 
     struct Points {
         public int Nowpoint;
@@ -168,6 +171,9 @@ public class MapPathManager : MonoBehaviour {
                     if (MathTool.isNumber(actionroot.GetChild(i).name))
                     {
                         EventTriggerListener.Get(actionroot.GetChild(i)).onClick = SetTarget;
+
+                        //现在设置名字的方法是根据child的在scene中的排序来设置的，所以尽量不要动排序。（第一个为pathList路点列表）
+                        actionroot.GetChild(i).GetChild(0).GetComponent<Text>().text = PathList[index - 1].Name;
                     }
                 }
             }
@@ -198,6 +204,7 @@ public class MapPathManager : MonoBehaviour {
         Bestpaths = GetBestPath(pathBox);
 
         MovePath();
+        ShowPathPoint(playerPoints.Targetpoint);
         //InstPlayer(playerPoints.Targetpoint);
     }
 
@@ -281,6 +288,9 @@ public class MapPathManager : MonoBehaviour {
         {
             state = MoveState.Stay;
             AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
+
+            //关闭路点提示
+            ClosePathPoint();
             return;
         }
 
@@ -383,7 +393,41 @@ public class MapPathManager : MonoBehaviour {
             AniController.Get(MovePlayer).PlayAniBySkin("left", AniController.AniType.LoopBack, 10);
         }
 
-        Debug.Log("angle: " + angle);
+        //Debug.Log("angle: " + angle);
+    }
+
+
+    //显示路点提示
+    void ShowPathPoint(int point)
+    {
+        pathPoint.gameObject.SetActive(true);
+
+        string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
+        RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
+        pathPoint.position = new Vector3(root.position.x, root.position.y + 20, root.position.z);
+
+        LeanTween.cancel(pathPoint.gameObject);
+
+        pathPoint.localScale = new Vector3(0, 0, 0);
+
+        float at = 0.3f;
+        LeanTween.scale(pathPoint.gameObject, new Vector3(1, 1, 1), 0.25f).setOnComplete(() =>
+            {
+                LeanTween.scaleX(pathPoint.gameObject, 1.2f, at).setEase(LeanTweenType.easeInOutSine).setLoopPingPong();
+                LeanTween.scaleY(pathPoint.gameObject, 0.8f, at).setEase(LeanTweenType.easeInOutSine).setLoopPingPong();
+            });
+        LeanTween.moveY(pathPoint, pathPoint.localPosition.y + 20, at).setLoopPingPong();
+    }
+
+    //关闭路点提示
+    void ClosePathPoint()
+    {
+        LeanTween.cancel(pathPoint.gameObject);
+        LeanTween.scale(pathPoint.gameObject, new Vector3(0, 0, 0), 0.25f).setOnComplete(() =>
+        {
+            pathPoint.gameObject.SetActive(false);
+        });
+
     }
 
 

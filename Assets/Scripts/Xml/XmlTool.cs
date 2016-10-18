@@ -586,6 +586,8 @@ public class XmlTool
             //读取node内属性，把string转化为对应的属性
             if (recipe.GetAttribute("Map") != "")
                 _path.Map = int.Parse(recipe.GetAttribute("Map"));
+            if (recipe.GetAttribute("Name") != "")
+                _path.Name = recipe.GetAttribute("Name");
             if (recipe.GetAttribute("Next") != "")
             {
                 string str_next = recipe.GetAttribute("Next");
@@ -612,10 +614,10 @@ public class XmlTool
                     }
                 }
             }
-            if (recipe.GetAttribute("EndType") != "")
-                _path.EndType = int.Parse(recipe.GetAttribute("EndType"));
+            if (recipe.GetAttribute("Price") != "")
+                _path.Price = int.Parse(recipe.GetAttribute("Price"));
             else
-                _path.EndType = 0;
+                _path.Price = 0;
             //添加进itemList中
             PathList.Add(_path);
         }
