@@ -306,8 +306,8 @@ public class MapPathManager : MonoBehaviour {
 
             //关闭路点提示
             ClosePathPoint();
-            movePathLine.Clear();
             CloseMovePathLine();
+            movePathLine.Clear();
             return;
         }
 
@@ -543,7 +543,8 @@ public class MapPathManager : MonoBehaviour {
         {
             priceBoard.gameObject.SetActive(false);
         });
-
+        CloseMovePathLine();
+        movePathLine.Clear();
     }
 
     //获取经过路点的价格，计算总价格
@@ -582,8 +583,9 @@ public class MapPathManager : MonoBehaviour {
         for (int i = 0; i < movePathLine.Count; i++)
         {
             RectTransform lt = (RectTransform)movePathLine[i];
-            LeanTween.scale(lt, new Vector3(1.5f, 1.5f, 1.5f), 0.2f).setDelay(i % 7 * 0.2f).setLoopPingPong();
-            LeanTween.color(lt, Color.white, 0.2f).setDelay(i % 7 * 0.2f).setLoopPingPong();
+            LeanTween.scale(lt, new Vector3(1.5f, 1.5f, 1.5f), 0.4f).setLoopPingPong();
+            LeanTween.alpha(lt, 1, 0.4f).setLoopPingPong();
+
         }
 
     }
@@ -595,6 +597,8 @@ public class MapPathManager : MonoBehaviour {
         {
             RectTransform lt = (RectTransform)movePathLine[i];
             LeanTween.cancel(lt.gameObject);
+            LeanTween.scale(lt, new Vector3(1.0f, 1.0f, 1.0f), 0.2f) ;
+            LeanTween.alpha(lt, (float)150 / 255, 0.2f);
         }
     }
 }
