@@ -45,6 +45,7 @@ public class MapPathManager : MonoBehaviour {
     int startpoint = 9;
     ArrayList pathBox = new ArrayList();  //用于保存路点
     ArrayList Bestpaths = new ArrayList();
+    ArrayList movePathLine = new ArrayList();   //用于保存移动路径的点
 
     CharacterModle charaModle;
 
@@ -214,6 +215,11 @@ public class MapPathManager : MonoBehaviour {
         Bestpaths = GetBestPath(pathBox);
 
         ShowPriceBoard(playerPoints.Targetpoint);
+        
+        //获取路径中的点
+        GetMovePathLine();
+
+        ShowMovePathLine();
         //ShowPathPoint(playerPoints.Targetpoint);
     }
 
@@ -300,6 +306,8 @@ public class MapPathManager : MonoBehaviour {
 
             //关闭路点提示
             ClosePathPoint();
+            movePathLine.Clear();
+            CloseMovePathLine();
             return;
         }
 
@@ -375,6 +383,64 @@ public class MapPathManager : MonoBehaviour {
             SetCharacterVecter(vecs);
         }
     }
+
+    
+    void GetMovePathLine()
+    {
+        string root = "/Canvas/Scroll View/Viewport/Content/map/pathList/";
+        string pathline = "";
+        int index = playerPoints.Nowpoint;
+        movePathLine.Clear();
+
+        while (index != playerPoints.Targetpoint)
+        {
+            //找到移动的路径
+            for (int i = 0; i <= Bestpaths.Count - 2; i++)
+            {
+                //根据方向排序
+                if ((int)Bestpaths[i] == index)
+                {
+                    if ((int)Bestpaths[i + 1] > (int)Bestpaths[i])
+                    {
+                        pathline = "pathLine_" + Bestpaths[i].ToString() + "_" + Bestpaths[i + 1].ToString();
+                        Transform t = transform.Find(root + pathline);
+                        if (t != null)
+                        {
+
+                            for (int j = 0; j < t.childCount; j++)
+                            {
+                                movePathLine.Add(t.GetChild(j));
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("can't find pathline:" + root + pathline);
+                        }
+
+                    }
+                    else
+                    {
+                        pathline = "pathLine_" + Bestpaths[i + 1].ToString() + "_" + Bestpaths[i].ToString();
+                        Transform t = transform.Find(root + pathline);
+                        if (t != null)
+                        {
+                            for (int j = 0; j < t.childCount; j++)
+                            {
+                                movePathLine.Add(t.GetChild(t.childCount - 1 - j));
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("can't find pathline:" + root + pathline);
+                        }
+                    }
+                    index = (int)Bestpaths[i + 1];
+                    break;
+                }
+            }
+        }
+    }
+
 
     //设定角色方向
     void SetCharacterVecter(Vector3[] vecs)
@@ -467,7 +533,6 @@ public class MapPathManager : MonoBehaviour {
         EventTriggerListener.Get(btn_priceOK).onClick = OkToMove;
         EventTriggerListener.Get(btn_priceCancle).onClick = ClosePriceBoard;
         EventTriggerListener.Get(btn_okMask).onClick = OkToMove;
-        
     }
 
     //关闭价格面板
@@ -511,4 +576,25 @@ public class MapPathManager : MonoBehaviour {
         ShowPathPoint(playerPoints.Targetpoint);
     }
 
+    //显示路点路线变化
+    void ShowMovePathLine()
+    {
+        for (int i = 0; i < movePathLine.Count; i++)
+        {
+            RectTransform lt = (RectTransform)movePathLine[i];
+            LeanTween.scale(lt, new Vector3(1.5f, 1.5f, 1.5f), 0.2f).setDelay(i % 7 * 0.2f).setLoopPingPong();
+            LeanTween.color(lt, Color.white, 0.2f).setDelay(i % 7 * 0.2f).setLoopPingPong();
+        }
+
+    }
+
+    //关闭显示路点变化
+    void CloseMovePathLine()
+    {
+        for (int i = 0; i < movePathLine.Count; i++)
+        {
+            RectTransform lt = (RectTransform)movePathLine[i];
+            LeanTween.cancel(lt.gameObject);
+        }
+    }
 }
