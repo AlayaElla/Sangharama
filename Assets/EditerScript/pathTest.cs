@@ -50,7 +50,7 @@ public class pathTest : MonoBehaviour
         CleanLine();
 
         GameObject pathLine = new GameObject();
-        pathLine.name = "pathLine" + idstr;
+        pathLine.name = "pathLine_" + idstr;
         pathLine.transform.SetParent(Listparent);
 
         for (int i = 0; i < cr.ptsAdjLength; i += Accuracy)
@@ -78,8 +78,8 @@ public class pathTest : MonoBehaviour
     [ContextMenu("CleanLine")]
     void CleanLine()
     {
-        if (transform.Find("/Canvas/Scroll View/Viewport/Content/map/pathList/pathLine" + idstr) != null)
-            Tools.DestroyImmediate(transform.Find("/Canvas/Scroll View/Viewport/Content/map/pathList/pathLine" + idstr).gameObject);
+        if (transform.Find("/Canvas/Scroll View/Viewport/Content/map/pathList/pathLine_" + idstr) != null)
+            Tools.DestroyImmediate(transform.Find("/Canvas/Scroll View/Viewport/Content/map/pathList/pathLine_" + idstr).gameObject);
     }
 
     [ContextMenu("ShowEditorPoint")]
