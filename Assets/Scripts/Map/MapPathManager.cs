@@ -20,9 +20,14 @@ public class MapPathManager : MonoBehaviour {
         Moving,
     }
     MoveState state;
-    static Path[] PathList;
+    static Path[] PathList;     //路点配置列表
     public Transform MovePlayer;
     public RectTransform pathPoint;
+    public RectTransform priceBoard;
+    Text priceText;
+    RectTransform btn_priceOK;
+    RectTransform btn_priceCancle;
+    RectTransform btn_okMask;
 
     struct Points {
         public int Nowpoint;
@@ -33,7 +38,7 @@ public class MapPathManager : MonoBehaviour {
             UP,
             DOWN
         }
-        public PointsVecter Vecter; 
+        public int Price; 
     }
     Points playerPoints;
 
@@ -53,9 +58,14 @@ public class MapPathManager : MonoBehaviour {
         //读取角色配置表
         charaModle = GameObject.Find("/CollectionTools/CharacterModle").GetComponent<CharacterModle>();
 
+        //获取价格文本，确定和取消按钮
+        priceText = priceBoard.FindChild("price/pricetext").GetComponent<Text>();
+        btn_priceOK = priceBoard.FindChild("ok").GetComponent<RectTransform>();
+        btn_priceCancle = priceBoard.FindChild("cancle").GetComponent<RectTransform>();
+        btn_okMask = priceBoard.FindChild("okMask").GetComponent<RectTransform>();
+
         InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
-
 	}
 	
 	// Update is called once per frame
@@ -203,9 +213,8 @@ public class MapPathManager : MonoBehaviour {
         FindPath(playerPoints.Nowpoint);
         Bestpaths = GetBestPath(pathBox);
 
-        MovePath();
-        ShowPathPoint(playerPoints.Targetpoint);
-        //InstPlayer(playerPoints.Targetpoint);
+        ShowPriceBoard(playerPoints.Targetpoint);
+        //ShowPathPoint(playerPoints.Targetpoint);
     }
 
     void FindPath(int path)
@@ -356,7 +365,7 @@ public class MapPathManager : MonoBehaviour {
 
             state = MoveState.Moving;
             LTSpline cr = new LTSpline(vecs);
-            float time = cr.distance / 200;
+            float time = cr.distance / 400;
             LeanTween.moveLocal(MovePlayer.gameObject, cr, time).setOnComplete(() =>
                 {
                     playerPoints.Nowpoint = playerPoints.Nextpoint;
@@ -423,7 +432,7 @@ public class MapPathManager : MonoBehaviour {
     void ClosePathPoint()
     {
         LeanTween.cancel(pathPoint.gameObject);
-        LeanTween.scale(pathPoint.gameObject, new Vector3(0, 0, 0), 0.25f).setOnComplete(() =>
+        LeanTween.scale(pathPoint.gameObject, new Vector3(0, 0, 0), 0.15f).setOnComplete(() =>
         {
             pathPoint.gameObject.SetActive(false);
         });
@@ -437,7 +446,69 @@ public class MapPathManager : MonoBehaviour {
 
     }
 
+    //显示价格面板
+    void ShowPriceBoard(int point)
+    {
+        priceBoard.gameObject.SetActive(true);
 
+        string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
+        RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
+        priceBoard.position = new Vector3(root.position.x, root.position.y + 80, root.position.z);
 
+        priceText.text = setPrice(Bestpaths);
+
+        LeanTween.cancel(priceBoard.gameObject);
+        priceBoard.localScale = new Vector3(0, 0, 0);
+        float at = 0.5f;
+        LeanTween.scale(priceBoard.gameObject, new Vector3(1, 1, 1), 0.25f).setEase(LeanTweenType.easeOutBack);
+        LeanTween.moveY(priceBoard, priceBoard.localPosition.y + 5, at).setLoopPingPong();
+
+        //添加按钮响应
+        EventTriggerListener.Get(btn_priceOK).onClick = OkToMove;
+        EventTriggerListener.Get(btn_priceCancle).onClick = ClosePriceBoard;
+        EventTriggerListener.Get(btn_okMask).onClick = OkToMove;
+        
+    }
+
+    //关闭价格面板
+    void ClosePriceBoard(GameObject go)
+    {
+        LeanTween.cancel(priceBoard.gameObject);
+        LeanTween.scale(priceBoard.gameObject, new Vector3(0, 0, 0), 0.15f).setOnComplete(() =>
+        {
+            priceBoard.gameObject.SetActive(false);
+        });
+
+    }
+
+    //获取经过路点的价格，计算总价格
+    string setPrice(ArrayList pathlist)
+    {
+        int price = 0;
+
+        //跳过第一个点，因为起点不算价格
+        for (int i = 1; i < Bestpaths.Count; i++)
+        {
+            foreach (Path _p in PathList)
+            {
+                //获取价格
+                if (_p.Map == (int)Bestpaths[i])
+                {
+                    price += _p.Price;
+                    break;
+                }
+            }
+        }
+        return price.ToString();
+    }
+
+    //在加个板上点击确认按钮
+    void OkToMove(GameObject go)
+    {
+        //TODO：增加扣除货币的功能
+        MovePath();
+        ClosePriceBoard(go);
+        ShowPathPoint(playerPoints.Targetpoint);
+    }
 
 }
