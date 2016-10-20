@@ -10,7 +10,6 @@ tpsheetFileNames:
 - Assets/Resources/Texture/character/girl6.tpsheet
 - Assets/Resources/Texture/character/girl7.tpsheet
 - Assets/Resources/Texture/character/girl8.tpsheet
-- Assets/Resources/Texture/materials/weapon.tpsheet
 textureFileNames:
 - Assets/Resources/Texture/character/boy1.png
 - Assets/Resources/Texture/character/girl4.png
@@ -21,9 +20,7 @@ textureFileNames:
 - Assets/Resources/Texture/character/girl6.png
 - Assets/Resources/Texture/character/girl7.png
 - Assets/Resources/Texture/character/girl8.png
-- Assets/Resources/Texture/materials/weapon.png
 normalmapFileNames:
-- 
 - 
 - 
 - 

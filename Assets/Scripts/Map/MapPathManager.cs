@@ -38,7 +38,8 @@ public class MapPathManager : MonoBehaviour {
             UP,
             DOWN
         }
-        public int Price; 
+        public int Price;
+        public Vector3 Targetposition; 
     }
     Points playerPoints;
 
@@ -215,6 +216,7 @@ public class MapPathManager : MonoBehaviour {
         }
 
         playerPoints.Targetpoint = int.Parse(go.name);
+        playerPoints.Targetposition = go.GetComponent<RectTransform>().position;
         pathBox.Clear();
         pathBox.Add("," + playerPoints.Nowpoint.ToString() + ",");
         FindPath(playerPoints.Nowpoint);
@@ -585,7 +587,7 @@ public class MapPathManager : MonoBehaviour {
         });
 
         //扣除货币如果不足则弹出货币不足提示
-        if (!_mapUI.DownMoney(playerPoints.Price))
+        if (!_mapUI.DownMoney(playerPoints.Price, playerPoints.Targetposition))
         {
             SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
             sNotice = sNotice.INIT();
