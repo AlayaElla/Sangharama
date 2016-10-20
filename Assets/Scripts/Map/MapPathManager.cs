@@ -49,6 +49,9 @@ public class MapPathManager : MonoBehaviour {
 
     CharacterModle charaModle;
 
+    //获取地图的ui
+    MapUI _mapUI;
+
 	// Use this for initialization
 	void Start () {
         //获取路径配置表
@@ -67,6 +70,9 @@ public class MapPathManager : MonoBehaviour {
 
         InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
+
+        //获取地图的ui
+        _mapUI = GameObject.Find("/CollectionTools/Colection").GetComponent<MapUI>();
 	}
 	
 	// Update is called once per frame
@@ -502,7 +508,6 @@ public class MapPathManager : MonoBehaviour {
         {
             pathPoint.gameObject.SetActive(false);
         });
-
     }
 
 
@@ -515,6 +520,7 @@ public class MapPathManager : MonoBehaviour {
     //显示价格面板
     void ShowPriceBoard(int point)
     {
+        CloseMovePathLine();
         priceBoard.gameObject.SetActive(true);
 
         string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
@@ -565,26 +571,55 @@ public class MapPathManager : MonoBehaviour {
                 }
             }
         }
+        playerPoints.Price = price;
         return price.ToString();
     }
 
     //在加个板上点击确认按钮
     void OkToMove(GameObject go)
     {
-        //TODO：增加扣除货币的功能
+        LeanTween.cancel(priceBoard.gameObject);
+        LeanTween.scale(priceBoard.gameObject, new Vector3(0, 0, 0), 0.15f).setOnComplete(() =>
+        {
+            priceBoard.gameObject.SetActive(false);
+        });
+
+        //扣除货币如果不足则弹出货币不足提示
+        if (!_mapUI.DownMoney(playerPoints.Price))
+        {
+            SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
+            sNotice = sNotice.INIT();
+            string str = "金币不足...";
+            sNotice.OpenNotice(str, 0.5f, MovePlayer);
+
+            CloseMovePathLine();
+            return;
+        }
+
         MovePath();
-        ClosePriceBoard(go);
         ShowPathPoint(playerPoints.Targetpoint);
     }
 
+    Vector3[,] TempPathList;    //临时用于保存RectTranform的数据
     //显示路点路线变化
     void ShowMovePathLine()
     {
+        TempPathList = new Vector3[movePathLine.Count, 2];
         for (int i = 0; i < movePathLine.Count; i++)
         {
             RectTransform lt = (RectTransform)movePathLine[i];
-            LeanTween.scale(lt, new Vector3(1.5f, 1.5f, 1.5f), 0.4f).setLoopPingPong();
-            LeanTween.alpha(lt, 1, 0.4f).setLoopPingPong();
+            
+            //保存路点的数据
+            TempPathList[i, 0] = lt.localPosition;
+            TempPathList[i, 1] = lt.localRotation.eulerAngles;
+
+            LeanTween.alpha(lt, 1, 0.4f);
+            if (i < movePathLine.Count - 1)
+            {
+                RectTransform lt2 = (RectTransform)movePathLine[i + 1];
+                LeanTween.moveLocal(lt.gameObject, lt2.localPosition, 0.4f).setLoopClamp();
+                LeanTween.rotateLocal(lt.gameObject, lt2.localRotation.eulerAngles, 0.4f).setLoopClamp();
+            }
 
         }
 
@@ -597,8 +632,16 @@ public class MapPathManager : MonoBehaviour {
         {
             RectTransform lt = (RectTransform)movePathLine[i];
             LeanTween.cancel(lt.gameObject);
-            LeanTween.scale(lt, new Vector3(1.0f, 1.0f, 1.0f), 0.2f) ;
             LeanTween.alpha(lt, (float)150 / 255, 0.2f);
+
+            if (TempPathList.Length != 0)
+            {
+                //LeanTween.moveLocal(lt.gameObject, TempPathList[i, 0], 0.05f);
+                //LeanTween.rotateLocal(lt.gameObject, TempPathList[i, 1], 0.05f);
+                lt.localPosition = TempPathList[i, 0];
+                lt.localRotation = Quaternion.Euler(TempPathList[i, 1]);
+            }
+
         }
     }
 }

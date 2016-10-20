@@ -8,6 +8,7 @@ public class PlayerInfo : MonoBehaviour {
     public struct Info
     {
         public int Money;   //金钱
+        public int MineCount;   //采集次数
     }
 
     static Info playerinfo = new Info();
@@ -48,4 +49,11 @@ public class PlayerInfo : MonoBehaviour {
         playerinfo.Money += num;
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
+
+    static public void ChangeMineCount(int num)
+    {
+        playerinfo.MineCount += num;
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
 }
