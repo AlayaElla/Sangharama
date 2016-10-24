@@ -1,44 +1,40 @@
 <CollectionList>
   <Collection Map="1" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="1,2" PropertyWeight="2,1" />
-  <Collection Map="1" MateriralType="0" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="1,2" PropertyWeight="2,1" />
-  <Collection Map="1" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="1,2" PropertyWeight="2,1" />
-  <Collection Map="1" MateriralType="0" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="1,2" PropertyWeight="2,1" />
   <Collection Map="1" MateriralType="1" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="1,2" PropertyWeight="2,1" />
-  <Collection Map="1" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="1,2" PropertyWeight="2,1" />
-  <Collection Map="1" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="1,2" PropertyWeight="2,1" />
-  <Collection Map="2" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  
+  <Collection Map="2" MateriralType="0" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
   <Collection Map="2" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="2" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="2" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="2" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
 
-  <Collection Map="3" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="3" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="3" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="3" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
   <Collection Map="3" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="3" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
 
+  <Collection Map="4" MateriralType="0" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
   <Collection Map="4" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="4" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="4" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="4" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="4" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
 
-  <Collection Map="5" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="5" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="5" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
   <Collection Map="5" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="5" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="5" MateriralType="1" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
 
-  <Collection Map="6" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="6" MateriralType="0" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
   <Collection Map="6" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="6" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="6" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="6" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
 
-  <Collection Map="7" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="7" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="7" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="7" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
-  <Collection Map="7" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
+  <Collection Map="7" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="7" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
+  
+  <Collection Map="8" MateriralType="0" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="8" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
+
+  <Collection Map="9" MateriralType="0" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="9" MateriralType="1" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
+
+  <Collection Map="10" MateriralType="0" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="10" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
+
+  <Collection Map="11" MateriralType="0" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="11" MateriralType="1" ID="3" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
+
+  <Collection Map="12" MateriralType="0" ID="2" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="12" MateriralType="1" ID="1" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
+
+  <Collection Map="13" MateriralType="0" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />
+  <Collection Map="13" MateriralType="1" ID="4" Weight="1" RandomQuality="1,100" PropertyProbability ="80" RandomProperty="5,6" PropertyWeight="2,1" />  
 </CollectionList>

@@ -11,7 +11,7 @@ public class PathKit{
         }
         else if (Application.platform == RuntimePlatform.Android)
         {
-            return Application.streamingAssetsPath + "/";
+            return Application.persistentDataPath + "/";
         }
         else
         {

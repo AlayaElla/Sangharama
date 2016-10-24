@@ -18,16 +18,26 @@ public class MapPathManager : MonoBehaviour {
     {
         Stay,
         Moving,
+        Mining,
     }
     MoveState state;
     static Path[] PathList;     //路点配置列表
     public Transform MovePlayer;
     public RectTransform pathPoint;
+    //价格面板
     public RectTransform priceBoard;
     Text priceText;
     RectTransform btn_priceOK;
     RectTransform btn_priceCancle;
     RectTransform btn_okMask;
+    //回家面板
+    public RectTransform homeBoard;
+    Text homeText;
+    //采集面板
+    public RectTransform mineActionBoard;
+    Text MineText;
+    RectTransform btn_mine;
+    RectTransform btn_mineMask;
 
     struct Points {
         public int Nowpoint;
@@ -39,11 +49,11 @@ public class MapPathManager : MonoBehaviour {
             DOWN
         }
         public int Price;
-        public Vector3 Targetposition; 
+        public RectTransform Targetposition; 
     }
     Points playerPoints;
 
-    int startpoint = 9;
+    int startpoint = 1;
     ArrayList pathBox = new ArrayList();  //用于保存路点
     ArrayList Bestpaths = new ArrayList();
     ArrayList movePathLine = new ArrayList();   //用于保存移动路径的点
@@ -53,6 +63,9 @@ public class MapPathManager : MonoBehaviour {
     //获取地图的ui
     MapUI _mapUI;
 
+    //获取采集控制脚本
+    CollectAction collectAction;
+
 	// Use this for initialization
 	void Start () {
         //获取路径配置表
@@ -60,20 +73,27 @@ public class MapPathManager : MonoBehaviour {
         state = MoveState.Stay;
         playerPoints.Nowpoint = startpoint;
 
-        //读取角色配置表
-        charaModle = GameObject.Find("/CollectionTools/CharacterModle").GetComponent<CharacterModle>();
-
         //获取价格文本，确定和取消按钮
         priceText = priceBoard.FindChild("price/pricetext").GetComponent<Text>();
         btn_priceOK = priceBoard.FindChild("ok").GetComponent<RectTransform>();
         btn_priceCancle = priceBoard.FindChild("cancle").GetComponent<RectTransform>();
         btn_okMask = priceBoard.FindChild("okMask").GetComponent<RectTransform>();
+        //获取采集文本和采集按钮
+        MineText = mineActionBoard.FindChild("Text").GetComponent<Text>();
+        btn_mine = mineActionBoard.FindChild("mine").GetComponent<RectTransform>();
+        btn_mineMask = mineActionBoard.FindChild("mineMask").GetComponent<RectTransform>();
+        //获取回家文版
+        homeText = homeBoard.FindChild("Text").GetComponent<Text>();
+
+        //读取角色配置表
+        charaModle = GameObject.Find("/CollectionTools/CharacterModle").GetComponent<CharacterModle>();
+        //获取地图的ui
+        _mapUI = GameObject.Find("/CollectionTools/Colection").GetComponent<MapUI>();
+        //读取采集控制脚本
+        collectAction = GameObject.Find("/CollectionTools/Colection").GetComponent<CollectAction>();
 
         InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
-
-        //获取地图的ui
-        _mapUI = GameObject.Find("/CollectionTools/Colection").GetComponent<MapUI>();
 	}
 	
 	// Update is called once per frame
@@ -168,6 +188,8 @@ public class MapPathManager : MonoBehaviour {
 
         AniController.Get(MovePlayer).AddSprite(charaModle.GetSkinSprite("boy1"), charaModle.GetSkin("boy1"));
         AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
+
+        ShowHomeBoard(1);
     }
 
 
@@ -201,7 +223,7 @@ public class MapPathManager : MonoBehaviour {
 
     void SetTarget(GameObject go)
     {
-        //如果正在移动则跳过
+        //如果正在移动/采集则跳过
         if (state != MoveState.Stay)
         {
             SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
@@ -211,12 +233,15 @@ public class MapPathManager : MonoBehaviour {
             sNotice.SetFirstPosition(new Vector3(0, Screen.height / 2 - 50, 0), MovePlayer);
 
             string str = "移动中...";
+            if (state == MoveState.Mining)
+                str = "采集中...";
+
             sNotice.OpenNotice(str, 0.5f, MovePlayer);
             return;
         }
 
         playerPoints.Targetpoint = int.Parse(go.name);
-        playerPoints.Targetposition = go.GetComponent<RectTransform>().position;
+        playerPoints.Targetposition = go.GetComponent<RectTransform>();
         pathBox.Clear();
         pathBox.Add("," + playerPoints.Nowpoint.ToString() + ",");
         FindPath(playerPoints.Nowpoint);
@@ -224,10 +249,10 @@ public class MapPathManager : MonoBehaviour {
 
         ShowPriceBoard(playerPoints.Targetpoint);
         
-        //获取路径中的点
+        //获取路径中的点，然后显示出来
         GetMovePathLine();
-
         ShowMovePathLine();
+
         //ShowPathPoint(playerPoints.Targetpoint);
     }
 
@@ -302,6 +327,10 @@ public class MapPathManager : MonoBehaviour {
 
     void MovePath()
     {
+        //如果有采集、回家图标，则关闭采集，回家图标
+        CloseMineIcon();
+        CloseHomeIcon();
+
         string root = "/Canvas/Scroll View/Viewport/Content/map/pathList/";
         string pathline = "";
         Transform[] _ts = new Transform[0];
@@ -316,7 +345,19 @@ public class MapPathManager : MonoBehaviour {
             ClosePathPoint();
             CloseMovePathLine();
             movePathLine.Clear();
-            return;
+
+            if (playerPoints.Targetpoint != 1)
+            {
+                //显示采集图标
+                ShowMineIcon(playerPoints.Targetpoint);
+                return;
+            }
+            else
+            {
+                ShowHomeBoard(1);
+                return;
+            }
+
         }
 
         //找到移动的路径
@@ -573,7 +614,11 @@ public class MapPathManager : MonoBehaviour {
                 }
             }
         }
+        //到第一个路点不要钱
+        if (playerPoints.Targetpoint == 1)
+            price = 0;
         playerPoints.Price = price;
+
         return price.ToString();
     }
 
@@ -622,9 +667,7 @@ public class MapPathManager : MonoBehaviour {
                 LeanTween.moveLocal(lt.gameObject, lt2.localPosition, 0.4f).setLoopClamp();
                 LeanTween.rotateLocal(lt.gameObject, lt2.localRotation.eulerAngles, 0.4f).setLoopClamp();
             }
-
         }
-
     }
 
     //关闭显示路点变化
@@ -643,7 +686,107 @@ public class MapPathManager : MonoBehaviour {
                 lt.localPosition = TempPathList[i, 0];
                 lt.localRotation = Quaternion.Euler(TempPathList[i, 1]);
             }
-
         }
     }
+
+    //显示采集图标
+    void ShowMineIcon(int point)
+    {
+        mineActionBoard.gameObject.SetActive(true);
+
+        string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
+        RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
+        mineActionBoard.position = new Vector3(root.position.x, root.position.y + 80, root.position.z);
+
+        LeanTween.cancel(mineActionBoard.gameObject);
+        mineActionBoard.localScale = new Vector3(0, 0, 0);
+        float at = 0.5f;
+        LeanTween.scale(mineActionBoard.gameObject, new Vector3(1, 1, 1), 0.25f).setEase(LeanTweenType.easeOutBack);
+        LeanTween.moveY(mineActionBoard, mineActionBoard.localPosition.y + 5, at).setLoopPingPong();
+        LeanTween.moveY(MineText.rectTransform, MineText.rectTransform.localPosition.y + 5, at).setLoopPingPong();
+
+        //添加按钮响应
+        EventTriggerListener.Get(btn_mine).onClick = CollectAction;
+        EventTriggerListener.Get(btn_mineMask).onClick = CollectAction;
+    }
+
+    //关闭采集图标
+    void CloseMineIcon()
+    {
+        if (mineActionBoard.gameObject.activeSelf)
+        {
+            LeanTween.cancel(mineActionBoard.gameObject);
+            LeanTween.scale(mineActionBoard.gameObject, new Vector3(0, 0, 0), 0.15f).setOnComplete(() =>
+            {
+                mineActionBoard.gameObject.SetActive(false);
+            });
+        }
+    }
+
+    //采集方法，采集需要等待采集动作完成后才能继续采集
+    bool iscanClick = true;
+    void CollectAction(GameObject go)
+    {
+        if (iscanClick)
+        {
+            //如果次数不足则弹出次数不足提示
+            if (!_mapUI.DownMineCount(1, playerPoints.Targetposition))
+            {
+                SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
+                sNotice = sNotice.INIT();
+                string str = "采集次数不足...";
+                sNotice.OpenNotice(str, 0.5f, MovePlayer);
+                return;
+            }
+
+            iscanClick = false;
+            state = MoveState.Mining;
+            LeanTween.rotateLocal(btn_mine.gameObject, new Vector3(0, 0, 90), 0.25f).setLoopPingPong(2).setOnComplete(() =>
+                {
+                    collectAction.CollectionAction(playerPoints.Targetpoint, playerPoints.Targetposition);
+                    ChangeCanClick();
+                    state = MoveState.Stay;
+                });
+        }
+    }
+
+    void ChangeCanClick()
+    {
+        Debug.Log("change click!!");
+        iscanClick = true;
+    }
+
+
+    //显示回家面板
+    void ShowHomeBoard(int point)
+    {
+        homeBoard.gameObject.SetActive(true);
+
+        string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
+        RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
+        homeBoard.position = new Vector3(root.position.x, root.position.y + 80, root.position.z);
+
+        LeanTween.cancel(homeBoard.gameObject);
+        homeBoard.localScale = new Vector3(0, 0, 0);
+        float at = 0.5f;
+        LeanTween.scale(homeBoard.gameObject, new Vector3(1, 1, 1), 0.25f).setEase(LeanTweenType.easeOutBack);
+        LeanTween.moveY(homeBoard, homeBoard.localPosition.y + 5, at).setLoopPingPong();
+        LeanTween.moveY(homeText.rectTransform, homeText.rectTransform.localPosition.y + 5, at).setLoopPingPong();
+    }
+
+    //关闭回家面板
+    void CloseHomeIcon()
+    {
+        if (homeBoard.gameObject.activeSelf)
+        {
+            LeanTween.cancel(homeBoard.gameObject);
+            LeanTween.scale(homeBoard.gameObject, new Vector3(0, 0, 0), 0.15f).setOnComplete(() =>
+            {
+                homeBoard.gameObject.SetActive(false);
+            });
+        }
+       
+    }
+
+
 }

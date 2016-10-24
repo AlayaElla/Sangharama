@@ -117,7 +117,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -127,7 +127,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -2
-  maxTextureSize: 512
+  maxTextureSize: 2048
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -137,19 +137,23 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: actionIcon_1
+    - serializedVersion: 2
+      name: actionIcon_1
       rect:
         serializedVersion: 2
         x: 1
@@ -157,9 +161,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_10
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_10
       rect:
         serializedVersion: 2
         x: 1
@@ -167,9 +174,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_100
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_100
       rect:
         serializedVersion: 2
         x: 1
@@ -177,9 +187,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_11
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_11
       rect:
         serializedVersion: 2
         x: 1
@@ -187,9 +200,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_12
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_12
       rect:
         serializedVersion: 2
         x: 1
@@ -197,9 +213,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_13
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_13
       rect:
         serializedVersion: 2
         x: 1
@@ -207,9 +226,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_14
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_14
       rect:
         serializedVersion: 2
         x: 27
@@ -217,9 +239,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_15
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_15
       rect:
         serializedVersion: 2
         x: 27
@@ -227,9 +252,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_16
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_16
       rect:
         serializedVersion: 2
         x: 27
@@ -237,9 +265,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_17
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_17
       rect:
         serializedVersion: 2
         x: 27
@@ -247,9 +278,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_18
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_18
       rect:
         serializedVersion: 2
         x: 27
@@ -257,9 +291,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_19
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_19
       rect:
         serializedVersion: 2
         x: 27
@@ -267,9 +304,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_2
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_2
       rect:
         serializedVersion: 2
         x: 53
@@ -277,9 +317,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_20
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_20
       rect:
         serializedVersion: 2
         x: 53
@@ -287,9 +330,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_21
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_21
       rect:
         serializedVersion: 2
         x: 53
@@ -297,9 +343,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_22
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_22
       rect:
         serializedVersion: 2
         x: 53
@@ -307,9 +356,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_23
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_23
       rect:
         serializedVersion: 2
         x: 53
@@ -317,9 +369,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_24
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_24
       rect:
         serializedVersion: 2
         x: 53
@@ -327,9 +382,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_25
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_25
       rect:
         serializedVersion: 2
         x: 79
@@ -337,9 +395,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_26
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_26
       rect:
         serializedVersion: 2
         x: 79
@@ -347,9 +408,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_27
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_27
       rect:
         serializedVersion: 2
         x: 79
@@ -357,9 +421,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_28
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_28
       rect:
         serializedVersion: 2
         x: 79
@@ -367,9 +434,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_29
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_29
       rect:
         serializedVersion: 2
         x: 79
@@ -377,9 +447,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_3
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_3
       rect:
         serializedVersion: 2
         x: 79
@@ -387,9 +460,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_30
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_30
       rect:
         serializedVersion: 2
         x: 105
@@ -397,9 +473,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_31
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_31
       rect:
         serializedVersion: 2
         x: 105
@@ -407,9 +486,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_32
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_32
       rect:
         serializedVersion: 2
         x: 105
@@ -417,9 +499,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_33
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_33
       rect:
         serializedVersion: 2
         x: 105
@@ -427,9 +512,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_34
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_34
       rect:
         serializedVersion: 2
         x: 105
@@ -437,9 +525,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_35
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_35
       rect:
         serializedVersion: 2
         x: 105
@@ -447,9 +538,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_36
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_36
       rect:
         serializedVersion: 2
         x: 131
@@ -457,9 +551,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_37
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_37
       rect:
         serializedVersion: 2
         x: 131
@@ -467,9 +564,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_38
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_38
       rect:
         serializedVersion: 2
         x: 131
@@ -477,9 +577,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_39
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_39
       rect:
         serializedVersion: 2
         x: 131
@@ -487,9 +590,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_4
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_4
       rect:
         serializedVersion: 2
         x: 131
@@ -497,9 +603,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_40
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_40
       rect:
         serializedVersion: 2
         x: 131
@@ -507,9 +616,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_41
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_41
       rect:
         serializedVersion: 2
         x: 157
@@ -517,9 +629,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_42
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_42
       rect:
         serializedVersion: 2
         x: 157
@@ -527,9 +642,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_43
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_43
       rect:
         serializedVersion: 2
         x: 157
@@ -537,9 +655,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_44
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_44
       rect:
         serializedVersion: 2
         x: 157
@@ -547,9 +668,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_45
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_45
       rect:
         serializedVersion: 2
         x: 157
@@ -557,9 +681,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_46
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_46
       rect:
         serializedVersion: 2
         x: 157
@@ -567,9 +694,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_47
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_47
       rect:
         serializedVersion: 2
         x: 183
@@ -577,9 +707,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_48
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_48
       rect:
         serializedVersion: 2
         x: 183
@@ -587,9 +720,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_49
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_49
       rect:
         serializedVersion: 2
         x: 183
@@ -597,9 +733,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_5
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_5
       rect:
         serializedVersion: 2
         x: 183
@@ -607,9 +746,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_50
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_50
       rect:
         serializedVersion: 2
         x: 183
@@ -617,9 +759,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_51
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_51
       rect:
         serializedVersion: 2
         x: 183
@@ -627,9 +772,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_52
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_52
       rect:
         serializedVersion: 2
         x: 209
@@ -637,9 +785,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_53
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_53
       rect:
         serializedVersion: 2
         x: 209
@@ -647,9 +798,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_54
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_54
       rect:
         serializedVersion: 2
         x: 209
@@ -657,9 +811,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_55
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_55
       rect:
         serializedVersion: 2
         x: 209
@@ -667,9 +824,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_56
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_56
       rect:
         serializedVersion: 2
         x: 209
@@ -677,9 +837,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_57
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_57
       rect:
         serializedVersion: 2
         x: 209
@@ -687,9 +850,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_58
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_58
       rect:
         serializedVersion: 2
         x: 235
@@ -697,9 +863,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_59
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_59
       rect:
         serializedVersion: 2
         x: 235
@@ -707,9 +876,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_6
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_6
       rect:
         serializedVersion: 2
         x: 235
@@ -717,9 +889,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_60
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_60
       rect:
         serializedVersion: 2
         x: 235
@@ -727,9 +902,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_61
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_61
       rect:
         serializedVersion: 2
         x: 235
@@ -737,9 +915,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_62
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_62
       rect:
         serializedVersion: 2
         x: 235
@@ -747,9 +928,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_63
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_63
       rect:
         serializedVersion: 2
         x: 261
@@ -757,9 +941,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_64
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_64
       rect:
         serializedVersion: 2
         x: 261
@@ -767,9 +954,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_65
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_65
       rect:
         serializedVersion: 2
         x: 261
@@ -777,9 +967,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_66
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_66
       rect:
         serializedVersion: 2
         x: 261
@@ -787,9 +980,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_67
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_67
       rect:
         serializedVersion: 2
         x: 261
@@ -797,9 +993,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_68
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_68
       rect:
         serializedVersion: 2
         x: 261
@@ -807,9 +1006,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_69
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_69
       rect:
         serializedVersion: 2
         x: 287
@@ -817,9 +1019,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_7
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_7
       rect:
         serializedVersion: 2
         x: 287
@@ -827,9 +1032,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_70
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_70
       rect:
         serializedVersion: 2
         x: 287
@@ -837,9 +1045,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_71
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_71
       rect:
         serializedVersion: 2
         x: 287
@@ -847,9 +1058,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_72
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_72
       rect:
         serializedVersion: 2
         x: 287
@@ -857,9 +1071,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_73
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_73
       rect:
         serializedVersion: 2
         x: 287
@@ -867,9 +1084,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_74
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_74
       rect:
         serializedVersion: 2
         x: 313
@@ -877,9 +1097,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_75
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_75
       rect:
         serializedVersion: 2
         x: 339
@@ -887,9 +1110,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_76
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_76
       rect:
         serializedVersion: 2
         x: 365
@@ -897,9 +1123,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_77
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_77
       rect:
         serializedVersion: 2
         x: 391
@@ -907,9 +1136,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_78
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_78
       rect:
         serializedVersion: 2
         x: 417
@@ -917,9 +1149,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_79
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_79
       rect:
         serializedVersion: 2
         x: 313
@@ -927,9 +1162,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_8
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_8
       rect:
         serializedVersion: 2
         x: 313
@@ -937,9 +1175,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_80
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_80
       rect:
         serializedVersion: 2
         x: 313
@@ -947,9 +1188,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_81
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_81
       rect:
         serializedVersion: 2
         x: 313
@@ -957,9 +1201,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_82
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_82
       rect:
         serializedVersion: 2
         x: 313
@@ -967,9 +1214,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_83
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_83
       rect:
         serializedVersion: 2
         x: 339
@@ -977,9 +1227,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_84
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_84
       rect:
         serializedVersion: 2
         x: 365
@@ -987,9 +1240,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_85
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_85
       rect:
         serializedVersion: 2
         x: 391
@@ -997,9 +1253,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_86
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_86
       rect:
         serializedVersion: 2
         x: 417
@@ -1007,9 +1266,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_87
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_87
       rect:
         serializedVersion: 2
         x: 339
@@ -1017,9 +1279,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_88
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_88
       rect:
         serializedVersion: 2
         x: 339
@@ -1027,9 +1292,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_89
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_89
       rect:
         serializedVersion: 2
         x: 339
@@ -1037,9 +1305,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_9
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_9
       rect:
         serializedVersion: 2
         x: 339
@@ -1047,9 +1318,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_90
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_90
       rect:
         serializedVersion: 2
         x: 365
@@ -1057,9 +1331,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_91
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_91
       rect:
         serializedVersion: 2
         x: 391
@@ -1067,9 +1344,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_92
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_92
       rect:
         serializedVersion: 2
         x: 417
@@ -1077,9 +1357,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_93
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_93
       rect:
         serializedVersion: 2
         x: 365
@@ -1087,9 +1370,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_94
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_94
       rect:
         serializedVersion: 2
         x: 365
@@ -1097,9 +1383,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_95
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_95
       rect:
         serializedVersion: 2
         x: 365
@@ -1107,9 +1396,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_96
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_96
       rect:
         serializedVersion: 2
         x: 391
@@ -1117,9 +1409,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_97
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_97
       rect:
         serializedVersion: 2
         x: 417
@@ -1127,9 +1422,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_98
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_98
       rect:
         serializedVersion: 2
         x: 391
@@ -1137,9 +1435,12 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: actionIcon_99
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: actionIcon_99
       rect:
         serializedVersion: 2
         x: 391
@@ -1147,8 +1448,11 @@ TextureImporter:
         width: 24
         height: 24
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

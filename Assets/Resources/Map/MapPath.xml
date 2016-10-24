@@ -1,17 +1,17 @@
 <!-- EndType默认为0 -->
 <PathList>
-  <Path Map="1"  Name="小肉肉村" Next="2" Pre="" Price="1" />
-  <Path Map="2"  Name="旺财岔道" Next="3,8" Pre="" Price="2" />
-  <Path Map="3"  Name="空心菜桥" Next="4" Pre="" Price="3" />
-  <Path Map="4"  Name="沛沛小镇" Next="5,10" Pre="" Price="4" />
-  <Path Map="5"  Name="苹果蛋糕森林" Next="6" Pre="" Price="5" />
-  <Path Map="6"  Name="没有巧克力的洞窟" Next="7,14" Pre="" Price="6" />
-  <Path Map="7"  Name="大肉肉村" Next="" Pre="" Price="7" />
-  <Path Map="8"  Name="沙漠之鹰" Next="9" Pre="" Price="8" />
-  <Path Map="9"  Name="小熙的家" Next="" Pre="" Price="9" />
-  <Path Map="10"  Name="曲奇山丘" Next="11,12,13" Pre="" Price="10" />
-  <Path Map="11"  Name="沛沛河" Next="" Pre="" Price="11" />
-  <Path Map="12"  Name="肉肉山" Next="" Pre="" Price="12" />
-  <Path Map="13"  Name="肉肉平原" Next="" Pre="" Price="13" />
-  <Path Map="14"  Name="肉肉市集" Next="" Pre="" Price="14" />
+  <Path Map="1"  Name="小肉肉村" Next="2" Pre="" Price="10" />
+  <Path Map="2"  Name="旺财岔道" Next="3,8" Pre="" Price="20" />
+  <Path Map="3"  Name="空心菜桥" Next="4" Pre="" Price="30" />
+  <Path Map="4"  Name="沛沛小镇" Next="5,10" Pre="" Price="40" />
+  <Path Map="5"  Name="苹果蛋糕森林" Next="6" Pre="" Price="50" />
+  <Path Map="6"  Name="没有巧克力的洞窟" Next="7,14" Pre="" Price="60" />
+  <Path Map="7"  Name="大肉肉村" Next="" Pre="" Price="70" />
+  <Path Map="8"  Name="沙漠之鹰" Next="9" Pre="" Price="80" />
+  <Path Map="9"  Name="小熙的家" Next="" Pre="" Price="90" />
+  <Path Map="10"  Name="曲奇山丘" Next="11,12,13" Pre="" Price="100" />
+  <Path Map="11"  Name="沛沛河" Next="" Pre="" Price="110" />
+  <Path Map="12"  Name="肉肉山" Next="" Pre="" Price="120" />
+  <Path Map="13"  Name="肉肉平原" Next="" Pre="" Price="130" />
+  <Path Map="14"  Name="肉肉市集" Next="" Pre="" Price="140" />
 </PathList>

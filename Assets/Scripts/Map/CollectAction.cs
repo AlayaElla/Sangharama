@@ -29,6 +29,8 @@ public class CollectAction : MonoBehaviour {
         public int[,] RandomProperty;    //随机性质ID,性质id和权重
     }
     static ArrayList CollectionList = new ArrayList();
+    //获取地图的ui
+    MapUI _mapUI;
 
     void Awake()
     {
@@ -43,28 +45,8 @@ public class CollectAction : MonoBehaviour {
         XmlTool xt = new XmlTool();
         CollectionList = xt.loadCollectionXmlToArray();
 
-        /*
-        Transform root = GameObject.Find(actionRoot).transform;
-        int childscount = root.childCount;
-
-        for (int index = 0; index < childscount; index++)
-        {
-            if (root.GetChild(index).name.StartsWith("action"))
-            {
-                Transform actionroot = root.GetChild(index);
-                int actioncount = actionroot.childCount;
-                for (int i = 1; i < actioncount; i++)
-                {
-                    //如果是数字则就是采集点
-                    if (MathTool.isNumber(actionroot.GetChild(i).name))
-                    {
-                        EventTriggerListener.Get(actionroot.GetChild(i)).onClick = CollectionAction;
-                        Debug.Log("add " + actionroot.GetChild(i).name);
-                    }
-                }
-            }
-        }
-         */
+        //获取地图的ui
+        _mapUI = GameObject.Find("/CollectionTools/Colection").GetComponent<MapUI>();
 	}
 	
 	// Update is called once per frame
@@ -75,16 +57,13 @@ public class CollectAction : MonoBehaviour {
 
     //通过进入地图的id筛选出道具，然后通过权重选出拾取的东西。
     //如果以后会有专门进入地图的设定的话，则可以吧判断地图id筛选道具列表的方法单独移出。
-    void CollectionAction(GameObject go)
+    public void CollectionAction(int ap,RectTransform rect)
     {
-        //限制点击事件的时间间隔
-        if (!canClick)
-            return;
-        StartCoroutine(updateTime(0.15f));
 
+        Debug.Log("mine:" + ap);
 
         //筛选出可以掉落的道具
-        int mapid = int.Parse(go.name);
+        int mapid = ap;
         ArrayList List = new ArrayList();
         
         int max = 0;
@@ -179,7 +158,7 @@ public class CollectAction : MonoBehaviour {
         //添加物品
         dropMa.UID = CharBag.AddGoods(dropMa);
 
-        ShowMateriralInList(dropMa);
+        ShowMaterialIcon(dropMa, rect);
     }
 
 
@@ -209,8 +188,28 @@ public class CollectAction : MonoBehaviour {
         }
     }
 
-    void ShowMateriralInList(CharBag.Goods goods)
+    void ShowMaterialIcon(CharBag.Goods goods, RectTransform rect)
     {
+        //显示采集到的素材图标
+        GameObject materiralicon = new GameObject();
+        Image sr = materiralicon.AddComponent<Image>();
+        sr.sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
+        materiralicon.transform.position = rect.position;
+        materiralicon.transform.SetParent(MateriralList.FindChild("ListBox"));
+        materiralicon.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
+
+        //由路点落到list处
+        RectTransform er = MateriralList.FindChild("ListBox").GetComponent<RectTransform>();
+        LeanTween.move(materiralicon, new Vector3(er.position.x, er.rect.height, 0), 0.25f);
+        LeanTween.scale(materiralicon, new Vector3(0, 0, 0), 0.4f).setEase(LeanTweenType.easeInBack).setDestroyOnComplete(true).setOnComplete(() =>
+        {
+            StartCoroutine(ShowMateriralInList(goods));
+        });
+    }
+
+    IEnumerator ShowMateriralInList(CharBag.Goods goods)
+    {
+        yield return null;
         float listHeight = MateriralList.FindChild("ListBox").GetComponent<RectTransform>().rect.height;
         GameObject materiral = Instantiate(bt_materiral);
 
@@ -230,7 +229,6 @@ public class CollectAction : MonoBehaviour {
         //materiral.transform.SetAsFirstSibling();
 
         //如果显示数目超过顶部，则对齐顶部
-
         if (MateriralList.FindChild("ListBox").transform.childCount * rec_mat.rect.height > listHeight)
         {
             GameObject materiallist = MateriralList.FindChild("ListBox").gameObject;
@@ -240,6 +238,7 @@ public class CollectAction : MonoBehaviour {
 
         float dis = MateriralList.FindChild("ListBox").GetComponent<RectTransform>().rect.height / 2;    //dis为中心点;抵消local的偏差，使用local0点为中心点
         float button_pos = -dis + (rec_mat.rect.height / 2) + (MateriralList.FindChild("ListBox").transform.childCount - 1) * rec_mat.rect.height;
+
 
         materiral.GetComponent<RectTransform>().localPosition = new Vector3(0, dis + button_pos);
 

@@ -31,7 +31,7 @@ public class ErrorLoger : MonoBehaviour {
     string buttontext = "CLOSE";
     internal void OnGUI()
     {
-        if (GUI.Button(new Rect(Screen.width - 50, 0, 50, 50), buttontext))
+        if (GUI.Button(new Rect(0, Screen.height - 50, 50, 50), buttontext))
         {
             Log = !Log;
             m_logs = null;
