@@ -5,12 +5,12 @@ public class ErrorLoger : MonoBehaviour {
 
     internal void OnEnable()
     {
-        Application.RegisterLogCallback(HandleLog);
+        Application.logMessageReceived += HandleLog;
     }
 
     internal void OnDisable()
     {
-        Application.RegisterLogCallback(null);
+        Application.logMessageReceived += null;
     }
 
     private string m_logs;

@@ -29,8 +29,6 @@ public class CollectAction : MonoBehaviour {
         public int[,] RandomProperty;    //随机性质ID,性质id和权重
     }
     static ArrayList CollectionList = new ArrayList();
-    //获取地图的ui
-    MapUI _mapUI;
 
     void Awake()
     {
@@ -44,9 +42,6 @@ public class CollectAction : MonoBehaviour {
         //获取掉落配置表
         XmlTool xt = new XmlTool();
         CollectionList = xt.loadCollectionXmlToArray();
-
-        //获取地图的ui
-        _mapUI = GameObject.Find("/CollectionTools/Colection").GetComponent<MapUI>();
 	}
 	
 	// Update is called once per frame

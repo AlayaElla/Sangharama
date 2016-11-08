@@ -494,7 +494,7 @@ public class MapPathManager : MonoBehaviour {
     //设定角色方向
     void SetCharacterVecter(Vector3[] vecs)
     {
-        Vector3 target = vecs[vecs.Length - 1] - vecs[0];
+        //Vector3 target = vecs[vecs.Length - 1] - vecs[0];
         float angle = Vector3.Angle(Vector3.right, vecs[vecs.Length - 1] - vecs[0]);
 
         if (angle < 45)
