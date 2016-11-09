@@ -465,7 +465,7 @@ public class RecipeUI : MonoBehaviour{
         _btn.transform.FindChild("Bottom").GetComponent<Image>().enabled = false;
         _btn.transform.position = _slot.button.transform.position;
         _btn.transform.localScale = _slot.button.transform.localScale;
-        _btn.transform.parent = Plane.transform;
+        _btn.transform.SetParent(Plane.transform);
 
         Vector3 _movepos=new Vector3();
         Vector3 tmp = GetPropertyPos(PropertyBox.Count + 1);
@@ -676,7 +676,7 @@ public class RecipeUI : MonoBehaviour{
 
             int proID = _slot.slot.Property[i];
             RectTransform _property = Instantiate(PropertyListElement).GetComponent<RectTransform>();
-            _property.transform.parent = PropertyListGrid.transform;
+            _property.transform.SetParent(PropertyListGrid.transform);
 
             _property.localPosition = GetPropertyPos(PropertyBox.Count + 1);
             _property.sizeDelta = GetPropertySize(PropertyBox.Count + 1);
