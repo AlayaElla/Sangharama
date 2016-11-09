@@ -91,7 +91,7 @@ public class XmlTool
     public ArrayList loadCollectionXmlToArray()
     {
         //保存路径
-        string filepath = "Materiral/Collection";
+        string filepath = "Config/Materiral/Collection";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -152,7 +152,7 @@ public class XmlTool
     public ArrayList loadItemXmlToArray()
     {
         //保存路径
-        string filepath = "Materiral/Item";
+        string filepath = "Config/Materiral/Item";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -191,7 +191,7 @@ public class XmlTool
     public ArrayList loadCharacterXmlToArray()
     {
         //保存路径
-        string filepath = "Character/CharacterList";
+        string filepath = "Config/Character/CharacterList";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -252,7 +252,7 @@ public class XmlTool
     public ArrayList loadSkinXmlToArray()
     {
         //保存路径
-        string filepath = "Character/skinConfig";
+        string filepath = "Config/Character/skinConfig";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -295,7 +295,7 @@ public class XmlTool
     public ArrayList loadMindXmlToArray()
     {
         //保存路径
-        string filepath = "Materiral/Mind";
+        string filepath = "Config/Materiral/Mind";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -335,7 +335,7 @@ public class XmlTool
     {
         ArrayList _typeList = new ArrayList();
 
-        string filepath = "Materiral/MaterialType";
+        string filepath = "Config/Materiral/MaterialType";
         string _result = Resources.Load(filepath).ToString();
 
         XmlDocument xmlDoc = new XmlDocument();
@@ -364,7 +364,7 @@ public class XmlTool
     public ArrayList loadRecipeXmlToArray()
     {
         //保存路径
-        string filepath = "Materiral/Recipe";
+        string filepath = "Config/Materiral/Recipe";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -444,7 +444,7 @@ public class XmlTool
     public ArrayList loadPropertyEffetXmlToArray()
     {
         //保存路径
-        string filepath = "Materiral/PropertyEffet";
+        string filepath = "Config/Materiral/PropertyEffet";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -482,7 +482,7 @@ public class XmlTool
     public ArrayList loadMaterialEffetXmlToArray()
     {
         //保存路径
-        string filepath = "Materiral/MaterialEffet";
+        string filepath = "Config/Materiral/MaterialEffet";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -520,7 +520,7 @@ public class XmlTool
     public ArrayList loadPropertyRecipeXmlToArray()
     {
         //保存路径
-        string filepath = "Materiral/PropertyRecipe";
+        string filepath = "Config/Materiral/PropertyRecipe";
 
         string _result = Resources.Load(filepath).ToString();
 
@@ -566,7 +566,7 @@ public class XmlTool
     public ArrayList loadPathXmlToArray()
     {
         //保存路径
-        string filepath = "Map/MapPath";
+        string filepath = "Config/Map/MapPath";
 
         string _result = Resources.Load(filepath).ToString();
 
