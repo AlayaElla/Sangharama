@@ -1,50 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Xml;
+using System.Text;
 using System;
 
 public class TxtTool{
 
-    //判断是否存在文件
-    public bool hasFile(String fileName)
+    public string[] ReadFile(string languege, string name)
     {
-        return File.Exists(fileName);
-    }
+        string filepath = "Config/Story/" + languege + "/" + name; ;
+        string tempstr = Resources.Load(filepath).ToString();
 
-    public void WriteFile(string path,string name,string info)
-    {
-        StreamWriter sw;
-        FileInfo t = new FileInfo(path + "//" + name);
-        sw = t.CreateText();
-        //以行写入信息
-        sw.WriteLine(info);
-        //关闭流
-        sw.Close();
-        //销毁流
-        sw.Dispose();
-    }
+        string str1 = System.Text.RegularExpressions.Regex.Unescape(tempstr);
+        string[] textflie = System.Text.RegularExpressions.Regex.Split(str1, "\r\n");
 
-    public ArrayList ReadFile(string path, string name)
-    {
-        StreamReader sr = null;
-        try
-        {
-            sr = File.OpenText(path + "//" + name);
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
-        string line;
-        ArrayList text = new ArrayList();
-        //逐行读取
-        while ((line = sr.ReadLine()) != null)
-        {
-            text.Add(line);
-        }
-        sr.Close();
-        sr.Dispose();
-        return text;
+
+        return textflie;
     }
 	
 }

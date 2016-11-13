@@ -9,8 +9,8 @@ public class PlayerInfo : MonoBehaviour {
     {
         public int Money;   //金钱
         public int MineCount;   //采集次数
+        public string Languege;
     }
-
     static Info playerinfo = new Info();
 
 	// Use this for initialization
@@ -42,6 +42,12 @@ public class PlayerInfo : MonoBehaviour {
     static public Info GetPlayerInfo()
     {
         return playerinfo;
+    }
+
+    static public void SetLanguege(string lan)
+    {
+        playerinfo.Languege = lan;
+        PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
     static public void ChangeMoney(int num)

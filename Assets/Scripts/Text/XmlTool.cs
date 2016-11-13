@@ -1,91 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Xml;
-using System.IO;
 using System.Text;
 using System;
 
 public class XmlTool
 {
-
-
-    //判断是否存在文件
-    public bool hasFile(String fileName)
-    {
-        return File.Exists(fileName);
-    }
-
-    //新建item配置表
-    public void createItemXml()
-    {
-        //保存路径
-        string filepath = GetDataPath() + "/Materiral/Item.xml";
-
-        if (!File.Exists(filepath))
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement root = xmlDoc.CreateElement("ItemList");
-            XmlElement item = xmlDoc.CreateElement("Item");
-            item.SetAttribute("ID", "1");
-            item.SetAttribute("Name", "这是什么！");
-            item.SetAttribute("Type", "1");
-            item.SetAttribute("des", "这一个中文描述");
-
-            root.AppendChild(item);
-            xmlDoc.AppendChild(root);
-            xmlDoc.Save(filepath);
-            Debug.Log("Xml is OK!");
-        }
-    }
-
-    //新建mind配置表
-    public void createMindXml()
-    {
-        //保存路径
-        string filepath = GetDataPath() + "/Materiral/Mind.xml";
-
-        if (!File.Exists(filepath))
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement root = xmlDoc.CreateElement("MindList");
-            XmlElement item = xmlDoc.CreateElement("Mind");
-            item.SetAttribute("ID", "1");
-            item.SetAttribute("Name", "这是什么！");
-            item.SetAttribute("Type", "1");
-            item.SetAttribute("des", "这一个中文描述");
-
-            root.AppendChild(item);
-            xmlDoc.AppendChild(root);
-            xmlDoc.Save(filepath);
-            Debug.Log("Xml is OK!");
-        }
-    }
-
-    //新建采集配置表
-    public void createCollectionXml()
-    {
-        //保存路径
-        string filepath = GetDataPath() + "/Materiral/Collection.xml";
-
-        if (!File.Exists(filepath))
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement root = xmlDoc.CreateElement("CollectionList");
-            XmlElement item = xmlDoc.CreateElement("Collection");
-            item.SetAttribute("Map", "1");
-            item.SetAttribute("MateriralType", "1");
-            item.SetAttribute("ID", "1");
-            item.SetAttribute("Weight", "1");
-            item.SetAttribute("RandomQuality", "1,100");
-            item.SetAttribute("RandomProperty", "1,2,3");
-            item.SetAttribute("PropertyWeight", "1,1,1");
-            root.AppendChild(item);
-            xmlDoc.AppendChild(root);
-            xmlDoc.Save(filepath);
-            Debug.Log("Xml is OK!");
-        }
-    }
-
     //////////////////////////////////////////
     //读取XML表
     public ArrayList loadCollectionXmlToArray()
@@ -625,45 +545,40 @@ public class XmlTool
     }
 
 
+     //读取文本配置表
+    public ArrayList loadChatConfigXmlToArray()
+    {
+        //保存路径
+        string filepath = "Config/Story/ChatConfig";
+
+        string _result = Resources.Load(filepath).ToString();
+
+        ArrayList ChatConfig = new ArrayList();
+
+        XmlDocument xmlDoc = new XmlDocument();
+
+        xmlDoc.LoadXml(_result);
+
+        XmlNodeList nodeList = xmlDoc.SelectSingleNode("ChatConfig").ChildNodes;
+
+        foreach (XmlElement config in nodeList)
+        {
+            ChatManager.ChatConfig _chatconfig = new ChatManager.ChatConfig();
+
+            //读取node内属性，把string转化为对应的属性
+            if (config.GetAttribute("Languege") != "")
+                _chatconfig.Languege = config.GetAttribute("Languege");
+            if (config.GetAttribute("Speed") != "")
+                _chatconfig.speed = int.Parse(config.GetAttribute("Speed"));
+            //添加进itemList中
+            ChatConfig.Add(_chatconfig);
+        }
+        return ChatConfig;
+    }
+    
     //获取路径//
     private static string GetDataPath()
     {
         return Application.dataPath + "/Resources";
-    }
-
-    void Start()
-    {
-    }
-
-    //新建采集配置表
-    public void AddXml()
-    {
-        //保存路径
-        string filepath = GetDataPath() + "/Materiral/my.xml";
-
-        if (!File.Exists(filepath))
-        {
-            XmlDocument xmlDoc = new XmlDocument();
-            XmlElement root = xmlDoc.CreateElement("transforms");
-            XmlElement elmNew = xmlDoc.CreateElement("rotation");
-            elmNew.SetAttribute("id", "1");
-            elmNew.SetAttribute("name", "yooo");
-
-            XmlElement rotation_X = xmlDoc.CreateElement("x");
-            rotation_X.InnerText = "0";
-            rotation_X.SetAttribute("id", "1");
-            XmlElement rotation_Y = xmlDoc.CreateElement("y");
-            rotation_Y.InnerText = "1";
-            XmlElement rotation_Z = xmlDoc.CreateElement("z");
-            rotation_Z.InnerText = "2";
-
-            elmNew.AppendChild(rotation_X);
-            elmNew.AppendChild(rotation_Y);
-            elmNew.AppendChild(rotation_Z);
-            root.AppendChild(elmNew);
-            xmlDoc.AppendChild(root);
-            xmlDoc.Save(filepath);
-            Debug.Log("AddXml OK!");
-        }
     }
 }

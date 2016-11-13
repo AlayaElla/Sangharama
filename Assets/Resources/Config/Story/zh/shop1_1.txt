@@ -1,0 +1,19 @@
+//角色名<id:角色ID;image:立绘>
+[Character]
+rourou<name:肉肉;image:rourou;windows:1>
+peipei<name:皮皮;image:peipei;windows:2>
+dabendan<name:大笨蛋;image:dabendan;windows:3>
+xiaobendan<name:小笨蛋;image:xiaobendan;windows:4>
+
+//对话列表
+[ChatList]
+<show 0.4,0,1,0,left,rourou,sametime,auto>
+
+{rourou:idle}我是<t 200>大笨蛋<t 100>！！<s>
+
+<show 1.1,0,0.1,1,right,dabendan,step,click>
+<move 0.6,0,1,noloop,rourou,sametime,auto>
+
+{dabendan:happy}你才不是大笨蛋！<c>我才是！<s>
+{rourou:happy}不是不是！\n我才是！<s>
+{rourou:happy}我！<c>才！<c>是！<c>\n我要生气了！！！<s>
