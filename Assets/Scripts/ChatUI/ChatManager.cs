@@ -144,7 +144,17 @@ public class ChatManager : MonoBehaviour {
                 //对话字段
                 else if (str[0] == '{')
                 {
+                    ChatAction.StoryAction action = new ChatAction.StoryAction();
+                    action.CharacterID = str.Substring(1, str.IndexOf(':') - 1);
+                    action.Command = str.Substring(str.IndexOf(':') + 1, str.IndexOf('}') - str.IndexOf(':') - 1);
 
+                    string tempstr = str.Substring(str.IndexOf('}') + 1, str.Length - str.IndexOf('}') - 1);
+                    string[] parameters = new string[1];
+
+                    //第一条储存文本，第二条储存速度，第三条储存跳转方式
+
+
+                    ActionList.Add(action);
                 }
             }
         }
