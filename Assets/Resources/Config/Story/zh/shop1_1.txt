@@ -9,11 +9,11 @@ xiaobendan<name:小笨蛋;image:xiaobendan;windows:4>
 [ChatList]
 <show 0.4,0,1,0,left,rourou,sametime,auto>
 
-{rourou:idle}我是<t 200>大笨蛋<t 100>！！<s>
+{rourou:idle}我是<t 200>大笨蛋<t 100>！！
 
 <show 1.1,0,0.1,1,right,dabendan,step,click>
 <move 0.6,0,1,noloop,rourou,sametime,auto>
 
-{dabendan:happy}你才不是<t 200>大笨蛋！<c>我才是！<s>
-{rourou:happy}不是不是！\n我才是！<s>
-{rourou:happy}我！<c>才！<c>是！<c>\n我要生气了！！！<s>
+{dabendan:happy}你才不是<t 200>大笨蛋！<c>我才是！
+{rourou:happy}不是不是！\n我才是！
+{rourou:happy}我！<c>才！<c>是！<c>\n我要生气了！！！

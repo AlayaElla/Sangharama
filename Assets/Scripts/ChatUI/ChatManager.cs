@@ -15,6 +15,7 @@ public class ChatManager : MonoBehaviour {
         public string Languege;
         public int speed;
     }
+    ChatConfig NowConfig;
 
     void Awake()
     {
@@ -31,6 +32,8 @@ public class ChatManager : MonoBehaviour {
         //获取配置表
         XmlTool xt = new XmlTool();
         chatconifg = xt.loadChatConfigXmlToArray();
+        NowConfig = LoadNowConfig();
+
         LoadStory("shop1_1");
     }
 
@@ -38,6 +41,17 @@ public class ChatManager : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    ChatConfig LoadNowConfig()
+    {
+        ChatConfig config = (ChatConfig)chatconifg[0];
+        foreach (ChatConfig temp in chatconifg)
+        {
+            if (temp.Languege == info.Languege)
+                config = temp;
+        }
+        return config;
+    }
 
     void LoadStory(string path)
     {
@@ -144,17 +158,99 @@ public class ChatManager : MonoBehaviour {
                 //对话字段
                 else if (str[0] == '{')
                 {
-                    ChatAction.StoryAction action = new ChatAction.StoryAction();
-                    action.CharacterID = str.Substring(1, str.IndexOf(':') - 1);
-                    action.Command = str.Substring(str.IndexOf(':') + 1, str.IndexOf('}') - str.IndexOf(':') - 1);
+                    string CharacterID = str.Substring(1, str.IndexOf(':') - 1);
+                    string Command = "Talk";
+                    string Face = str.Substring(str.IndexOf(':') + 1, str.IndexOf('}') - str.IndexOf(':') - 1);
 
                     string tempstr = str.Substring(str.IndexOf('}') + 1, str.Length - str.IndexOf('}') - 1);
-                    string[] parameters = new string[1];
 
                     //第一条储存文本，第二条储存速度，第三条储存跳转方式
+                    if (tempstr.Contains("<t "))
+                    {
+                        string[] tempwords = System.Text.RegularExpressions.Regex.Split(tempstr, "<t ");
+                        for (int i = 0; i < tempwords.Length; i++)
+                        {
+                            //设置速度，第一条为默认速度
+                            string speed = "1";
+                            if (i == 0)
+                                speed = NowConfig.speed.ToString();
+                            else
+                                speed = tempwords[i].Substring(0, tempwords[i].IndexOf(">"));
 
+                            //你才不是
+                            //200>大笨蛋！<c>我才是！
 
-                    ActionList.Add(action);
+                            //我是
+                            //200>大笨蛋
+                            //100>！！
+
+                            //如果没有点击选项则，直接分段，最后一段为auto
+                            if (System.Text.RegularExpressions.Regex.IsMatch(tempwords[i], "<c>"))
+                            {
+                                ChatAction.StoryAction action_click = new ChatAction.StoryAction();
+
+                                action_click.CharacterID = CharacterID;
+                                action_click.Command = Command;
+                                action_click.Parameter = new string[3];
+                                action_click.Parameter[0] = tempwords[i].Substring(tempwords[i].IndexOf(">") + 1, tempwords[i].Length - tempwords[i].IndexOf(">") - 1);
+                                action_click.Parameter[1] = speed;
+                                action_click.Parameter[2] = Face;
+
+                                action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                if (i == tempwords.Length - 1)
+                                    action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
+
+                                ActionList.Add(action_click);
+                            }
+                            //200>大笨蛋！<c>我才是！
+                            else
+                            {
+                                string[] tempwords_click = System.Text.RegularExpressions.Regex.Split(tempwords[i], "<c>");
+                                for (int j = 0; j < tempwords_click.Length; j++)
+                                {
+                                    ChatAction.StoryAction action_click = new ChatAction.StoryAction();
+
+                                    action_click.CharacterID = CharacterID;
+                                    action_click.Command = Command;
+                                    action_click.Parameter = new string[3];
+                                    action_click.Parameter[0] = tempwords_click[j];
+                                    action_click.Parameter[1] = speed;
+                                    action_click.Parameter[2] = Face;
+
+                                    action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
+                                    //第一条一定为自动
+                                    if (j == 0)
+                                    {
+                                        action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                        action_click.Parameter[0] = tempwords_click[j].Substring(tempwords_click[j].IndexOf(">") + 1, tempwords_click[j].Length - tempwords_click[j].IndexOf(">") - 1);
+                                    }
+                                    ActionList.Add(action_click);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //设置速度，第一条为默认速度
+                        string speed = NowConfig.speed.ToString();
+ 
+                        string[] tempwords_click = System.Text.RegularExpressions.Regex.Split(tempstr, "<c>");
+                        for (int j = 0; j < tempwords_click.Length; j++)
+                        {
+                            ChatAction.StoryAction action_click = new ChatAction.StoryAction();
+
+                            action_click.CharacterID = CharacterID;
+                            action_click.Command = Command;
+                            action_click.Parameter = new string[3];
+                            action_click.Parameter[0] = tempwords_click[0];
+                            action_click.Parameter[1] = speed;
+                            action_click.Parameter[2] = Face;
+
+                            action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
+
+                            ActionList.Add(action_click);
+                        }
+                    }
                 }
             }
         }
