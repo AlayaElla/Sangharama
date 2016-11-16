@@ -177,55 +177,41 @@ public class ChatManager : MonoBehaviour {
                             else
                                 speed = tempwords[i].Substring(0, tempwords[i].IndexOf(">"));
 
-                            //你才不是
+                            //你才<c>不是
                             //200>大笨蛋！<c>我才是！
+                            //100>大笨蛋！<c>我才是！
 
                             //我是
                             //200>大笨蛋
                             //100>！！
 
-                            //如果没有点击选项则，直接分段，最后一段为auto
-                            if (System.Text.RegularExpressions.Regex.IsMatch(tempwords[i], "<c>"))
+                            string[] tempwords_click = System.Text.RegularExpressions.Regex.Split(tempwords[i], "<c>");
+                            for (int j = 0; j < tempwords_click.Length; j++)
                             {
                                 ChatAction.StoryAction action_click = new ChatAction.StoryAction();
-
                                 action_click.CharacterID = CharacterID;
                                 action_click.Command = Command;
                                 action_click.Parameter = new string[3];
-                                action_click.Parameter[0] = tempwords[i].Substring(tempwords[i].IndexOf(">") + 1, tempwords[i].Length - tempwords[i].IndexOf(">") - 1);
+                                action_click.Parameter[0] = tempwords_click[j];
                                 action_click.Parameter[1] = speed;
                                 action_click.Parameter[2] = Face;
 
-                                action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
+
+                                //移除前面的速度表示
+                                if (i != 0 && j == 0)
+                                    action_click.Parameter[0] = tempwords_click[j].Substring(tempwords_click[j].IndexOf(">") + 1, tempwords_click[j].Length - tempwords_click[j].IndexOf(">") - 1);
+
+                                //如果是第一个时间分割字段，则在除了最后一条，其余都为点击
+                                if (j == tempwords_click.Length - 1)
+                                    action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+
+                                //如果是最后一个时间分割条目，全点击
                                 if (i == tempwords.Length - 1)
-                                    action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
-
-                                ActionList.Add(action_click);
-                            }
-                            //200>大笨蛋！<c>我才是！
-                            else
-                            {
-                                string[] tempwords_click = System.Text.RegularExpressions.Regex.Split(tempwords[i], "<c>");
-                                for (int j = 0; j < tempwords_click.Length; j++)
                                 {
-                                    ChatAction.StoryAction action_click = new ChatAction.StoryAction();
-
-                                    action_click.CharacterID = CharacterID;
-                                    action_click.Command = Command;
-                                    action_click.Parameter = new string[3];
-                                    action_click.Parameter[0] = tempwords_click[j];
-                                    action_click.Parameter[1] = speed;
-                                    action_click.Parameter[2] = Face;
-
                                     action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
-                                    //第一条一定为自动
-                                    if (j == 0)
-                                    {
-                                        action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
-                                        action_click.Parameter[0] = tempwords_click[j].Substring(tempwords_click[j].IndexOf(">") + 1, tempwords_click[j].Length - tempwords_click[j].IndexOf(">") - 1);
-                                    }
-                                    ActionList.Add(action_click);
                                 }
+                                ActionList.Add(action_click);
                             }
                         }
                     }
@@ -233,7 +219,7 @@ public class ChatManager : MonoBehaviour {
                     {
                         //设置速度，第一条为默认速度
                         string speed = NowConfig.speed.ToString();
- 
+
                         string[] tempwords_click = System.Text.RegularExpressions.Regex.Split(tempstr, "<c>");
                         for (int j = 0; j < tempwords_click.Length; j++)
                         {
@@ -242,7 +228,7 @@ public class ChatManager : MonoBehaviour {
                             action_click.CharacterID = CharacterID;
                             action_click.Command = Command;
                             action_click.Parameter = new string[3];
-                            action_click.Parameter[0] = tempwords_click[0];
+                            action_click.Parameter[0] = tempwords_click[j];
                             action_click.Parameter[1] = speed;
                             action_click.Parameter[2] = Face;
 
