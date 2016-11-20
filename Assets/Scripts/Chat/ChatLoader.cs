@@ -71,9 +71,14 @@ public class ChatLoader{
                 loadType = 0;
                 continue;
             }
-            else if (str == "[ChatList]")
+            else if (str == "[Background]")
             {
                 loadType = 1;
+                continue;
+            }
+            else if (str == "[ChatList]")
+            {
+                loadType = 2;
                 continue;
             }
 
@@ -99,8 +104,13 @@ public class ChatLoader{
 
                 box.CharacterList.Add(character.CharacterID, character);
             }
+            //读取背景的方法
+            if (loadType == 1)
+            {
+                box.BG = str.Split(',');
+            }
             //读取故事模式的方法
-            else if (loadType == 1)
+            else if (loadType == 2)
             {
                 //{rourou:idle}我是<t 200>大笨蛋<t 100>！！<s>
                 //{rourou:idle}我是大笨蛋！！<s>
