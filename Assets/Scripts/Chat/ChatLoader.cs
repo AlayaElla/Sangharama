@@ -1,51 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class ChatManager : MonoBehaviour {
+public class ChatLoader{
 
     ArrayList chatconifg = new ArrayList();
-    ArrayList chatText = new ArrayList();
-    ArrayList ActionList = new ArrayList();
-    ArrayList CharacterList = new ArrayList();
 
     PlayerInfo.Info info;
 
-    public struct ChatConfig
+    public ChatLoader()
     {
-        public string Languege;
-        public int speed;
-    }
-    ChatConfig NowConfig;
-
-    void Awake()
-    {
-
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        //获取角色配置
-        PlayerInfo.SetLanguege("zh");
         info = PlayerInfo.GetPlayerInfo();
-
         //获取配置表
         XmlTool xt = new XmlTool();
         chatconifg = xt.loadChatConfigXmlToArray();
-        NowConfig = LoadNowConfig();
-
-        LoadStory("shop1_1");
     }
 
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-    ChatConfig LoadNowConfig()
+    public void Clear()
     {
-        ChatConfig config = (ChatConfig)chatconifg[0];
-        foreach (ChatConfig temp in chatconifg)
+        chatconifg = null;
+        info = new PlayerInfo.Info();
+    }
+
+
+    //读取通用配置
+    public ChatManager.ChatConfig LoadNowConfig()
+    {
+        ChatManager.ChatConfig config = (ChatManager.ChatConfig)chatconifg[0];
+        foreach (ChatManager.ChatConfig temp in chatconifg)
         {
             if (temp.Languege == info.Languege)
                 config = temp;
@@ -53,26 +35,36 @@ public class ChatManager : MonoBehaviour {
         return config;
     }
 
-    void LoadStory(string path)
-    {
-        TxtTool tt = new TxtTool();
-        string[] txt = tt.ReadFile(info.Languege, path);
 
-        PushToActionList(txt);
+    //读取故事文件
+    public ChatManager.ChatActionBox LoadStory(string path, ChatManager.ChatConfig config)
+    {
+        ChatManager.ChatActionBox storylist = new ChatManager.ChatActionBox();
+
+        TxtTool tt = new TxtTool();
+        string[] txt = tt.ReadFile(config.Languege, path);
+
+        storylist = ParseActionList(txt, config);
+
+        return storylist;
     }
 
-
-    void PushToActionList(string[] story)
+    //解析故事文件
+    ChatManager.ChatActionBox ParseActionList(string[] story, ChatManager.ChatConfig config)
     {
+        ChatManager.ChatActionBox box = new ChatManager.ChatActionBox();
+        box.ActionList = new ArrayList();
+        box.CharacterList = new Dictionary<string, ChatAction.StoryCharacter>();
+
         //读取故事的类型，如果为0则读取类型为角色模式，如果为1则读取类型为故事模式
         int loadType = 0;
 
-        foreach(string str in story)
+        foreach (string str in story)
         {
             //如果碰见注释符号或为空行，则忽略本行
-            if (str.Contains("//") || str=="")
+            if (str.Contains("//") || str == "")
                 continue;
-            
+
             //设置读取类型
             if (str == "[Character]")
             {
@@ -94,10 +86,10 @@ public class ChatManager : MonoBehaviour {
                 string tempstr = str.Substring(str.IndexOf("<") + 1, str.IndexOf(">") - character.CharacterID.Length - 1);
                 string[] parameter = tempstr.Split(';');
 
-                for(int i=0;i<parameter.Length;i++)
+                for (int i = 0; i < parameter.Length; i++)
                 {
                     //读取name
-                    if(i==0)
+                    if (i == 0)
                         character.Name = parameter[i].Substring(5, parameter[i].Length - 5);
                     else if (i == 1)
                         character.Image = parameter[i].Substring(6, parameter[i].Length - 6);
@@ -105,7 +97,7 @@ public class ChatManager : MonoBehaviour {
                         character.Windows = parameter[i].Substring(8, parameter[i].Length - 8);
                 }
 
-                CharacterList.Add(character);
+                box.CharacterList.Add(character.CharacterID, character);
             }
             //读取故事模式的方法
             else if (loadType == 1)
@@ -129,7 +121,7 @@ public class ChatManager : MonoBehaviour {
                         //设置方法参数
                         if (i < parameters.Length - 3)
                         {
-                            action.Parameter[i] = parameters[i]; 
+                            action.Parameter[i] = parameters[i];
                         }
                         //设置角色id参数
                         else if (i == parameters.Length - 3)
@@ -153,7 +145,7 @@ public class ChatManager : MonoBehaviour {
                                 action.SkipType = ChatAction.SKIPTYPE.CLICK;
                         }
                     }
-                    ActionList.Add(action);
+                    box.ActionList.Add(action);
                 }
                 //对话字段
                 else if (str[0] == '{')
@@ -173,7 +165,7 @@ public class ChatManager : MonoBehaviour {
                             //设置速度，第一条为默认速度
                             string speed = "1";
                             if (i == 0)
-                                speed = NowConfig.speed.ToString();
+                                speed = config.speed.ToString();
                             else
                                 speed = tempwords[i].Substring(0, tempwords[i].IndexOf(">"));
 
@@ -211,14 +203,14 @@ public class ChatManager : MonoBehaviour {
                                 {
                                     action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
                                 }
-                                ActionList.Add(action_click);
+                                box.ActionList.Add(action_click);
                             }
                         }
                     }
                     else
                     {
                         //设置速度，第一条为默认速度
-                        string speed = NowConfig.speed.ToString();
+                        string speed = config.speed.ToString();
 
                         string[] tempwords_click = System.Text.RegularExpressions.Regex.Split(tempstr, "<c>");
                         for (int j = 0; j < tempwords_click.Length; j++)
@@ -234,12 +226,13 @@ public class ChatManager : MonoBehaviour {
 
                             action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
 
-                            ActionList.Add(action_click);
+                            box.ActionList.Add(action_click);
                         }
                     }
                 }
             }
         }
-        Debug.Log("ok!");
+        return box;
     }
+
 }

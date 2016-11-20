@@ -45,6 +45,7 @@ public class ChatAction {
     public enum NOWSTATE
     {
         WAITING,
-        COMPLETE
+        DOING,
+        DONE
     }
 }
