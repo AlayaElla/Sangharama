@@ -15,6 +15,7 @@ public class ChatManager : MonoBehaviour {
         public ArrayList ActionList;
         public Dictionary<string, ChatAction.StoryCharacter> CharacterList;
         public string[] BG;
+        public int NowIndex;
     }
     struct ResourcesBox
     {
@@ -44,6 +45,8 @@ public class ChatManager : MonoBehaviour {
     RectTransform CharacterLayer;
     RectTransform MaskLayer;
     ChatBoard TextBoardLayer;
+    Dictionary<string, RectTransform> CharacterRects;
+
 
     void Awake()
     {
@@ -175,6 +178,43 @@ public class ChatManager : MonoBehaviour {
 
     }
 
+    void DoingAction(int index)
+    {
+        ChatAction.StoryAction action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[index];
+        switch (action.Command)
+        {
+            case "show":
+
+                break;
+            case "hide":
+                break;
+            case "move":
+                break;
+            case "scale":
+                break;
+            case "rotate":
+                break;
+            case "setwindows":
+                break;
+            case "windowsmove":
+                break;
+            case "windowsscale":
+                break;
+            case "bgmove":
+                break;
+            case "bgscale":
+                break;
+            case "screenshake":
+                break;
+            case "talk":
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
     //获取window的图片
     Sprite[] GetWindowsSprit(string name)
     {
@@ -197,5 +237,44 @@ public class ChatManager : MonoBehaviour {
         if (NowResourcesBox.bgSprites.TryGetValue(name, out s))
             return s;
         return null;  //如果找不到则返回-1
+    }
+
+    //获取角色RectTransform
+    RectTransform GetCharacterRectTransform(string id)
+    {
+        if (id == null)
+            return null;
+
+        RectTransform c;
+        if (CharacterRects.TryGetValue(id, out c))
+            return c;
+        return null;  //如果找不到则返回-1
+    }
+
+    //创建图片
+    void SetCharacterSprite(string id,string name)
+    {
+        RectTransform rt = new RectTransform();
+        CharacterRects.TryGetValue(id, out rt);
+        if (rt == null)
+        {
+            GameObject obj = new GameObject();
+            obj.transform.SetParent(CharacterLayer);
+            RectTransform objrect = obj.GetComponent<RectTransform>();
+            objrect.pivot = new Vector2(0.5f, 0);
+
+            Image objimg = obj.AddComponent<Image>();
+            objimg.sprite = NowResourcesBox.characterSprites[id][name];
+            objimg.SetNativeSize();
+
+            CharacterRects.Add(id, objrect);
+        }
+        else
+        {
+            Image objimg = rt.GetComponent<Image>();
+            objimg.sprite = NowResourcesBox.characterSprites[id][name];
+            objimg.SetNativeSize();
+        }
+
     }
 }

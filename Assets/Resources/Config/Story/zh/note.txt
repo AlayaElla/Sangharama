@@ -11,6 +11,6 @@ rourou<name:肉肉;image:rourou;windows:1>
 <setwindows x,y,width,height,characterID>
 <windowsmove x,y,t>
 <windowsscale x,y,t>
-<screenmove x,y,t>
-<screenscale x,y,t>
+<bgmove x,y,t>
+<bgscale x,y,t>
 <screenshake type,loop>

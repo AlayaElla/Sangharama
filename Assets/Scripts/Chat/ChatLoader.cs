@@ -45,7 +45,10 @@ public class ChatLoader{
         string[] txt = tt.ReadFile(config.Languege, path);
 
         storylist = ParseActionList(txt, config);
-
+        
+        //初始化index
+        storylist.NowIndex = 0;
+        
         return storylist;
     }
 
@@ -161,7 +164,7 @@ public class ChatLoader{
                 else if (str[0] == '{')
                 {
                     string CharacterID = str.Substring(1, str.IndexOf(':') - 1);
-                    string Command = "Talk";
+                    string Command = "talk";
                     string Face = str.Substring(str.IndexOf(':') + 1, str.IndexOf('}') - str.IndexOf(':') - 1);
 
                     string tempstr = str.Substring(str.IndexOf('}') + 1, str.Length - str.IndexOf('}') - 1);
