@@ -90,6 +90,7 @@ public class ChatLoader{
             {
                 ChatAction.StoryCharacter character = new ChatAction.StoryCharacter();
                 character.CharacterID = str.Substring(0, str.IndexOf("<"));
+                character.Orientation = 1;
 
                 string tempstr = str.Substring(str.IndexOf("<") + 1, str.IndexOf(">") - character.CharacterID.Length - 1);
                 string[] parameter = tempstr.Split(';');
@@ -144,10 +145,10 @@ public class ChatLoader{
                         //设置动作参数ActionType
                         else if (i == parameters.Length - 2)
                         {
-                            if (parameters[i] == "sametime")
-                                action.ActionType = ChatAction.ACTIONTYPE.SAMETIME;
-                            else if (parameters[i] == "step")
-                                action.ActionType = ChatAction.ACTIONTYPE.STEP;
+                            if (parameters[i] == "notloop")
+                                action.LoopType = ChatAction.LOOPTYPE.NOTLOOP;
+                            else if (parameters[i] == "loop")
+                                action.LoopType = ChatAction.LOOPTYPE.LOOP;
                         }
                         //设置进入下一步的方式SKIPTYPE
                         else if (i == parameters.Length - 1)
@@ -156,6 +157,8 @@ public class ChatLoader{
                                 action.SkipType = ChatAction.SKIPTYPE.AUTO;
                             else if (parameters[i] == "click")
                                 action.SkipType = ChatAction.SKIPTYPE.CLICK;
+                            else if (parameters[i] == "sametime")
+                                action.SkipType = ChatAction.SKIPTYPE.SAMETIME;
                         }
                     }
                     box.ActionList.Add(action);

@@ -9,7 +9,6 @@ public class ChatAction {
         public string Command;
         public string[] Parameter;
 
-        public ACTIONTYPE ActionType;
         public LOOPTYPE LoopType;
         public SKIPTYPE SkipType;
 
@@ -19,17 +18,12 @@ public class ChatAction {
     public struct StoryCharacter
     {
         public string CharacterID;
+        public int Orientation;
         public string Name;
         public string Image;
         public string Windows;
     }
 
-    public enum ACTIONTYPE
-    {
-        STEP,
-        SAMETIME
-        
-    }
     public enum LOOPTYPE
     {
         NOTLOOP,
@@ -39,7 +33,8 @@ public class ChatAction {
     public enum SKIPTYPE
     {
         CLICK,
-        AUTO
+        AUTO,
+        SAMETIME
         
     }
     public enum NOWSTATE

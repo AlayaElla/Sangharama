@@ -173,18 +173,62 @@ public class ChatManager : MonoBehaviour {
         BGLayer.GetComponent<Image>().sprite = GetBGSprit("1");
         BGLayer.GetComponent<Image>().SetNativeSize();
 
-        TextBoardLayer.NameText.text = NowStroyActionBox.CharacterList["rourou"].Name;
+        TextBoardLayer.NameText.text = "Waiting Set!";
         TextBoardLayer.WordsText.text = "啦啦啦啦啦啦啦啦啦\n嘎嘎嘎嘎嘎！";
 
     }
 
     void DoingAction(int index)
     {
+        //如果完成所有动作
+        if (index >= NowStroyActionBox.ActionList.Count)
+        {
+            return;
+        }
+
         ChatAction.StoryAction action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[index];
         switch (action.Command)
         {
             case "show":
+                action.NowState = ChatAction.NOWSTATE.DOING;
+                RectTransform character = GetCharacterRectTransform(action.CharacterID);
+                character.localPosition = new Vector2(CharacterLayer.rect.width * float.Parse(action.Parameter[0]), CharacterLayer.rect.height * float.Parse(action.Parameter[1]));
+                character.transform.SetSiblingIndex(int.Parse(action.Parameter[4]));
 
+                if (action.Parameter[5] == "left")
+                {
+                    character.localScale = new Vector2(character.localScale.x * -1, character.localScale.y);
+                }
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.alpha(character, 1, int.Parse(action.Parameter[3])).setOnComplete(() =>
+                    {
+                        NowStroyActionBox.NowIndex = index++;
+                        action.NowState = ChatAction.NOWSTATE.DONE;
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.alpha(character, 1, int.Parse(action.Parameter[3])).setOnComplete(() =>
+                    {
+                        action.NowState = ChatAction.NOWSTATE.DONE;
+                    });
+                    NowStroyActionBox.NowIndex = index++;
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.alpha(character, 1, int.Parse(action.Parameter[3])).setOnComplete(() =>
+                    {
+                        action.NowState = ChatAction.NOWSTATE.DONE;
+                    }); ;
+                    index++;
+                }
                 break;
             case "hide":
                 break;
@@ -207,6 +251,25 @@ public class ChatManager : MonoBehaviour {
             case "screenshake":
                 break;
             case "talk":
+                if (TextBoardLayer.NameText.text != NowStroyActionBox.CharacterList[action.CharacterID].Name)
+                {
+                    //改变窗口
+                    SetChatWindow(action);
+                    return;
+                }
+                action.NowState = ChatAction.NOWSTATE.DOING;
+                string origText = action.Parameter[0];
+                int speed = int.Parse(action.Parameter[1]);
+                string face = action.Parameter[2];
+
+                TextBoardLayer.WordsText.text = "";
+                LeanTween.value(TextBoardLayer.WordsText.gameObject, 0, (float)origText.Length, speed * origText.Length).setEase(LeanTweenType.easeOutQuad).setOnUpdate((float val) =>
+                {
+                    TextBoardLayer.WordsText.text = origText.Substring(0, Mathf.RoundToInt(val));
+                });
+                
+
+
                 break;
             default:
                 break;
@@ -247,34 +310,57 @@ public class ChatManager : MonoBehaviour {
 
         RectTransform c;
         if (CharacterRects.TryGetValue(id, out c))
+        {
             return c;
-        return null;  //如果找不到则返回-1
+        }
+        GameObject obj = new GameObject();
+        obj.transform.SetParent(CharacterLayer);
+        c = obj.GetComponent<RectTransform>();
+        c.pivot = new Vector2(0.5f, 0);
+        c.anchoredPosition = new Vector2(0, 0);
+
+        Image objimg = obj.AddComponent<Image>();
+        objimg.sprite = NowResourcesBox.characterSprites[id][name];
+        objimg.SetNativeSize();
+        CharacterRects.Add(id, c);
+
+        return c;
     }
 
-    //创建图片
+    //更改图片
     void SetCharacterSprite(string id,string name)
     {
         RectTransform rt = new RectTransform();
-        CharacterRects.TryGetValue(id, out rt);
-        if (rt == null)
-        {
-            GameObject obj = new GameObject();
-            obj.transform.SetParent(CharacterLayer);
-            RectTransform objrect = obj.GetComponent<RectTransform>();
-            objrect.pivot = new Vector2(0.5f, 0);
-
-            Image objimg = obj.AddComponent<Image>();
-            objimg.sprite = NowResourcesBox.characterSprites[id][name];
-            objimg.SetNativeSize();
-
-            CharacterRects.Add(id, objrect);
-        }
-        else
+        if (CharacterRects.TryGetValue(id, out rt))
         {
             Image objimg = rt.GetComponent<Image>();
             objimg.sprite = NowResourcesBox.characterSprites[id][name];
             objimg.SetNativeSize();
         }
+        else
+        {
+            Debug.Log("can't find " + id + ":" + name);
+        }
+    }
 
+    //更改窗口
+    void SetChatWindow(ChatAction.StoryAction action)
+    {
+        LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.5f).setEase(LeanTweenType.easeOutBack).setOnComplete(() =>
+        {
+            Sprite[] s = GetWindowsSprit(action.CharacterID);
+            TextBoardLayer.WordsBacklayer.GetComponent<Image>().sprite = s[0];
+            TextBoardLayer.WordsOutLayer.GetComponent<Image>().sprite = s[1];
+
+            TextBoardLayer.NameBackLayer.GetComponent<Image>().sprite = s[0];
+            TextBoardLayer.NameOutLayer.GetComponent<Image>().sprite = s[1];
+
+            TextBoardLayer.NameText.text = NowStroyActionBox.CharacterList[action.CharacterID].Name;
+
+            LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.5f).setEase(LeanTweenType.easeOutBack).setOnComplete(() =>
+                {
+                    DoingAction(NowStroyActionBox.NowIndex);
+                });
+        });
     }
 }

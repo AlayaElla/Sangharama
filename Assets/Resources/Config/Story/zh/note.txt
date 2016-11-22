@@ -3,14 +3,16 @@ rourou<name:肉肉;image:rourou;windows:1>
 <t 200> 设置文本显示速度
 <s> 设置点击翻页
 <c> 设置点击再再接下一句
-<show x,y,t,sort,id,actiontype,skiptype>显示对应的角色
-<hide t,id,actiontype,skiptype>隐藏对应的角色
-<move x,y,t,loop,id,actiontype,skiptype>对应id的图片移动x,y距离;t为所需要的时间;x,y为0~1的数，表示屏幕的比例位置。
-<scale x,y,t,loop,id,actiontype,skiptype>
-<rotate angle,t,loop,id,actiontype,skiptype>
+<show x,y,t,sort,id,looptype,skiptype>显示对应的角色
+<hide t,id,looptype,skiptype>隐藏对应的角色
+<move x,y,t,loop,id,looptype,skiptype>对应id的图片移动x,y距离;t为所需要的时间;x,y为0~1的数，表示屏幕的比例位置。
+<scale x,y,t,loop,id,looptype,skiptype>
+<rotate angle,t,loop,id,looptype,skiptype>
 <setwindows x,y,width,height,characterID>
 <windowsmove x,y,t>
 <windowsscale x,y,t>
 <bgmove x,y,t>
 <bgscale x,y,t>
 <screenshake type,loop>
+
+//skiptype：点击，自动，同时
