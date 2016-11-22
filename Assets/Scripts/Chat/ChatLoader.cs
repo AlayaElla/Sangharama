@@ -142,7 +142,7 @@ public class ChatLoader{
                         {
                             action.CharacterID = parameters[i];
                         }
-                        //设置动作参数ActionType
+                        //设置动作参数LOOPTYPE
                         else if (i == parameters.Length - 2)
                         {
                             if (parameters[i] == "notloop")
@@ -185,14 +185,6 @@ public class ChatLoader{
                             else
                                 speed = tempwords[i].Substring(0, tempwords[i].IndexOf(">"));
 
-                            //你才<c>不是
-                            //200>大笨蛋！<c>我才是！
-                            //100>大笨蛋！<c>我才是！
-
-                            //我是
-                            //200>大笨蛋
-                            //100>！！
-
                             string[] tempwords_click = System.Text.RegularExpressions.Regex.Split(tempwords[i], "<c>");
                             for (int j = 0; j < tempwords_click.Length; j++)
                             {
@@ -219,6 +211,13 @@ public class ChatLoader{
                                 {
                                     action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
                                 }
+                                //检测最后一个条目是否为自动
+                                if (i == tempwords.Length - 1 && j == tempwords_click.Length - 1 && tempwords_click[j].Contains("<a>"))
+                                {
+                                    action_click.Parameter[0] = action_click.Parameter[0].Substring(0, action_click.Parameter[0].Length - 3);
+                                    action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                }
+
                                 box.ActionList.Add(action_click);
                             }
                         }

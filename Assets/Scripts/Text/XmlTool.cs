@@ -569,7 +569,7 @@ public class XmlTool
             if (config.GetAttribute("Languege") != "")
                 _chatconfig.Languege = config.GetAttribute("Languege");
             if (config.GetAttribute("Speed") != "")
-                _chatconfig.speed = int.Parse(config.GetAttribute("Speed"));
+                _chatconfig.speed = float.Parse(config.GetAttribute("Speed"));
             //添加进itemList中
             ChatConfig.Add(_chatconfig);
         }

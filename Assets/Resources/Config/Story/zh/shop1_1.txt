@@ -1,8 +1,8 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
-rourou<name:肉肉;image:1;windows:board3>
+rourou<name:TEST;image:1;windows:board3>
 //peipei<name:皮皮;image:2;windows:board2>
-dabendan<name:大笨蛋;image:dabendan;windows:board3>
+dabendan<name:大笨蛋;image:dabendan;windows:board2>
 //xiaobendan<name:小笨蛋;image:xiaobendan;windows:board4>
 
 [Background]
@@ -10,13 +10,13 @@ dabendan<name:大笨蛋;image:dabendan;windows:board3>
 
 //对话列表
 [ChatList]
-//<show 0.4,0,1,0,left,rourou,notloop,auto>
+<show 0.2,0,0.25,0,left,idle,rourou,notloop,sametime>
+<show 0.8,0,0.25,0,left,idle,dabendan,notloop,auto>
+{rourou:idle}我是<t 0.25>大笨蛋<t 0.5>！！<a>
 
-{rourou:idle}我<c>是<t 200>大笨蛋<t 100>！！
-
-//<show 1.1,0,0.1,1,right,dabendan,noloop,click>
+//<show 1.1,0,0.1,1,right,idle,dabendan,noloop,click>
 //<move 0.6,0,1,noloop,rourou,noloop,auto>
 
-{dabendan:happy}你才不是<t 200>大笨蛋！<c>我才是！
+{dabendan:happy}你才不是<t 0.25>大笨蛋！<c>我才是！<a>
 {rourou:happy}不是不是！\n我才是！
 {rourou:happy}我！<c>才！<c>是！<c>\n我要生气了！！！
