@@ -44,8 +44,13 @@ public class ErrorLoger : MonoBehaviour {
 
         if (!Log)
             return;
-        m_scroll = GUILayout.BeginScrollView(m_scroll);
-        GUILayout.Label(m_logs);
+
+        GUIStyle bb = new GUIStyle();
+        bb.fontSize = 30;
+        bb.normal.textColor = new Color(255, 255, 255);
+
+        m_scroll = GUILayout.BeginScrollView(m_scroll, bb);
+        GUILayout.Label(m_logs, bb);
         GUILayout.EndScrollView();
     }
 }

@@ -188,6 +188,10 @@ public class ChatManager : MonoBehaviour {
         }
 
         ChatAction.StoryAction action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[index];
+        ChatAction.StoryAction preaction = new ChatAction.StoryAction();
+        if(index>0)
+            preaction = (ChatAction.StoryAction)NowStroyActionBox.ActionList[index - 1];
+
         switch (action.Command)
         {
             case "show":
@@ -260,10 +264,16 @@ public class ChatManager : MonoBehaviour {
                     return;
                 }
                 action.NowState = ChatAction.NOWSTATE.DOING;
+
+                if (preaction.Command == "talk" && preaction.Parameter[3] == "endpage")
+                {
+                    TextBoardLayer.WordsText.text = "";
+                }
                 int wordslengh = TextBoardLayer.WordsText.text.Length;
                 string origText = TextBoardLayer.WordsText.text + action.Parameter[0];
                 float speed = float.Parse(action.Parameter[1]);
                 string face = action.Parameter[2];
+
 
                 //设置角色表情
                 SetCharacterSprite(action.CharacterID, face);
@@ -275,6 +285,11 @@ public class ChatManager : MonoBehaviour {
                         TextBoardLayer.WordsText.text = origText.Substring(0, Mathf.RoundToInt(val));
                     }).setOnComplete(() =>
                     {
+                        if (action.Parameter[3] == "endpage")
+                        {
+                            Debug.Log("这是结束！！");
+                        }
+
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         SetActionIndex(index + 1);
                         DoingAction(NowStroyActionBox.NowIndex);
@@ -398,7 +413,7 @@ public class ChatManager : MonoBehaviour {
     //更改窗口
     void SetChatWindow(ChatAction.StoryAction action)
     {
-        LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.5f).setEase(LeanTweenType.easeOutBack).setOnComplete(() =>
+        LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
         {
             Sprite[] s = GetWindowsSprit(action.CharacterID);
             TextBoardLayer.WordsBacklayer.GetComponent<Image>().sprite = s[0];
