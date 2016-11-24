@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ChatEventManager : MonoBehaviour {
 
@@ -16,6 +17,16 @@ public class ChatEventManager : MonoBehaviour {
 
     public void StartStory(string stroy)
     {
+        Scene sence = SceneManager.GetActiveScene();
+        Debug.Log(sence.name);
+
+        if (sence.name == "Shop")
+        {
+            Debug.Log("!!!!!!!!");
+            ShopUI.ChangeStoryState();
+            Character.ChangeStoryState();
+        }
+
         GameObject newobj = new GameObject();
         newobj.name = "ChatSystem";
         ChatManager chatmanager = newobj.AddComponent<ChatManager>();

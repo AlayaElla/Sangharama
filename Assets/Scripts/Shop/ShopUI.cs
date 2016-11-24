@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class ShopUI : MonoBehaviour {
 
-    public static bool isopenRecipe = true;
+    static bool isopenRecipe = true;
+    static bool isInStory = false;
+
     BagUI _bagInstance;
     GameObject _bagUI;
     Text Money;
@@ -24,6 +26,10 @@ public class ShopUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (isInStory)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             Vector2 mousepos = Input.mousePosition;
@@ -39,6 +45,11 @@ public class ShopUI : MonoBehaviour {
             }
         }
 	}
+
+    public static void ChangeStoryState()
+    {
+        isInStory = !isInStory;
+    }
 
     public static void ChangeRecipeUiState()
     {

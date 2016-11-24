@@ -15,8 +15,9 @@ public class Character : MonoBehaviour {
     public float spawnWait = 5;
     public int characterID = 0; //添加测试模式characterID为-1时随机角色
 
-
     public float cSpeed = 0.01f;
+
+    static bool isInStory = false;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +35,10 @@ public class Character : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (isInStory)
+            return;
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
@@ -41,6 +46,11 @@ public class Character : MonoBehaviour {
             timer = spawnWait;
         }
 	}
+
+    public static void ChangeStoryState()
+    {
+        isInStory = !isInStory;
+    }
 
     void SpawnAllCharacter()
     {
