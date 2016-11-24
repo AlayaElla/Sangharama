@@ -176,6 +176,8 @@ public class ChatLoader{
                     if (tempstr.Contains("<t "))
                     {
                         string[] tempwords = System.Text.RegularExpressions.Regex.Split(tempstr, "<t ");
+                        int autoindex = box.ActionList.Count;
+
                         for (int i = 0; i < tempwords.Length; i++)
                         {
                             //设置速度，第一条为默认速度
@@ -205,24 +207,38 @@ public class ChatLoader{
 
                                 //如果是第一个时间分割字段，则在除了最后一条，其余都为点击
                                 if (j == tempwords_click.Length - 1)
-                                    action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                    action_click.SkipType = ChatAction.SKIPTYPE.TimeAUTOCLICK;
 
                                 //如果是最后一个时间分割条目，全点击
                                 if (i == tempwords.Length - 1)
-                                {
                                     action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
-                                }
+                                
                                 //检测最后一个条目是否为自动
-                                if (i == tempwords.Length - 1 && j == tempwords_click.Length - 1 && tempwords_click[j].Contains("<a>"))
+                                if (i == tempwords.Length - 1 && j == tempwords_click.Length - 1)
                                 {
-                                    action_click.Parameter[0] = action_click.Parameter[0].Substring(0, action_click.Parameter[0].Length - 3);
-                                    action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                    if (tempwords_click[j].Contains("<a>"))
+                                    {
+                                        action_click.Parameter[0] = action_click.Parameter[0].Substring(0, action_click.Parameter[0].Length - 3);
+                                        action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+
+                                        //把之前设置为能点点击跳过的动作设置为不能点击跳过，click除外
+                                        for (int changeindex = autoindex; i < box.ActionList.Count; i++)
+                                        {
+                                            ChatAction.StoryAction action_change = (ChatAction.StoryAction)box.ActionList[changeindex];
+                                            if (action_change.SkipType == ChatAction.SKIPTYPE.TimeAUTOCLICK)
+                                            {
+                                                action_change.SkipType = ChatAction.SKIPTYPE.TimeAUTO;
+                                                box.ActionList[changeindex] = action_change;
+                                            }
+                                        }
+                                    }
                                     action_click.Parameter[3] = "endpage";
                                 }
                                 
                                 box.ActionList.Add(action_click);
                             }
                         }
+
                     }
                     else
                     {
@@ -245,10 +261,13 @@ public class ChatLoader{
                             action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
 
                             //检测是否为自动
-                            if (j == tempwords_click.Length - 1 && tempwords_click[j].Contains("<a>"))
+                            if (j == tempwords_click.Length - 1)
                             {
-                                action_click.Parameter[0] = action_click.Parameter[0].Substring(0, action_click.Parameter[0].Length - 3);
-                                action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                if (tempwords_click[j].Contains("<a>"))
+                                {
+                                    action_click.Parameter[0] = action_click.Parameter[0].Substring(0, action_click.Parameter[0].Length - 3);
+                                    action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                }
                                 action_click.Parameter[3] = "endpage";
                             }
                             box.ActionList.Add(action_click);
