@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
 
 public class UITEST : MonoBehaviour {
 
@@ -15,11 +17,11 @@ public class UITEST : MonoBehaviour {
 
     public void LoadTestLevel()
     {
-        Application.LoadLevel("Map");
+        SceneManager.LoadScene("Map");
     }
 
     public void LoadTest2Level()
     {
-        Application.LoadLevel("Shop");
+        SceneManager.LoadScene("Shop");        
     }
 }
