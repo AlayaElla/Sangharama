@@ -145,7 +145,7 @@ public class AniController : MonoBehaviour {
     
 
 
-    public void PlayUpdate()
+    void PlayUpdate()
     {
         //计算限制帧的时间
         time += Time.deltaTime;
@@ -226,5 +226,15 @@ public class AniController : MonoBehaviour {
         {
             currentUISprite.sprite = sp;
         }
+    }
+
+    public void Stop()
+    {
+        isPlay = false;
+    }
+
+    public bool IsPlaying()
+    {
+        return isPlay;
     }
 }
