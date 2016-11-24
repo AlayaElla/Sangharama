@@ -35,7 +35,6 @@ public class ChatAction {
         CLICK,
         AUTO,
         TimeAUTO,
-        TimeAUTOCLICK,
         SAMETIME
         
     }

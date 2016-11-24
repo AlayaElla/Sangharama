@@ -31,6 +31,8 @@ public class ChatManager : MonoBehaviour {
         public RectTransform NameBackLayer;
         public RectTransform NameOutLayer;
 
+        public RectTransform ClickHintLayer;
+
         public Text WordsText;
         public Text NameText;
     }
@@ -167,6 +169,8 @@ public class ChatManager : MonoBehaviour {
         TextBoardLayer.NameBackLayer = StoryBoardLayer.FindChild("TextBoard/NameBoard").GetComponent<RectTransform>();
         TextBoardLayer.NameOutLayer = StoryBoardLayer.FindChild("TextBoard/NameBoard/OutBoard").GetComponent<RectTransform>();
         TextBoardLayer.NameText = StoryBoardLayer.FindChild("TextBoard/NameBoard/Text").GetComponent<Text>();
+
+        TextBoardLayer.ClickHintLayer = StoryBoardLayer.FindChild("ClickHint").GetComponent<RectTransform>();
     }
 
     //初始化故事面板
@@ -238,7 +242,15 @@ public class ChatManager : MonoBehaviour {
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
                 {
                     LeanTween.alpha(character, 1, float.Parse(action.Parameter[2])).setOnComplete(() =>
-                    { 
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            //WaitingForClick();
+                            return;
+                        }
+
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         SetActionIndex(index + 1);
                         DoingAction(NowStroyActionBox.NowIndex);
@@ -262,7 +274,7 @@ public class ChatManager : MonoBehaviour {
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
 
-                        WaitingForClick();
+                        //WaitingForClick();
                     });
                 }
                 break;
@@ -311,13 +323,21 @@ public class ChatManager : MonoBehaviour {
                 //设置角色表情
                 SetCharacterSprite(action.CharacterID, face);
                 //区分不同的动作方式
-                if (action.SkipType == ChatAction.SKIPTYPE.AUTO || action.SkipType == ChatAction.SKIPTYPE.TimeAUTOCLICK || action.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO || action.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
                 {
                     LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)origText.Length, speed * action.Parameter[0].Length).setOnUpdate((float val) =>
                     {
                         TextBoardLayer.WordsText.text = origText.Substring(0, Mathf.RoundToInt(val));
                     }).setOnComplete(() =>
                     {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count - 1)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            WaitingForClick(action.CharacterID);
+                            return;
+                        }
+
                         if (action.Parameter[3] == "endpage")
                         {
                             LeanTween.delayedCall(origText.Length * NowConfig.speed, () =>
@@ -358,7 +378,7 @@ public class ChatManager : MonoBehaviour {
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
 
-                        WaitingForClick();
+                        WaitingForClick(action.CharacterID);
                     });
                 }
                 break;
@@ -371,7 +391,7 @@ public class ChatManager : MonoBehaviour {
     {
         //如果当前动作为Doing且下一步为Click，则遍历所有正在Doing的且状态不为Loop的动作，设置为完成状态。
         ChatAction.StoryAction action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[NowStroyActionBox.NowIndex];
-        if (action.NowState == ChatAction.NOWSTATE.DOING && (action.SkipType == ChatAction.SKIPTYPE.CLICK || action.SkipType == ChatAction.SKIPTYPE.TimeAUTOCLICK))
+        if (action.NowState == ChatAction.NOWSTATE.DOING && (action.SkipType == ChatAction.SKIPTYPE.CLICK || action.SkipType == ChatAction.SKIPTYPE.TimeAUTO || action.SkipType == ChatAction.SKIPTYPE.SAMETIME))
         {
             for (int i = 0; i < NowStroyActionBox.ActionList.Count; i++)
             {
@@ -379,7 +399,7 @@ public class ChatManager : MonoBehaviour {
                 if (_action.NowState == ChatAction.NOWSTATE.DOING && _action.LoopType != ChatAction.LOOPTYPE.LOOP)
                 {
                     RectTransform rt;
-                    switch (action.Command)
+                    switch (_action.Command)
                     {
                         case "setbg":
                             break;
@@ -387,19 +407,18 @@ public class ChatManager : MonoBehaviour {
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             LeanTween.cancel(rt.gameObject);
                             Color rtcshow = rt.GetComponent<Image>().color;
-                            rtcshow = new Color(rtcshow.r, rtcshow.g, rtcshow.b, 1);
-                            SetActionState(ChatAction.NOWSTATE.DONE, NowStroyActionBox.NowIndex);
+                            rt.GetComponent<Image>().color = new Color(rtcshow.r, rtcshow.g, rtcshow.b, 1);
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
 
-                            WaitingForClick();
                             break;
                         case "hide":
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             LeanTween.cancel(rt.gameObject);
                             Color rtchide = rt.GetComponent<Image>().color;
                             rtchide = new Color(rtchide.r, rtchide.g, rtchide.b, 0);
-                            SetActionState(ChatAction.NOWSTATE.DONE, NowStroyActionBox.NowIndex);
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
 
-                            WaitingForClick();
+                            //WaitingForClick();
                             break;
                         case "move":
                             break;
@@ -422,7 +441,7 @@ public class ChatManager : MonoBehaviour {
                         case "talk":
                             LeanTween.cancel(TextBoardLayer.WordsText.gameObject);
                             //如果是设置文字速度的自动模式，则可以点击加速
-                            if (action.SkipType == ChatAction.SKIPTYPE.TimeAUTOCLICK)
+                            if (action.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
                             {
                                 for (int wordsindex = NowStroyActionBox.NowIndex; wordsindex < NowStroyActionBox.ActionList.Count; wordsindex++)
                                 {
@@ -449,9 +468,9 @@ public class ChatManager : MonoBehaviour {
                             {
                                 lastWords += _action.Parameter[0];
                                 TextBoardLayer.WordsText.text = lastWords;
-                                SetActionState(ChatAction.NOWSTATE.DONE, NowStroyActionBox.NowIndex);
+                                SetActionState(ChatAction.NOWSTATE.DONE, i);
                             }
-                            WaitingForClick();
+                            WaitingForClick(action.CharacterID);
                             break;
                     }
                 }
@@ -460,7 +479,9 @@ public class ChatManager : MonoBehaviour {
         //如果为Done，则直接进入下一步
         else if (action.NowState == ChatAction.NOWSTATE.DONE && action.SkipType == ChatAction.SKIPTYPE.CLICK)
         {
-            if (NowStroyActionBox.NowIndex == NowStroyActionBox.ActionList.Count - 1)
+            HideClickHint();
+
+            if (NowStroyActionBox.NowIndex >= NowStroyActionBox.ActionList.Count - 1)
             {
                 EndChatLayer();
             }
@@ -470,12 +491,36 @@ public class ChatManager : MonoBehaviour {
                 DoingAction(NowStroyActionBox.NowIndex);
             }
         }
+        else if (action.NowState == ChatAction.NOWSTATE.DONE && NowStroyActionBox.NowIndex >= NowStroyActionBox.ActionList.Count - 1)
+        {
+            EndChatLayer();
+        }
     }
 
 
-    void WaitingForClick()
+    void WaitingForClick(string id)
     {
-        Debug.Log("WaitingForClick!!!!");
+        //如果已经显示，则跳过
+        if (!AniController.Get(TextBoardLayer.ClickHintLayer).IsPlaying())
+        {
+            Sprite[] hintsprite;
+            if (NowResourcesBox.windowsSprites.TryGetValue(id, out hintsprite))
+            {
+                AniController.Get(TextBoardLayer.ClickHintLayer).AddSprite(hintsprite);
+                AniController.Get(TextBoardLayer.ClickHintLayer).PlayAni(4, 7, AniController.AniType.Loop, 5);
+
+                Color c = TextBoardLayer.ClickHintLayer.GetComponent<Image>().color;
+                TextBoardLayer.ClickHintLayer.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
+            }
+            else
+                Debug.Log("can't find " + id);
+        }
+    }
+
+    void HideClickHint()
+    {
+        LeanTween.alpha(TextBoardLayer.ClickHintLayer, 0, 0.15f);
+        AniController.Get(TextBoardLayer.ClickHintLayer).Stop();
     }
 
     void SetActionIndex(int index)

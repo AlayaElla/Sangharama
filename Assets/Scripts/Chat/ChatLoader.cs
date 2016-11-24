@@ -207,7 +207,7 @@ public class ChatLoader{
 
                                 //如果是第一个时间分割字段，则在除了最后一条，其余都为点击
                                 if (j == tempwords_click.Length - 1)
-                                    action_click.SkipType = ChatAction.SKIPTYPE.TimeAUTOCLICK;
+                                    action_click.SkipType = ChatAction.SKIPTYPE.TimeAUTO;
 
                                 //如果是最后一个时间分割条目，全点击
                                 if (i == tempwords.Length - 1)
@@ -222,19 +222,18 @@ public class ChatLoader{
                                         action_click.SkipType = ChatAction.SKIPTYPE.AUTO;
 
                                         //把之前设置为能点点击跳过的动作设置为不能点击跳过，click除外
-                                        for (int changeindex = autoindex; i < box.ActionList.Count; i++)
+                                        for (int changeindex = autoindex; changeindex < box.ActionList.Count; changeindex++)
                                         {
                                             ChatAction.StoryAction action_change = (ChatAction.StoryAction)box.ActionList[changeindex];
-                                            if (action_change.SkipType == ChatAction.SKIPTYPE.TimeAUTOCLICK)
+                                            if (action_change.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
                                             {
-                                                action_change.SkipType = ChatAction.SKIPTYPE.TimeAUTO;
+                                                action_change.SkipType = ChatAction.SKIPTYPE.AUTO;
                                                 box.ActionList[changeindex] = action_change;
                                             }
                                         }
                                     }
                                     action_click.Parameter[3] = "endpage";
-                                }
-                                
+                                }                             
                                 box.ActionList.Add(action_click);
                             }
                         }
@@ -276,6 +275,7 @@ public class ChatLoader{
                 }
             }
         }
+        //最后一条强制设为click，因为最有一条动作执行完成之后点击关闭，在这里做判断少点
         return box;
     }
 
