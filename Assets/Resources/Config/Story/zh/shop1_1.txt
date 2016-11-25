@@ -10,9 +10,9 @@ dabendan<name:路人乙;image:dabendan;windows:board2>
 
 //对话列表
 [ChatList]
-<show 0.2,0,6,0,left,idle,rourou,notloop,sametime>
-<show 0.8,0,6,0,left,idle,dabendan,notloop,sametime>
+<show 0.2,0,0.25,0,left,idle,rourou,notloop,auto>
 {rourou:idle}我是一个路人！！\n<t 0.2>生是路人，死也是一个路人。
+<show 0.8,0,0.25,0,left,idle,dabendan,notloop,auto>
 {dabendan:happy}我也是<t 0.25>路人！\n你是路人甲<c>，我是<t 0.5>路人乙。
 {rourou:happy}不是不是！\n我才是！
 {dabendan:idle}我！<c>才！<c>是！

@@ -49,6 +49,8 @@ public class ChatManager : MonoBehaviour {
     ChatBoard TextBoardLayer;
     Dictionary<string, RectTransform> CharacterRects;
 
+
+    string NowScene = "";
     string lastWords = "";  //用于保存上一个动作时说话的台词，在点击时在lastword中增加当前语句，来达到点击快速完成当前对话的功能。啊，这个方法我知道有点坑!
 
     void Awake()
@@ -195,6 +197,11 @@ public class ChatManager : MonoBehaviour {
 
     }
 
+    public void SetNowScene(string scene)
+    {
+        NowScene = scene;
+    }
+
     //关闭故事面板
     void EndChatLayer()
     {
@@ -207,6 +214,12 @@ public class ChatManager : MonoBehaviour {
                     Destroy(this.gameObject);
                 });
             });
+
+        if (NowScene == "Shop")
+        {
+            ShopUI.ChangeStoryState();
+            Character.ChangeStoryState();
+        }
     }
 
     void DoingAction(int index)
@@ -307,6 +320,7 @@ public class ChatManager : MonoBehaviour {
                 }
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
 
+                //对话最开始
                 if (preaction.Command == "talk" && preaction.Parameter[3] == "endpage")
                 {
                     TextBoardLayer.WordsText.text = "";
@@ -322,6 +336,7 @@ public class ChatManager : MonoBehaviour {
 
                 //设置角色表情
                 SetCharacterSprite(action.CharacterID, face);
+
                 //区分不同的动作方式
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO || action.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
                 {
@@ -497,7 +512,6 @@ public class ChatManager : MonoBehaviour {
         }
     }
 
-
     void WaitingForClick(string id)
     {
         //如果已经显示，则跳过
@@ -610,6 +624,7 @@ public class ChatManager : MonoBehaviour {
     //更改窗口
     void SetChatWindow(ChatAction.StoryAction action)
     {
+        
         LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
         {
             Sprite[] s = GetWindowsSprit(action.CharacterID);
@@ -621,6 +636,9 @@ public class ChatManager : MonoBehaviour {
 
             TextBoardLayer.WordsText.text = "";
             TextBoardLayer.NameText.text = NowStroyActionBox.CharacterList[action.CharacterID].Name;
+
+            RectTransform rt = GetCharacterRectTransform(action.CharacterID);
+            TextBoardLayer.NameBackLayer.localPosition = new Vector2(rt.localPosition.x - TextBoardLayer.WordsBacklayer.rect.width / 2, TextBoardLayer.NameBackLayer.localPosition.y);
 
             LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 1, 0.25f).setOnComplete(() =>
                 {

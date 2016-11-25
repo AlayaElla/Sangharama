@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class StartUI : MonoBehaviour {
 
@@ -15,7 +16,6 @@ public class StartUI : MonoBehaviour {
 
     public void LoadMainLevel()
     {
-        Application.LoadLevel("Shop");
-        
+        SceneManager.LoadScene("Shop");      
     }
 }
