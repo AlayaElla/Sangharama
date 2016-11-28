@@ -1,8 +1,8 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
-rourou<name:路人甲;image:1;windows:board1>
+rourou<name:他喵的坑;image:1;windows:board1>
 //peipei<name:皮皮;image:2;windows:board2>
-dabendan<name:路人乙;image:dabendan;windows:board2>
+dabendan<name:他喵的真坑;image:dabendan;windows:board2>
 //xiaobendan<name:小笨蛋;image:xiaobendan;windows:board4>
 
 [Background]
@@ -11,11 +11,18 @@ dabendan<name:路人乙;image:dabendan;windows:board2>
 //对话列表
 [ChatList]
 <show 0.2,0,0.25,0,left,idle,rourou,notloop,auto>
-{rourou:idle}我是一个路人！！\n<t 0.2>生是路人，死也是一个路人。
+{rourou:idle}喂！看到没有，我这么多字就是一行。多了点继续换行。。
+{rourou:idle}这是下一页，应该会清空上一段。<t 0.5>然后试试对话速度变慢。。
+{rourou:happy}我的表情变了！！\n手动换行~
+{rourou:happy}好吧，这是自动~<a>
+{rourou:happy}好吧，<c>这是自动中<c>加点击~~<a>
+{rourou:happy}一个字<c>一个字<c>的点<c>击<c>！
 <show 0.8,0,0.25,0,left,idle,dabendan,notloop,auto>
-{dabendan:happy}我也是<t 0.25>路人！\n你是路人甲<c>，我是<t 0.5>路人乙。
-{rourou:happy}不是不是！\n我才是！
-{dabendan:idle}我！<c>才！<c>是！
+{dabendan:happy}换个人出来！\n我的有专属对话框！
+{dabendan:happy}而且我名字的位置变了。
+{dabendan:idle}来试试文字变色吧~<color=red>变色！！！</color>
+{dabendan:idle}来试试放大字体吧~<size=60>变大！！！</size>
+{dabendan:idle}<size=30>这</size><size=40>种</size><size=50>感</size><size=60>觉</size><size=70>！</size>
 //{rourou:happy}。。。。。。。。。。。。。。<c>。。。。。。。。。。。。。
 //<show 1.1,0,0.1,1,right,idle,dabendan,noloop,click>
 //<move 0.6,0,1,noloop,rourou,noloop,auto>
