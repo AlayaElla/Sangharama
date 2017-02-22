@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class ChatLoader{
 
@@ -194,16 +195,17 @@ public class ChatLoader{
                                 action_click.CharacterID = CharacterID;
                                 action_click.Command = Command;
                                 action_click.Parameter = new string[4];
-                                action_click.Parameter[0] = tempwords_click[j];
+
+                                //移除前面的速度表示
+                                if (i != 0 && j == 0)
+                                    tempwords_click[j] = tempwords_click[j].Substring(tempwords_click[j].IndexOf(">") + 1, tempwords_click[j].Length - tempwords_click[j].IndexOf(">") - 1);
+
+                                action_click.Parameter[0] = replaceRichText(tempwords_click[j], out action_click.Richparamater);
                                 action_click.Parameter[1] = speed;
                                 action_click.Parameter[2] = Face;
                                 action_click.Parameter[3] = "nowpage";
 
                                 action_click.SkipType = ChatAction.SKIPTYPE.CLICK;
-
-                                //移除前面的速度表示
-                                if (i != 0 && j == 0)
-                                    action_click.Parameter[0] = tempwords_click[j].Substring(tempwords_click[j].IndexOf(">") + 1, tempwords_click[j].Length - tempwords_click[j].IndexOf(">") - 1);
 
                                 //如果是第一个时间分割字段，则在除了最后一条，其余都为点击
                                 if (j == tempwords_click.Length - 1)
@@ -252,7 +254,7 @@ public class ChatLoader{
                             action_click.CharacterID = CharacterID;
                             action_click.Command = Command;
                             action_click.Parameter = new string[4];
-                            action_click.Parameter[0] = tempwords_click[j];
+                            action_click.Parameter[0] = replaceRichText(tempwords_click[j], out action_click.Richparamater);
                             action_click.Parameter[1] = speed;
                             action_click.Parameter[2] = Face;
                             action_click.Parameter[3] = "nowpage";
@@ -277,6 +279,28 @@ public class ChatLoader{
         }
         //最后一条强制设为click，因为最有一条动作执行完成之后点击关闭，在这里做判断少点
         return box;
+    }
+
+    string replaceRichText(string str, out MatchCollection richparamater)
+    {
+        string richstr = str;
+        Regex reg = new Regex("(<.*?>)(.*?)(<.*?>)", RegexOptions.IgnoreCase);
+        richparamater = reg.Matches(richstr);
+        string replacestr = reg.Replace(richstr, @"$2");
+
+        //richstr = reg.Replace(str,delegate(Match m)
+        //{
+        //    string richwords = Regex.Replace(m.Groups[2].Value, "(.)", delegate(Match m2)
+        //    {
+        //        string words = "";
+        //        words += m.Groups[1].Value + m2.Value + m.Groups[3].Value;
+        //        return words;
+        //    });
+        //    return richwords;
+        //});
+
+        //richparamater = reg.Matches(richstr);  
+        return replacestr;
     }
 
 }

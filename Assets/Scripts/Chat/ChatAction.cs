@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class ChatAction {
 
@@ -8,6 +9,7 @@ public class ChatAction {
         public string CharacterID;
         public string Command;
         public string[] Parameter;
+        public MatchCollection Richparamater;
 
         public LOOPTYPE LoopType;
         public SKIPTYPE SkipType;
