@@ -281,26 +281,48 @@ public class ChatLoader{
         return box;
     }
 
+    //string replaceRichText(string str, out MatchCollection richparamater)
+    //{
+    //    string richstr = str;
+    //    Regex reg = new Regex("(<.*?>)(.*?)(<.*?>)", RegexOptions.IgnoreCase);
+    //    richparamater = reg.Matches(richstr);
+    //    string replacestr = reg.Replace(richstr, @"$2");
+
+    //    //richstr = reg.Replace(str,delegate(Match m)
+    //    //{
+    //    //    string richwords = Regex.Replace(m.Groups[2].Value, "(.)", delegate(Match m2)
+    //    //    {
+    //    //        string words = "";
+    //    //        words += m.Groups[1].Value + m2.Value + m.Groups[3].Value;
+    //    //        return words;
+    //    //    });
+    //    //    return richwords;
+    //    //});
+
+    //    //richparamater = reg.Matches(richstr);  
+    //    return replacestr;
+    //}
+
     string replaceRichText(string str, out MatchCollection richparamater)
     {
         string richstr = str;
         Regex reg = new Regex("(<.*?>)(.*?)(<.*?>)", RegexOptions.IgnoreCase);
+        //richparamater = reg.Matches(richstr);
+        //string replacestr = reg.Replace(richstr, @"$2");
+
+        richstr = reg.Replace(str, delegate(Match m)
+        {
+            string richwords = Regex.Replace(m.Groups[2].Value, "(.)", delegate(Match m2)
+            {
+                string words = "";
+                words += m.Groups[1].Value + m2.Value + m.Groups[3].Value;
+                return words;
+            });
+            return richwords;
+        });
+
         richparamater = reg.Matches(richstr);
-        string replacestr = reg.Replace(richstr, @"$2");
-
-        //richstr = reg.Replace(str,delegate(Match m)
-        //{
-        //    string richwords = Regex.Replace(m.Groups[2].Value, "(.)", delegate(Match m2)
-        //    {
-        //        string words = "";
-        //        words += m.Groups[1].Value + m2.Value + m.Groups[3].Value;
-        //        return words;
-        //    });
-        //    return richwords;
-        //});
-
-        //richparamater = reg.Matches(richstr);  
-        return replacestr;
+        return richstr;
     }
 
 }

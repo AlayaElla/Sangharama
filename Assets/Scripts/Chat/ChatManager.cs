@@ -329,8 +329,11 @@ public class ChatManager : MonoBehaviour {
 
                 //获取上一条对话的语句
                 lastWords = TextBoardLayer.WordsText.text;
-                             
-                int wordslengh = TextBoardLayer.WordsText.text.Length;
+
+                Regex reg = new Regex("(<.*?>)(.*?)(<.*?>)", RegexOptions.IgnoreCase);
+                string replacestr = reg.Replace(action.Parameter[0], @"$2");
+
+                int wordslengh = replacestr.Length;
                 string origText = TextBoardLayer.WordsText.text + action.Parameter[0];
                 float speed = float.Parse(action.Parameter[1]);
                 string face = action.Parameter[2];
