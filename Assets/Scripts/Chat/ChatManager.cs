@@ -332,13 +332,12 @@ public class ChatManager : MonoBehaviour {
 
                 Regex reg = new Regex("(<.*?>)(.*?)(<.*?>)", RegexOptions.IgnoreCase);
                 string replacestr = reg.Replace(action.Parameter[0], @"$2");
+                int wordslengh = TextBoardLayer.WordsText.text.Length;
+                int nextwordslength = wordslengh + replacestr.Length;
 
-                int wordslengh = replacestr.Length;
                 string origText = TextBoardLayer.WordsText.text + action.Parameter[0];
                 float speed = float.Parse(action.Parameter[1]);
                 string face = action.Parameter[2];
-
-                int strlength = origText.Length;
 
                 //设置角色表情
                 SetCharacterSprite(action.CharacterID, face);
@@ -346,7 +345,7 @@ public class ChatManager : MonoBehaviour {
                 //区分不同的动作方式
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO || action.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
                 {
-                    LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)origText.Length, speed * strlength).setOnUpdate((float val) =>
+                    LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)nextwordslength, speed * nextwordslength).setOnUpdate((float val) =>
                     {
                         SetTextBoardWords(origText, Mathf.RoundToInt(val), action.Richparamater);
                     }).setOnComplete(() =>
@@ -379,7 +378,7 @@ public class ChatManager : MonoBehaviour {
                 }
                 else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
                 {
-                    LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)origText.Length, speed * strlength).setOnUpdate((float val) =>
+                    LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)nextwordslength, speed * nextwordslength).setOnUpdate((float val) =>
                     {
                         SetTextBoardWords(origText, Mathf.RoundToInt(val), action.Richparamater);
                     }).setOnComplete(() =>
@@ -392,7 +391,7 @@ public class ChatManager : MonoBehaviour {
                 }
                 else
                 {
-                    LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)origText.Length, speed * strlength).setOnUpdate((float val) =>
+                    LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)nextwordslength, speed * nextwordslength).setOnUpdate((float val) =>
                     {
                         SetTextBoardWords(origText, Mathf.RoundToInt(val), action.Richparamater);
                     }).setOnComplete(() =>
@@ -542,13 +541,14 @@ public class ChatManager : MonoBehaviour {
         AniController.Get(TextBoardLayer.ClickHintLayer).Stop();
     }
 
-    int clipindex = 0;
+    int clipindex = -1;
     bool isfindText = false;
     void SetTextBoardWords(string origText,int val,MatchCollection mac)
     {
-        //if (val < TextBoardLayer.WordsText.text.Length || origText.Length <= TextBoardLayer.WordsText.text.Length)
-        //    return;
+        if (val == clipindex)
+            return;
 
+        Debug.Log("clipindex:"+ clipindex);
         if (mac.Count > 0)
         {
             int offset = 0;
@@ -558,12 +558,11 @@ public class ChatManager : MonoBehaviour {
             {
                 if (val > mac[i].Index - offset && val <= mac[i].Groups[3].Index - mac[i].Groups[1].Length - offset)
                 {
-                    int nowlengh = mac[i].Index - offset;
-                    TextBoardLayer.WordsText.text = origText.Substring(0, nowlengh) + mac[i].Groups[1] + origText.Substring(nowlengh, val - nowlengh) + mac[i].Groups[3];
+                    //int nowlengh = (val - mac[i].Index + offset) * (mac[i].Groups[3].Length + mac[i].Groups[1].Length + 1);
+                    TextBoardLayer.WordsText.text = origText.Substring(0, mac[i].Index + mac[i].Length);
                     
                     //TextBoardLayer.WordsText.text = origText.Substring(0, val);
-
-                    Debug.Log("okokokok" + val + "   " + nowlengh);
+                    //Debug.Log("okokokok" + val + "   " + nowlengh);
 
                     isfindText = true;
                     break;
@@ -572,8 +571,8 @@ public class ChatManager : MonoBehaviour {
                 offset += mac[i].Groups[1].Length + mac[i].Groups[3].Length;
             }
 
-            if(!isfindText)
-                TextBoardLayer.WordsText.text = origText.Substring(0, val);
+            if (!isfindText)
+                TextBoardLayer.WordsText.text = origText.Substring(0, TextBoardLayer.WordsText.text.Length + val - clipindex);
 
             //string words = "";
             //if (val == mac[clipindex].Length)
@@ -589,6 +588,8 @@ public class ChatManager : MonoBehaviour {
         {
             TextBoardLayer.WordsText.text = origText.Substring(0, val);
         }
+
+        clipindex = val;
     }
 
 
