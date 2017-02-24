@@ -117,8 +117,6 @@ public class ChatLoader{
             //读取故事模式的方法
             else if (loadType == 2)
             {
-                //{rourou:idle}我是<t 200>大笨蛋<t 100>！！<s>
-                //{rourou:idle}我是大笨蛋！！<s>
 
                 //方法字段
                 if (str[0] == '<')
@@ -303,9 +301,13 @@ public class ChatLoader{
     //    return replacestr;
     //}
 
+    string lastrich = "";
     string replaceRichText(string str, out MatchCollection richparamater)
     {
         string richstr = str;
+
+        str = TransRichStr(str);
+
         Regex reg = new Regex("(<.*?>)(.*?)(<.*?>)", RegexOptions.IgnoreCase);
         //richparamater = reg.Matches(richstr);
         //string replacestr = reg.Replace(richstr, @"$2");
@@ -322,7 +324,69 @@ public class ChatLoader{
         });
 
         richparamater = reg.Matches(richstr);
+        if (richparamater.Count > 0)
+            lastrich = richparamater[richparamater.Count - 1].Groups[1].Value;
         return richstr;
     }
 
+
+    //string TransRichStr(string str)
+    //{
+    //    Regex transRichReg = new Regex("(<.*?>)", RegexOptions.IgnoreCase);
+
+    //    MatchCollection RichMatches = transRichReg.Matches(str);
+
+    //    if (RichMatches.Count <= 0)
+    //        return str;
+
+    //    //检查头部是否完整
+    //    if (RichMatches[0].Value.Contains("/"))
+    //    {
+    //        str = str.Remove(RichMatches[0].Index, RichMatches[0].Length);
+    //    }
+    //    //检查尾部是否完整
+    //    if (!RichMatches[RichMatches.Count - 1].Value.Contains("/"))
+    //    {
+    //        str = str.Remove(RichMatches[RichMatches.Count - 1].Index, RichMatches[RichMatches.Count - 1].Length);
+    //    }
+
+    //    return str;
+    //}
+
+    string TransRichStr(string str)
+    {
+        Regex transRichReg = new Regex("(?!<a>|<c>)(<.*?>)", RegexOptions.IgnoreCase);
+
+        MatchCollection RichMatches = transRichReg.Matches(str);
+
+        if (RichMatches.Count <= 0)
+            return str;
+
+        //检查头部是否完整
+        if (RichMatches[0].Value.Contains("/"))
+        {
+            if (RichMatches[RichMatches.Count - 1].Value.Contains("="))
+            {
+                str = lastrich + str;
+            }
+            else
+            {
+                str = lastrich + str;
+            }
+        }
+        //检查尾部是否完整
+        if (!RichMatches[RichMatches.Count - 1].Value.Contains("/"))
+        {
+            if (RichMatches[RichMatches.Count - 1].Value.Contains("="))
+            {
+                str += "</" + RichMatches[RichMatches.Count - 1].Value.Substring(1, RichMatches[RichMatches.Count - 1].Value.IndexOf("=") - 1) + ">";
+            }
+            else
+            {
+                str += "</" + RichMatches[RichMatches.Count - 1].Value.Substring(1, RichMatches[RichMatches.Count - 1].Length - 1);
+            }
+        }
+
+        return str;
+    }
 }

@@ -228,11 +228,13 @@ public class ChatManager : MonoBehaviour {
         //如果完成所有动作
         if (index >= NowStroyActionBox.ActionList.Count)
         {
+            EndChatLayer();
             return;
         }
 
         ChatAction.StoryAction action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[index];
         ChatAction.StoryAction preaction = new ChatAction.StoryAction();
+        RectTransform character;
         if(index>0)
             preaction = (ChatAction.StoryAction)NowStroyActionBox.ActionList[index - 1];
 
@@ -242,14 +244,14 @@ public class ChatManager : MonoBehaviour {
                 break;
             case "show":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
-                RectTransform character = GetCharacterRectTransform(action.CharacterID);
+                character = GetCharacterRectTransform(action.CharacterID);
                 character.localPosition = new Vector2(CharacterLayer.rect.width * float.Parse(action.Parameter[0]), CharacterLayer.rect.height * float.Parse(action.Parameter[1]));
                 character.transform.SetSiblingIndex(int.Parse(action.Parameter[3]));
                 SetCharacterSprite(action.CharacterID, action.Parameter[5]);
 
                 if (action.Parameter[4] == "left")
                 {
-                    if (character.localScale.x < 0)
+                    if (character.localScale.x > 0)
                         character.localScale = new Vector2(character.localScale.x * -1, character.localScale.y);
                 }
 
@@ -293,6 +295,48 @@ public class ChatManager : MonoBehaviour {
                 }
                 break;
             case "hide":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                character = GetCharacterRectTransform(action.CharacterID);
+                SetCharacterSprite(action.CharacterID, action.Parameter[1]);
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.alpha(character, 0, float.Parse(action.Parameter[0])).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            Destroy(character.gameObject);
+                            return;
+                        }                        
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        Destroy(character.gameObject);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.alpha(character, 0, float.Parse(action.Parameter[0])).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        Destroy(character.gameObject);
+                    });
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.alpha(character, 0, float.Parse(action.Parameter[0])).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        Destroy(character.gameObject);
+                    });
+                }
                 break;
             case "move":
                 break;
@@ -347,7 +391,7 @@ public class ChatManager : MonoBehaviour {
                 {
                     LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)nextwordslength, speed * nextwordslength).setOnUpdate((float val) =>
                     {
-                        SetTextBoardWords(origText, Mathf.RoundToInt(val), action.Richparamater);
+                        SetTextBoardWords(origText, Mathf.RoundToInt(val), wordslengh, action.Richparamater);
                     }).setOnComplete(() =>
                     {
                         //如果是最后一个动作，则停止自动
@@ -360,7 +404,7 @@ public class ChatManager : MonoBehaviour {
 
                         if (action.Parameter[3] == "endpage")
                         {
-                            LeanTween.delayedCall(origText.Length * NowConfig.speed, () =>
+                            LeanTween.delayedCall(nextwordslength * NowConfig.speed, () =>
                             {
                                 SetActionState(ChatAction.NOWSTATE.DONE, index);
                                 SetActionIndex(index + 1);
@@ -380,7 +424,7 @@ public class ChatManager : MonoBehaviour {
                 {
                     LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)nextwordslength, speed * nextwordslength).setOnUpdate((float val) =>
                     {
-                        SetTextBoardWords(origText, Mathf.RoundToInt(val), action.Richparamater);
+                        SetTextBoardWords(origText, Mathf.RoundToInt(val), wordslengh, action.Richparamater);
                     }).setOnComplete(() =>
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
@@ -393,7 +437,7 @@ public class ChatManager : MonoBehaviour {
                 {
                     LeanTween.value(TextBoardLayer.WordsText.gameObject, wordslengh, (float)nextwordslength, speed * nextwordslength).setOnUpdate((float val) =>
                     {
-                        SetTextBoardWords(origText, Mathf.RoundToInt(val), action.Richparamater);
+                        SetTextBoardWords(origText, Mathf.RoundToInt(val), wordslengh, action.Richparamater);
                     }).setOnComplete(() =>
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
@@ -408,6 +452,12 @@ public class ChatManager : MonoBehaviour {
 
     void ClickToDoing()
     {
+        //如果完成所有动作
+        if (NowStroyActionBox.NowIndex >= NowStroyActionBox.ActionList.Count)
+        {
+            return;
+        }
+
         //如果当前动作为Doing且下一步为Click，则遍历所有正在Doing的且状态不为Loop的动作，设置为完成状态。
         ChatAction.StoryAction action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[NowStroyActionBox.NowIndex];
         if (action.NowState == ChatAction.NOWSTATE.DOING && (action.SkipType == ChatAction.SKIPTYPE.CLICK || action.SkipType == ChatAction.SKIPTYPE.TimeAUTO || action.SkipType == ChatAction.SKIPTYPE.SAMETIME))
@@ -433,8 +483,7 @@ public class ChatManager : MonoBehaviour {
                         case "hide":
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             LeanTween.cancel(rt.gameObject);
-                            Color rtchide = rt.GetComponent<Image>().color;
-                            rtchide = new Color(rtchide.r, rtchide.g, rtchide.b, 0);
+                            Destroy(rt.gameObject);
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
 
                             //WaitingForClick();
@@ -543,9 +592,9 @@ public class ChatManager : MonoBehaviour {
 
     int clipindex = -1;
     bool isfindText = false;
-    void SetTextBoardWords(string origText,int val,MatchCollection mac)
+    void SetTextBoardWords(string origText, int val, int lastwordslengh, MatchCollection mac)
     {
-        if (val == clipindex)
+        if (val == clipindex || val == lastwordslengh)
             return;
 
         Debug.Log("clipindex:"+ clipindex);
@@ -556,10 +605,10 @@ public class ChatManager : MonoBehaviour {
 
             for (int i = 0; i < mac.Count; i++)
             {
-                if (val > mac[i].Index - offset && val <= mac[i].Groups[3].Index - mac[i].Groups[1].Length - offset)
+                if (val > mac[i].Index - offset + lastwordslengh && val <= mac[i].Groups[3].Index - mac[i].Groups[1].Length - offset + lastwordslengh)
                 {
                     //int nowlengh = (val - mac[i].Index + offset) * (mac[i].Groups[3].Length + mac[i].Groups[1].Length + 1);
-                    TextBoardLayer.WordsText.text = origText.Substring(0, mac[i].Index + mac[i].Length);
+                    TextBoardLayer.WordsText.text = origText.Substring(0, mac[i].Index + mac[i].Length + lastwordslengh);
                     
                     //TextBoardLayer.WordsText.text = origText.Substring(0, val);
                     //Debug.Log("okokokok" + val + "   " + nowlengh);
