@@ -1,0 +1,18 @@
+//角色名<id:角色ID;image:立绘>
+[Character]
+rourou<name:他喵的坑;image:1;windows:board1>
+dabendan<name:他喵的真坑;image:dabendan;windows:board2>
+
+[Background]
+//1
+
+//对话列表
+[ChatList]
+<show 0.2,0,1,0,left,idle,rourou,notloop,sametime>
+<show 0.8,0,2,0,left,idle,dabendan,notloop,click>
+<hide 3,happy,rourou,notloop,click>
+<hide 2,happy,dabendan,notloop,click>
+
+//{rourou:happy}。。。。。。。。。。。。。。<c>。。。。。。。。。。。。。
+//<show 1.1,0,0.1,1,right,idle,dabendan,noloop,click>
+//<move 0.6,0,1,noloop,rourou,noloop,auto>

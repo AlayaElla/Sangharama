@@ -1,10 +1,28 @@
 rourou<name:肉肉;image:rourou;windows:1>
 
 <t 200> 设置文本显示速度
-<s> 设置点击翻页
-<c> 设置点击再再接下一句
-<show x,y,t,sort,face,id,looptype,skiptype>显示对应的角色
-<hide t,id,looptype,skiptype>隐藏对应的角色
+<a> 在文本最后配置时，可以让当前对话完成后自动开始以一个动作。
+<c> 在文本中配置时，可以是对话停止在配置位置。点击再继续播放后续对话。
+
+<show x,y,t,sort,face,id,looptype,skiptype>
+ 显示对应的角色
+	x,y			屏幕位置，为屏幕长宽的比例
+	t			出现所需的时间
+	sort		所在层级，越小越前
+	face		出现时的表情
+	id			角色id，需要和Character中的id对应
+	looptype	没用
+	skiptype	auto:执行完动作后自动开始下一步；click:执行完动作后点击开始一步；sametime:执行动作的同时开始下一步
+	
+
+<hide t,face,id,looptype,skiptype>
+ 隐藏对应的角色
+	t			消失所需的时间
+	face		消失时的表情
+	id			角色id，需要和Character中的id对应
+	looptype	没用
+	skiptype	auto:执行完动作后自动开始下一步；click:执行完动作后点击开始一步；sametime:执行动作的同时开始下一步
+
 <move x,y,t,loop,id,looptype,skiptype>对应id的图片移动x,y距离;t为所需要的时间;x,y为0~1的数，表示屏幕的比例位置。
 <scale x,y,t,loop,id,looptype,skiptype>
 <rotate angle,t,loop,id,looptype,skiptype>

@@ -1,9 +1,7 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
 rourou<name:他喵的坑;image:1;windows:board1>
-//peipei<name:皮皮;image:2;windows:board2>
 dabendan<name:他喵的真坑;image:dabendan;windows:board2>
-//xiaobendan<name:小笨蛋;image:xiaobendan;windows:board4>
 
 [Background]
 //1
@@ -11,12 +9,13 @@ dabendan<name:他喵的真坑;image:dabendan;windows:board2>
 //对话列表
 [ChatList]
 <show 0.2,0,0.25,0,left,idle,rourou,notloop,auto>
-{rourou:idle}喂！看到没有，我这么多字就是一行。多了点继续换行。。
-{rourou:idle}这是下一页，应该会清空上一段。<t 0.5>然后试试对话速度变慢。。
-{rourou:happy}我的表情变了！！\n手动换行~
+{rourou:idle}好吧，这是自动~\n自动自动！自动！！<a>
+{rourou:idle}下一句应该换行！\n<c>换行！！！
+{rourou:happy}我的<c><color=red>表情</color><size=80>变了</size>！
+{rourou:idle}再变！
+{rourou:happy}好，再来试下放大。。
+{rourou:happy}<size=10>这</size><size=30>种</size><size=50>感</size><size=70>觉</size><size=90>！</size><size=90>这</size><size=70>种</size><size=50>感</size><size=30>觉</size><size=10>！</size>
 {rourou:happy}好吧，这是自动~<a>
-{rourou:happy}好吧，<c>这是自动中<c>加点击~~<a>
-{rourou:happy}一个字<c>一个字<c>的点<c>击<c>！
 <show 0.8,0,0.25,0,left,idle,dabendan,notloop,auto>
 {dabendan:happy}换个人出来！\n我的有专属对话框！
 {dabendan:happy}而且我名字的位置变了。
