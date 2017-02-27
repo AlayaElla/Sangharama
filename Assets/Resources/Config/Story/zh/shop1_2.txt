@@ -10,6 +10,12 @@ dabendan<name:他喵的真坑;image:dabendan;windows:board2>
 [ChatList]
 <show 0.2,0,1,0,left,idle,rourou,notloop,sametime>
 <show 0.8,0,2,0,left,idle,dabendan,notloop,click>
+<move 0.8,0,1,easeOutBack,rourou,loop,sametime>
+<move 0.2,0,1,easeOutBack,dabendan,loop,click>
+<scale -1,1.5,1,easeOutBack,rourou,notloop,click>
+<scale -1.5,1,1,easeOutBack,dabendan,notloop,click>
+<rotate 360,1,easeInBack,rourou,notloop,click>
+<rotate -360,1,easeOutBack,dabendan,notloop,click>
 <hide 3,happy,rourou,notloop,click>
 <hide 2,happy,dabendan,notloop,click>
 
