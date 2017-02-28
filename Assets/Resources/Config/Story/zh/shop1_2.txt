@@ -9,13 +9,13 @@ dabendan<name:他喵的真坑;image:dabendan;windows:board2>
 //对话列表
 [ChatList]
 <show 0.2,0,1,0,left,idle,rourou,notloop,sametime>
-<show 0.8,0,2,0,left,idle,dabendan,notloop,click>
-<move 0.8,0,1,easeOutBack,rourou,loop,sametime>
-<move 0.2,0,1,easeOutBack,dabendan,loop,click>
-<scale -1,1.5,1,easeOutBack,rourou,notloop,click>
-<scale -1.5,1,1,easeOutBack,dabendan,notloop,click>
-<rotate 360,1,easeInBack,rourou,notloop,click>
-<rotate -360,1,easeOutBack,dabendan,notloop,click>
+<show 0.8,0,2,0,right,idle,dabendan,notloop,click>
+//<move 0.2,-0.05,1,easeInOutBack,rourou,pingpong,click>
+//<move 0.8,-0.05,1,linear,dabendan,loop,click>
+//<scale 1,1.05,1,easeInOutBack,rourou,pingpong,click>
+//<scale 1,1.025,0.5,linear,dabendan,pingpong,click>
+//<rotate 30,1,linear,rourou,notloop,click>
+//<rotate -30,1,linear,dabendan,notloop,click>
 <hide 3,happy,rourou,notloop,click>
 <hide 2,happy,dabendan,notloop,click>
 

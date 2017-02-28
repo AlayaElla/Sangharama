@@ -27,18 +27,18 @@ rourou<name:肉肉;image:rourou;windows:1>
  移动角色
 	x,y			屏幕位置，为屏幕长宽的比例
 	t			出现所需的时间 
-	type		移动方式
+	type		移动方式 *1
 	id			角色id，需要和Character中的id对应
-	looptype	没用
+	looptype	loop:循环；notloop:不循环；pingpong:乒乓方式循环
 	skiptype	auto:执行完动作后自动开始下一步；click:执行完动作后点击开始一步；sametime:执行动作的同时开始下一步	
 	
 <scale x,y,t,type,id,looptype,skiptype>
  缩放角色
 	x,y			屏幕位置，为屏幕长宽的比例
 	t			出现所需的时间 
-	type		旋转方式
+	type		旋转方式 *1
 	id			角色id，需要和Character中的id对应
-	looptype	没用
+	looptype	loop:循环；notloop:不循环；pingpong:乒乓方式循环
 	skiptype	auto:执行完动作后自动开始下一步；click:执行完动作后点击开始一步；sametime:执行动作的同时开始下一步	
 
 
@@ -46,13 +46,12 @@ rourou<name:肉肉;image:rourou;windows:1>
  旋转角色
 	angle		屏幕位置，为屏幕长宽的比例
 	t			出现所需的时间 
-	type		旋转方式
+	type		旋转方式 *1
 	id			角色id，需要和Character中的id对应
-	looptype	没用
+	looptype	loop:循环；notloop:不循环；pingpong:乒乓方式循环
 	skiptype	auto:执行完动作后自动开始下一步；click:执行完动作后点击开始一步；sametime:执行动作的同时开始下一步	
 
 
-<setwindows x,y,width,height,characterID>
 <windowsmove x,y,t>
 <windowsscale x,y,t>
 <bgmove x,y,t>
