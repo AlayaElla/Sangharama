@@ -148,6 +148,8 @@ public class ChatLoader{
                                 action.LoopType = ChatAction.LOOPTYPE.NOTLOOP;
                             else if (parameters[i] == "loop")
                                 action.LoopType = ChatAction.LOOPTYPE.LOOP;
+                            else if (parameters[i] == "pingpong")
+                                action.LoopType = ChatAction.LOOPTYPE.PINGPONG;
                         }
                         //设置进入下一步的方式SKIPTYPE
                         else if (i == parameters.Length - 1)

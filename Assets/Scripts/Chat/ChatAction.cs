@@ -29,8 +29,8 @@ public class ChatAction {
     public enum LOOPTYPE
     {
         NOTLOOP,
-        LOOP
-
+        LOOP,
+        PINGPONG
     }
     public enum SKIPTYPE
     {

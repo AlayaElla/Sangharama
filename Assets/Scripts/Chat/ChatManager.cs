@@ -313,12 +313,14 @@ public class ChatManager : MonoBehaviour {
                         {
                             SetActionState(ChatAction.NOWSTATE.DONE, index);
                             Destroy(character.gameObject);
+                            CharacterRects.Remove(action.CharacterID);
                             return;
                         }                        
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         SetActionIndex(index + 1);
                         DoingAction(NowStroyActionBox.NowIndex);
                         Destroy(character.gameObject);
+                        CharacterRects.Remove(action.CharacterID);
                         return;
                     });
 
@@ -329,6 +331,7 @@ public class ChatManager : MonoBehaviour {
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         Destroy(character.gameObject);
+                        CharacterRects.Remove(action.CharacterID);
                     });
                     SetActionIndex(index + 1);
                     DoingAction(NowStroyActionBox.NowIndex);
@@ -340,12 +343,14 @@ public class ChatManager : MonoBehaviour {
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         Destroy(character.gameObject);
+                        CharacterRects.Remove(action.CharacterID);
                     });
                 }
                 break;
             case "move":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetCharacterRectTransform(action.CharacterID);
+                Vector2 lastmove = character.position;
                 Vector2 movevector = new Vector2(CharacterLayer.rect.width * float.Parse(action.Parameter[0]), CharacterLayer.rect.height * float.Parse(action.Parameter[1]));
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
@@ -362,8 +367,14 @@ public class ChatManager : MonoBehaviour {
                         //如果是循环，则继续播放动作
                          if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                          {
-                             LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong();
+                             character.position = lastmove;
+                             LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
                          }
+                         else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                         {
+                             LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
+                         }
+
                          SetActionState(ChatAction.NOWSTATE.DONE, index);
                          SetActionIndex(index + 1);
                          DoingAction(NowStroyActionBox.NowIndex);
@@ -380,8 +391,15 @@ public class ChatManager : MonoBehaviour {
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong();
+                            character.position = lastmove;
+                            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
                         }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            character.position = lastmove;
+                            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
+                        }
+
                     });
                     SetActionIndex(index + 1);
                     DoingAction(NowStroyActionBox.NowIndex);
@@ -396,7 +414,12 @@ public class ChatManager : MonoBehaviour {
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong();
+                            character.position = lastmove;
+                            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
+                        }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
                         }
                     });
                 }
@@ -404,7 +427,16 @@ public class ChatManager : MonoBehaviour {
             case "scale":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetCharacterRectTransform(action.CharacterID);
+                Vector2 lastscale = character.localScale;
                 Vector2 scalevector = new Vector2(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]));
+                if ((float.Parse(action.Parameter[0]) < 0 && character.localScale.x < 0)|| (float.Parse(action.Parameter[0]) > 0 && character.localScale.x < 0))
+                {
+                    scalevector = new Vector2(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]));
+                }
+                if ((float.Parse(action.Parameter[1]) < 0 && character.localScale.y < 0) || (float.Parse(action.Parameter[1]) > 0 && character.localScale.y < 0))
+                {
+                    scalevector = new Vector2(scalevector.x, float.Parse(action.Parameter[1]) * -1);
+                }
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
                 {
@@ -420,7 +452,12 @@ public class ChatManager : MonoBehaviour {
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong();
+                            character.localScale = lastscale;
+                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
+                        }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
                         }
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         SetActionIndex(index + 1);
@@ -438,7 +475,12 @@ public class ChatManager : MonoBehaviour {
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong();
+                            character.localScale = lastscale;
+                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
+                        }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
                         }
                     });
                     SetActionIndex(index + 1);
@@ -454,7 +496,12 @@ public class ChatManager : MonoBehaviour {
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong();
+                            character.localScale = lastscale;
+                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
+                        }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
                         }
                     });
                 }
@@ -462,11 +509,12 @@ public class ChatManager : MonoBehaviour {
             case "rotate":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetCharacterRectTransform(action.CharacterID);
-                float angle = float.Parse(action.Parameter[0]);
+                Vector3 lastangle = character.localRotation.eulerAngles;
+                Vector3 angle = new Vector3(lastangle.x, lastangle.y, float.Parse(action.Parameter[0]));
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
                 {
-                    LeanTween.rotate(character, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setOnComplete(() =>
+                    LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setOnComplete(() =>
                     {
                         //如果是最后一个动作，则停止自动
                         if (index >= NowStroyActionBox.ActionList.Count)
@@ -478,7 +526,12 @@ public class ChatManager : MonoBehaviour {
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.rotate(character, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setLoopPingPong();
+                            character.rotation = Quaternion.Euler(lastangle);
+                            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopClamp();
+                        }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong();
                         }
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         SetActionIndex(index + 1);
@@ -489,14 +542,19 @@ public class ChatManager : MonoBehaviour {
                 }
                 else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
                 {
-                    LeanTween.rotate(character, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setOnComplete(() =>
+                    LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setOnComplete(() =>
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
 
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.rotate(character, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setLoopPingPong();
+                            character.rotation = Quaternion.Euler(lastangle);
+                            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopClamp();
+                        }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong();
                         }
                     });
                     SetActionIndex(index + 1);
@@ -505,14 +563,19 @@ public class ChatManager : MonoBehaviour {
                 }
                 else
                 {
-                    LeanTween.rotate(character, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setOnComplete(() =>
+                    LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setOnComplete(() =>
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
 
                         //如果是循环，则继续播放动作
                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
                         {
-                            LeanTween.rotate(character, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setLoopPingPong();
+                            character.rotation = Quaternion.Euler(lastangle);
+                            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopClamp();
+                        }
+                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
+                        {
+                            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong();
                         }
                     });
                 }
@@ -656,6 +719,7 @@ public class ChatManager : MonoBehaviour {
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             LeanTween.cancel(rt.gameObject);
                             Destroy(rt.gameObject);
+                            CharacterRects.Remove(action.CharacterID);
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
                         case "move":
@@ -672,6 +736,14 @@ public class ChatManager : MonoBehaviour {
                         case "scale":
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             Vector2 scalevector = new Vector2(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]));
+                            if ((float.Parse(_action.Parameter[0]) < 0 && rt.localScale.x < 0) || (float.Parse(_action.Parameter[0]) > 0 && rt.localScale.x < 0))
+                            {
+                                scalevector = new Vector2(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]));
+                            }
+                            if ((float.Parse(_action.Parameter[1]) < 0 && rt.localScale.y < 0) || (float.Parse(_action.Parameter[1]) > 0 && rt.localScale.y < 0))
+                            {
+                                scalevector = new Vector2(scalevector.x, float.Parse(_action.Parameter[1]) * -1);
+                            }
 
                             //如果是循环，则无视
                             if (_action.LoopType != ChatAction.LOOPTYPE.LOOP)
@@ -1036,4 +1108,87 @@ public class ChatManager : MonoBehaviour {
         }
     }
 
+    LeanTweenType GetAniLeanTweenType(string type)
+    {
+        if (type == "linear")
+        {
+            return LeanTweenType.linear;
+        }
+        else if (type == "easeInBack")
+        {
+            return LeanTweenType.easeOutBack;
+        }
+        else if (type == "easeOutBack")
+        {
+            return LeanTweenType.easeInBack;
+        }
+        else if (type == "easeInOutBack")
+        {
+            return LeanTweenType.easeInOutBack;
+        }
+        else if (type == "easeInBounce")
+        {
+            return LeanTweenType.easeOutBounce;
+        }
+        else if (type == "easeOutBounce")
+        {
+            return LeanTweenType.easeInBounce;
+        }
+        else if (type == "easeInOutBounce")
+        {
+            return LeanTweenType.easeInOutBounce;
+        }
+        else if (type == "easeInElastic")
+        {
+            return LeanTweenType.easeOutElastic;
+        }
+        else if (type == "easeOutElastic")
+        {
+            return LeanTweenType.easeInElastic;
+        }
+        else if (type == "easeInOutElastic")
+        {
+            return LeanTweenType.easeInOutElastic;
+        }
+        else if (type == "easeInQuad")
+        {
+            return LeanTweenType.easeOutQuad;
+        }
+        else if (type == "easeOutQuad")
+        {
+            return LeanTweenType.easeInQuad;
+        }
+        else if (type == "easeInOutQuad")
+        {
+            return LeanTweenType.easeInOutQuad;
+        }
+        else if (type == "easeInSine")
+        {
+            return LeanTweenType.easeOutSine;
+        }
+        else if (type == "easeOutSine")
+        {
+            return LeanTweenType.easeInSine;
+        }
+        else if (type == "easeInOutSine")
+        {
+            return LeanTweenType.easeInOutSine;
+        }
+        else if (type == "easeInCirc")
+        {
+            return LeanTweenType.easeOutCirc;
+        }
+        else if (type == "easeOutCirc")
+        {
+            return LeanTweenType.easeInCirc;
+        }
+        else if (type == "easeInOutCirc")
+        {
+            return LeanTweenType.easeInOutCirc;
+        }
+        else
+        {
+            return LeanTweenType.linear;
+        }
+    }
 }
