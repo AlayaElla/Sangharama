@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -91,7 +90,6 @@ public class ChatLoader{
             {
                 ChatAction.StoryCharacter character = new ChatAction.StoryCharacter();
                 character.CharacterID = str.Substring(0, str.IndexOf("<"));
-                character.Orientation = 1;
 
                 string tempstr = str.Substring(str.IndexOf("<") + 1, str.IndexOf(">") - character.CharacterID.Length - 1);
                 string[] parameter = tempstr.Split(';');
@@ -126,42 +124,70 @@ public class ChatLoader{
                     string tempstr = str.Substring(action.Command.Length + 2, str.Length - action.Command.Length - 3);
                     string[] parameters = tempstr.Split(',');
 
-                    //设定参数大小
-                    action.Parameter = new string[parameters.Length - 3];
-                    //区分参数
-                    for (int i = 0; i < parameters.Length; i++)
+                    //通用读取方式
+                    if (parameters.Length > 3)
                     {
-                        //设置方法参数
-                        if (i < parameters.Length - 3)
+                        //设定参数大小
+                        action.Parameter = new string[parameters.Length - 3];
+                        //区分参数
+                        for (int i = 0; i < parameters.Length; i++)
                         {
-                            action.Parameter[i] = parameters[i];
+                            //设置方法参数
+                            if (i < parameters.Length - 3)
+                            {
+                                action.Parameter[i] = parameters[i];
+                            }
+                            //设置角色id参数
+                            else if (i == parameters.Length - 3)
+                            {
+                                action.CharacterID = parameters[i];
+                            }
+                            //设置动作参数LOOPTYPE
+                            else if (i == parameters.Length - 2)
+                            {
+                                action.LoopType = parameters[i];
+                            }
+                            //设置进入下一步的方式SKIPTYPE
+                            else if (i == parameters.Length - 1)
+                            {
+                                if (parameters[i] == "auto")
+                                    action.SkipType = ChatAction.SKIPTYPE.AUTO;
+                                else if (parameters[i] == "click")
+                                    action.SkipType = ChatAction.SKIPTYPE.CLICK;
+                                else if (parameters[i] == "sametime")
+                                    action.SkipType = ChatAction.SKIPTYPE.SAMETIME;
+                            }
                         }
-                        //设置角色id参数
-                        else if (i == parameters.Length - 3)
+                    }
+                    //简短配置的读取方式
+                    else
+                    {
+                        if (parameters.Length == 2)
                         {
-                            action.CharacterID = parameters[i];
-                        }
-                        //设置动作参数LOOPTYPE
-                        else if (i == parameters.Length - 2)
-                        {
-                            if (parameters[i] == "notloop")
-                                action.LoopType = ChatAction.LOOPTYPE.NOTLOOP;
-                            else if (parameters[i] == "loop")
-                                action.LoopType = ChatAction.LOOPTYPE.LOOP;
-                            else if (parameters[i] == "pingpong")
-                                action.LoopType = ChatAction.LOOPTYPE.PINGPONG;
-                        }
-                        //设置进入下一步的方式SKIPTYPE
-                        else if (i == parameters.Length - 1)
-                        {
-                            if (parameters[i] == "auto")
+                            action.CharacterID = parameters[0];
+                            if (parameters[1] == "auto")
                                 action.SkipType = ChatAction.SKIPTYPE.AUTO;
-                            else if (parameters[i] == "click")
+                            else if (parameters[1] == "click")
                                 action.SkipType = ChatAction.SKIPTYPE.CLICK;
-                            else if (parameters[i] == "sametime")
+                            else if (parameters[1] == "sametime")
+                                action.SkipType = ChatAction.SKIPTYPE.SAMETIME;
+                        }
+                        else if (parameters.Length == 3)
+                        {
+                            action.CharacterID = parameters[0];
+
+                            //设定参数大小
+                            action.Parameter = new string[1];
+                            action.Parameter[0] = parameters[1];
+                            if (parameters[2] == "auto")
+                                action.SkipType = ChatAction.SKIPTYPE.AUTO;
+                            else if (parameters[2] == "click")
+                                action.SkipType = ChatAction.SKIPTYPE.CLICK;
+                            else if (parameters[2] == "sametime")
                                 action.SkipType = ChatAction.SKIPTYPE.SAMETIME;
                         }
                     }
+
                     box.ActionList.Add(action);
                 }
                 //对话字段

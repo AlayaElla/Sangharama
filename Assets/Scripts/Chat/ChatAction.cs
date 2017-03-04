@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 public class ChatAction {
 
@@ -11,7 +9,7 @@ public class ChatAction {
         public string[] Parameter;
         public MatchCollection Richparamater;
 
-        public LOOPTYPE LoopType;
+        public string LoopType;
         public SKIPTYPE SkipType;
 
         public NOWSTATE NowState;
@@ -26,12 +24,6 @@ public class ChatAction {
         public string Windows;
     }
 
-    public enum LOOPTYPE
-    {
-        NOTLOOP,
-        LOOP,
-        PINGPONG
-    }
     public enum SKIPTYPE
     {
         CLICK,

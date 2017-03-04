@@ -17,6 +17,8 @@ public class ChatManager : MonoBehaviour {
         public Dictionary<string, ChatAction.StoryCharacter> CharacterList;
         public string[] BG;
         public int NowIndex;
+        public bool UseBG1;
+        public object info;
     }
     struct ResourcesBox
     {
@@ -44,7 +46,8 @@ public class ChatManager : MonoBehaviour {
 
     RectTransform StoryBoardLayer;
 
-    RectTransform BGLayer;
+    RectTransform BGLayer1;
+    RectTransform BGLayer2;
     RectTransform CharacterLayer;
     RectTransform MaskLayer;
     ChatBoard TextBoardLayer;
@@ -84,6 +87,7 @@ public class ChatManager : MonoBehaviour {
         NowConfig = loader.LoadNowConfig();
 
         NowStroyActionBox = loader.LoadStory(storyname, NowConfig);
+        NowStroyActionBox.UseBG1 = true;
 
         LoadStoryResources();
         CreateChatLayer();
@@ -106,6 +110,7 @@ public class ChatManager : MonoBehaviour {
 
             //读取角色立绘
             tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Key);
+            if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
             foreach (Sprite s in tempSprite)
             {
                 tempResource.Add(s.name, s);
@@ -114,6 +119,7 @@ public class ChatManager : MonoBehaviour {
 
             //读取窗口文件
             tempSprite = Resources.LoadAll<Sprite>("Texture/story/board/" + character.Value.Windows);
+            if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/board/" + character.Value.Windows);
             NowResourcesBox.windowsSprites.Add(character.Key, tempSprite);
         }
 
@@ -126,6 +132,7 @@ public class ChatManager : MonoBehaviour {
 
                 //读取角色立绘
                 tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+                if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/bg/" + name);
                 NowResourcesBox.bgSprites.Add(name, tempSprite);
             }
         }
@@ -146,16 +153,6 @@ public class ChatManager : MonoBehaviour {
 
         //初始化故事面板
         InstChatLayer();
-
-        //创建背景
-        if (NowResourcesBox.bgSprites.Count != 0)
-        {
-            BGLayer.GetComponent<Image>().sprite = GetBGSprit(NowStroyActionBox.BG[0]);
-            BGLayer.GetComponent<Image>().SetNativeSize();
-
-            LeanTween.alpha(BGLayer, 1, 0.5f); 
-        }
-
     }
 
     //获取组件方法
@@ -163,7 +160,8 @@ public class ChatManager : MonoBehaviour {
     {
         StoryBoardLayer = StoryLayerObj.GetComponent<RectTransform>();
         MaskLayer = StoryBoardLayer.FindChild("Mask").GetComponent<RectTransform>();
-        BGLayer = StoryBoardLayer.FindChild("BG").GetComponent<RectTransform>();
+        BGLayer1 = StoryBoardLayer.FindChild("BG1").GetComponent<RectTransform>();
+        BGLayer2 = StoryBoardLayer.FindChild("BG2").GetComponent<RectTransform>();
         CharacterLayer = StoryBoardLayer.FindChild("Character").GetComponent<RectTransform>();
         TextBoardLayer.WordsBacklayer = StoryBoardLayer.FindChild("TextBoard").GetComponent<RectTransform>();
         TextBoardLayer.WordsOutLayer = StoryBoardLayer.FindChild("TextBoard/OutBoard").GetComponent<RectTransform>();
@@ -192,10 +190,11 @@ public class ChatManager : MonoBehaviour {
         StoryBoardLayer.localPosition = new Vector3(0, 0, 0);
         TextBoardLayer.WordsBacklayer.localScale = new Vector3(1, 0, 1);
 
-        TextBoardLayer.WordsBacklayer.localScale = new Vector2(1, 0);
         TextBoardLayer.NameText.text = "";
         TextBoardLayer.WordsText.text = "";
 
+        //BGLayer1.GetComponent<Image>().color = Color.clear;
+        BGLayer2.GetComponent<Image>().color = Color.clear;
     }
 
     public void SetNowScene(string scene)
@@ -209,7 +208,7 @@ public class ChatManager : MonoBehaviour {
         LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
             {
                 LeanTween.alpha(CharacterLayer, 0, 1f);
-                LeanTween.alpha(BGLayer, 0, 1f).setOnComplete(() =>
+                LeanTween.alpha(GetBGLayer(), 0, 1f).setOnComplete(() =>
                 {
                     Destroy(StoryBoardLayer.gameObject);
                     Destroy(this.gameObject);
@@ -241,6 +240,109 @@ public class ChatManager : MonoBehaviour {
         switch (action.Command)
         {
             case "setbg":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                RectTransform lastBG = GetBGLayer();
+                character = GetNowBGLayer();
+                Image Bg = character.GetComponent<Image>();
+                Bg.sprite = GetBGSprit(action.CharacterID);
+                Bg.SetNativeSize();
+                character.SetAsFirstSibling();
+
+                if (Bg.color == Color.clear)
+                    Bg.color = new Color(1, 1, 1, 0);
+                else
+                    Bg.color = Color.white;
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.alpha(character, 1, float.Parse(action.Parameter[0]));
+                    LeanTween.alpha(lastBG, 0, float.Parse(action.Parameter[0])).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            //WaitingForClick();
+                            return;
+                        }
+                        if (character.name == "BG1")
+                            NowStroyActionBox.UseBG1 = true;
+                        else
+                            NowStroyActionBox.UseBG1 = false;
+
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                    });
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.alpha(character, 1, float.Parse(action.Parameter[0]));
+                    LeanTween.alpha(lastBG, 0, float.Parse(action.Parameter[0])).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    });
+                    if (character.name == "BG1")
+                        NowStroyActionBox.UseBG1 = true;
+                    else
+                        NowStroyActionBox.UseBG1 = false;
+
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.alpha(character, 1, float.Parse(action.Parameter[0]));
+                    LeanTween.alpha(lastBG, 0, float.Parse(action.Parameter[0])).setOnComplete(() =>
+                    {
+                        if (character.name == "BG1")
+                            NowStroyActionBox.UseBG1 = true;
+                        else
+                            NowStroyActionBox.UseBG1 = false;
+
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    });
+                }
+                break;
+            case "stop":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+
+                //获取id对象
+                if (action.CharacterID == "WINDOW")
+                    character = TextBoardLayer.WordsBacklayer;
+                else if (action.CharacterID == "BG")
+                    character = GetBGLayer();
+                else
+                    character = GetCharacterRectTransform(action.CharacterID);
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.cancel(character.gameObject);
+                    //如果是最后一个动作，则停止自动
+                    if (index >= NowStroyActionBox.ActionList.Count)
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        //WaitingForClick();
+                        return;
+                    }
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.cancel(character.gameObject);
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.cancel(character.gameObject);
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
+                }
                 break;
             case "show":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
@@ -351,6 +453,7 @@ public class ChatManager : MonoBehaviour {
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetCharacterRectTransform(action.CharacterID);
                 Vector2 lastmove = character.position;
+                NowStroyActionBox.info = lastmove;
                 Vector2 movevector = new Vector2(CharacterLayer.rect.width * float.Parse(action.Parameter[0]), CharacterLayer.rect.height * float.Parse(action.Parameter[1]));
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
@@ -364,16 +467,7 @@ public class ChatManager : MonoBehaviour {
                              return;
                          }
 
-                        //如果是循环，则继续播放动作
-                         if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                         {
-                             character.position = lastmove;
-                             LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
-                         }
-                         else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                         {
-                             LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
-                         }
+                         MoveLoopAction(action, lastmove, movevector, character, index);
 
                          SetActionState(ChatAction.NOWSTATE.DONE, index);
                          SetActionIndex(index + 1);
@@ -388,17 +482,7 @@ public class ChatManager : MonoBehaviour {
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
 
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.position = lastmove;
-                            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            character.position = lastmove;
-                            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
-                        }
+                        MoveLoopAction(action, lastmove, movevector, character, index);
 
                     });
                     SetActionIndex(index + 1);
@@ -409,18 +493,7 @@ public class ChatManager : MonoBehaviour {
                 {
                     LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setOnComplete(() =>
                     {
-                        SetActionState(ChatAction.NOWSTATE.DONE, index);
-
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.position = lastmove;
-                            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
-                        }
+                        MoveLoopAction(action, lastmove, movevector, character, index);
                     });
                 }
                 break;
@@ -428,6 +501,7 @@ public class ChatManager : MonoBehaviour {
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetCharacterRectTransform(action.CharacterID);
                 Vector2 lastscale = character.localScale;
+                NowStroyActionBox.info = lastscale;
                 Vector2 scalevector = new Vector2(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]));
                 if ((float.Parse(action.Parameter[0]) < 0 && character.localScale.x < 0)|| (float.Parse(action.Parameter[0]) > 0 && character.localScale.x < 0))
                 {
@@ -448,17 +522,7 @@ public class ChatManager : MonoBehaviour {
                             SetActionState(ChatAction.NOWSTATE.DONE, index);
                             return;
                         }
-
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.localScale = lastscale;
-                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
-                        }
+                        ScaleLoopAction(action, lastscale, scalevector, character, index);
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         SetActionIndex(index + 1);
                         DoingAction(NowStroyActionBox.NowIndex);
@@ -472,16 +536,7 @@ public class ChatManager : MonoBehaviour {
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
 
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.localScale = lastscale;
-                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
-                        }
+                        ScaleLoopAction(action, lastscale, scalevector, character, index);
                     });
                     SetActionIndex(index + 1);
                     DoingAction(NowStroyActionBox.NowIndex);
@@ -491,18 +546,7 @@ public class ChatManager : MonoBehaviour {
                 {
                     LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setOnComplete(() =>
                     {
-                        SetActionState(ChatAction.NOWSTATE.DONE, index);
-
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.localScale = lastscale;
-                            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
-                        }
+                        ScaleLoopAction(action, lastscale, scalevector, character, index);
                     });
                 }
                 break;
@@ -510,6 +554,7 @@ public class ChatManager : MonoBehaviour {
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetCharacterRectTransform(action.CharacterID);
                 Vector3 lastangle = character.localRotation.eulerAngles;
+                NowStroyActionBox.info = lastangle;
                 Vector3 angle = new Vector3(lastangle.x, lastangle.y, float.Parse(action.Parameter[0]));
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
@@ -522,17 +567,8 @@ public class ChatManager : MonoBehaviour {
                             SetActionState(ChatAction.NOWSTATE.DONE, index);
                             return;
                         }
+                        RotateLoopAction(action, lastangle, angle, character, index);
 
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.rotation = Quaternion.Euler(lastangle);
-                            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong();
-                        }
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                         SetActionIndex(index + 1);
                         DoingAction(NowStroyActionBox.NowIndex);
@@ -546,16 +582,7 @@ public class ChatManager : MonoBehaviour {
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
 
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.rotation = Quaternion.Euler(lastangle);
-                            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong();
-                        }
+                        RotateLoopAction(action, lastangle, angle, character, index);
                     });
                     SetActionIndex(index + 1);
                     DoingAction(NowStroyActionBox.NowIndex);
@@ -565,32 +592,305 @@ public class ChatManager : MonoBehaviour {
                 {
                     LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.Parameter[2])).setOnComplete(() =>
                     {
-                        SetActionState(ChatAction.NOWSTATE.DONE, index);
-
-                        //如果是循环，则继续播放动作
-                        if (action.LoopType == ChatAction.LOOPTYPE.LOOP)
-                        {
-                            character.rotation = Quaternion.Euler(lastangle);
-                            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopClamp();
-                        }
-                        else if (action.LoopType == ChatAction.LOOPTYPE.PINGPONG)
-                        {
-                            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong();
-                        }
+                        RotateLoopAction(action, lastangle, angle, character, index);
                     });
                 }
                 break;
-            case "setwindows":
+            case "windowmove":
+                //因为读取配置表是一个通用方法，因此读取CharacterID的配置为了MoveType，不过为了方便就这样吧
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                character = TextBoardLayer.WordsBacklayer;
+                Vector2 windowlastmove = character.position;
+                NowStroyActionBox.info = windowlastmove;
+                Vector2 windowmovevector = new Vector2(windowlastmove.x + CharacterLayer.rect.width * float.Parse(action.Parameter[0]), windowlastmove.y + CharacterLayer.rect.height * float.Parse(action.Parameter[1]));
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.move(character.gameObject, windowmovevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            return;
+                        }
+
+                        MoveLoopActionWindowOrBg(action, windowlastmove, windowmovevector, character, index);
+
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.move(character.gameObject, windowmovevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setLoopPingPong(0).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+
+                        MoveLoopActionWindowOrBg(action, windowlastmove, windowmovevector, character, index);
+
+                    });
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.move(character.gameObject, windowmovevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        MoveLoopActionWindowOrBg(action, windowlastmove, windowmovevector, character, index);
+                    });
+                }
                 break;
-            case "windowsmove":
+            case "windowscale":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                character = TextBoardLayer.WordsBacklayer;
+                Vector2 windowlastscale = character.localScale;
+                NowStroyActionBox.info = windowlastscale;
+                Vector2 windowscalevector = new Vector2(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]));
+                if ((float.Parse(action.Parameter[0]) < 0 && character.localScale.x < 0) || (float.Parse(action.Parameter[0]) > 0 && character.localScale.x < 0))
+                {
+                    windowscalevector = new Vector2(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]));
+                }
+                if ((float.Parse(action.Parameter[1]) < 0 && character.localScale.y < 0) || (float.Parse(action.Parameter[1]) > 0 && character.localScale.y < 0))
+                {
+                    windowscalevector = new Vector2(windowscalevector.x, float.Parse(action.Parameter[1]) * -1);
+                }
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.scale(character, windowscalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            return;
+                        }
+                        ScaleLoopActionWindowOrBg(action, windowlastscale, windowscalevector, character, index);
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.scale(character, windowscalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+
+                        ScaleLoopActionWindowOrBg(action, windowlastscale, windowscalevector, character,index);
+                    });
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.scale(character, windowscalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        ScaleLoopActionWindowOrBg(action, windowlastscale, windowscalevector, character, index);
+                    });
+                }
                 break;
-            case "windowsscale":
+            case "windowrotate":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                character = TextBoardLayer.WordsBacklayer;
+                Vector3 windowlastangle = character.localRotation.eulerAngles;
+                NowStroyActionBox.info = windowlastangle;
+                Vector3 windowangle = new Vector3(windowlastangle.x, windowlastangle.y, float.Parse(action.Parameter[0]));
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.rotateLocal(character.gameObject, windowangle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            return;
+                        }
+                        RotateLoopActionWindowOrBg(action, windowlastangle, windowangle, character, index);
+
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.rotateLocal(character.gameObject, windowangle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+
+                        RotateLoopActionWindowOrBg(action, windowlastangle, windowangle, character, index);
+                    });
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.rotateLocal(character.gameObject, windowangle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        RotateLoopActionWindowOrBg(action, windowlastangle, windowangle, character, index);
+                    });
+                }
                 break;
             case "bgmove":
+                //因为读取配置表是一个通用方法，因此读取CharacterID的配置为了MoveType，不过为了方便就这样吧
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                character = GetBGLayer();
+                Vector2 bglastmove = character.position;
+                NowStroyActionBox.info = bglastmove;
+                Vector2 bgvector = new Vector2(bglastmove.x + CharacterLayer.rect.width * float.Parse(action.Parameter[0]), bglastmove.y + CharacterLayer.rect.height * float.Parse(action.Parameter[1]));
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.move(character.gameObject, bgvector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            return;
+                        }
+
+                        MoveLoopActionWindowOrBg(action, bglastmove, bgvector, character, index);
+
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.move(character.gameObject, bgvector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setLoopPingPong(0).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+
+                        MoveLoopActionWindowOrBg(action, bglastmove, bgvector, character, index);
+
+                    });
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.move(character.gameObject, bgvector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        MoveLoopActionWindowOrBg(action, bglastmove, bgvector, character, index);
+                    });
+                }
                 break;
             case "bgscale":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                character = GetBGLayer();
+                Vector2 bglastscale = character.localScale;
+                NowStroyActionBox.info = bglastscale;
+                Vector2 bgscalevector = new Vector2(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]));
+                if ((float.Parse(action.Parameter[0]) < 0 && character.localScale.x < 0) || (float.Parse(action.Parameter[0]) > 0 && character.localScale.x < 0))
+                {
+                    bgscalevector = new Vector2(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]));
+                }
+                if ((float.Parse(action.Parameter[1]) < 0 && character.localScale.y < 0) || (float.Parse(action.Parameter[1]) > 0 && character.localScale.y < 0))
+                {
+                    bgscalevector = new Vector2(bgscalevector.x, float.Parse(action.Parameter[1]) * -1);
+                }
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.scale(character, bgscalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            return;
+                        }
+                        ScaleLoopActionWindowOrBg(action, bglastscale, bgscalevector, character, index);
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.scale(character, bgscalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+
+                        ScaleLoopActionWindowOrBg(action, bglastscale, bgscalevector, character, index);
+                    });
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.scale(character, bgscalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        ScaleLoopActionWindowOrBg(action, bglastscale, bgscalevector, character, index);
+                    });
+                }
                 break;
-            case "screenshake":
+            case "bgrotate":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                character = GetBGLayer();
+                Vector3 bglastangle = character.localRotation.eulerAngles;
+                NowStroyActionBox.info = bglastangle;
+                Vector3 bgangle = new Vector3(bglastangle.x, bglastangle.y, float.Parse(action.Parameter[0]));
+
+                if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
+                {
+                    LeanTween.rotateLocal(character.gameObject, bgangle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            return;
+                        }
+                        RotateLoopActionWindowOrBg(action, bglastangle, bgangle, character, index);
+
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                        return;
+                    });
+
+                }
+                else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
+                {
+                    LeanTween.rotateLocal(character.gameObject, bgangle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+
+                        RotateLoopActionWindowOrBg(action, bglastangle, bgangle, character, index);
+                    });
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                    return;
+                }
+                else
+                {
+                    LeanTween.rotateLocal(character.gameObject, bgangle, float.Parse(action.Parameter[1])).setEase(GetLeanTweenType(action.CharacterID)).setOnComplete(() =>
+                    {
+                        RotateLoopActionWindowOrBg(action, bglastangle, bgangle, character, index);
+                    });
+                }
                 break;
             case "talk":
                 if (TextBoardLayer.NameText.text != NowStroyActionBox.CharacterList[action.CharacterID].Name)
@@ -602,7 +902,7 @@ public class ChatManager : MonoBehaviour {
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
 
                 //对话最开始
-                if (preaction.Command == "talk" && preaction.Parameter[3] == "endpage")
+                if ((preaction.Command == "talk" && preaction.Parameter[3] == "endpage")||(preaction.Command != "talk"))
                 {
                     TextBoardLayer.WordsText.text = "";
                 }
@@ -701,12 +1001,31 @@ public class ChatManager : MonoBehaviour {
             for (int i = 0; i < NowStroyActionBox.ActionList.Count; i++)
             {
                 ChatAction.StoryAction _action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[i];
-                if (_action.NowState == ChatAction.NOWSTATE.DOING && _action.LoopType != ChatAction.LOOPTYPE.LOOP)
+                if (_action.NowState == ChatAction.NOWSTATE.DOING && _action.LoopType != "loop")
                 {
                     RectTransform rt;
+                    RectTransform bgrt;
                     switch (_action.Command)
                     {
                         case "setbg":
+                            rt = GetBGLayer();
+                            bgrt = GetNowBGLayer();
+                            LeanTween.cancel(rt.gameObject);
+                            LeanTween.cancel(bgrt.gameObject);
+                            rt.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                            bgrt.GetComponent<Image>().color = Color.white;
+                            NowStroyActionBox.UseBG1 = !NowStroyActionBox.UseBG1;
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
+                            break;
+                        case "stop":
+                            //获取id对象
+                            if (_action.CharacterID == "WINDOW")
+                                rt = TextBoardLayer.WordsBacklayer;
+                            else if (_action.CharacterID == "BG")
+                                rt = GetBGLayer();
+                            else
+                                rt = GetCharacterRectTransform(_action.CharacterID);
+                            LeanTween.cancel(rt.gameObject);
                             break;
                         case "show":
                             rt = GetCharacterRectTransform(_action.CharacterID);
@@ -726,10 +1045,18 @@ public class ChatManager : MonoBehaviour {
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             Vector2 movevector = new Vector2(CharacterLayer.rect.width * float.Parse(_action.Parameter[0]), CharacterLayer.rect.height * float.Parse(_action.Parameter[1]));
                             //如果是循环，则无视
-                            if (_action.LoopType != ChatAction.LOOPTYPE.LOOP)
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
                             {
-                                LeanTween.cancel(rt.gameObject);
-                                rt.position = movevector;
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.position = movevector;
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.position = (Vector2)NowStroyActionBox.info;
+                                }
                             }
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
@@ -746,10 +1073,18 @@ public class ChatManager : MonoBehaviour {
                             }
 
                             //如果是循环，则无视
-                            if (_action.LoopType != ChatAction.LOOPTYPE.LOOP)
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
                             {
-                                LeanTween.cancel(rt.gameObject);
-                                rt.localScale = scalevector;
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.localScale = scalevector;
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.localScale = (Vector2)NowStroyActionBox.info;
+                                }
                             }
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
@@ -757,24 +1092,152 @@ public class ChatManager : MonoBehaviour {
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             float angle = float.Parse(action.Parameter[0]);
                             //如果是循环，则无视
-                            if (_action.LoopType != ChatAction.LOOPTYPE.LOOP)
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
                             {
-                                LeanTween.cancel(rt.gameObject);
-                                rt.rotation = Quaternion.Euler(0, 0, angle);
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.rotation = Quaternion.Euler(0, 0, angle);
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.rotation = Quaternion.Euler((Vector3)NowStroyActionBox.info);
+                                }
                             }
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
-                        case "setwindows":
+                        case "windowmove":
+                            rt = TextBoardLayer.WordsBacklayer;
+                            Vector2 windowsmovevector = new Vector2(rt.position.x + CharacterLayer.rect.width * float.Parse(_action.Parameter[0]), rt.position.y + CharacterLayer.rect.height * float.Parse(_action.Parameter[1]));
+                            //如果是循环，则无视
+                            if (_action.LoopType != "loop" && _action.LoopType!= "pingpong")
+                            {
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.position = windowsmovevector;
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.position = (Vector2)NowStroyActionBox.info;
+                                }
+                            }
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
-                        case "windowsmove":
+                        case "windowscale":
+                            rt = TextBoardLayer.WordsBacklayer;
+                            Vector2 windowscalevector = new Vector2(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]));
+                            if ((float.Parse(_action.Parameter[0]) < 0 && rt.localScale.x < 0) || (float.Parse(_action.Parameter[0]) > 0 && rt.localScale.x < 0))
+                            {
+                                windowscalevector = new Vector2(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]));
+                            }
+                            if ((float.Parse(_action.Parameter[1]) < 0 && rt.localScale.y < 0) || (float.Parse(_action.Parameter[1]) > 0 && rt.localScale.y < 0))
+                            {
+                                windowscalevector = new Vector2(windowscalevector.x, float.Parse(_action.Parameter[1]) * -1);
+                            }
+
+                            //如果是循环，则无视
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
+                            {
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.localScale = windowscalevector;
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.localScale = (Vector2)NowStroyActionBox.info;
+                                }
+                            }
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
-                        case "windowsscale":
+                        case "windowrotate":
+                            rt = TextBoardLayer.WordsBacklayer;
+                            float windowangle = float.Parse(action.Parameter[0]);
+                            //如果是循环，则无视
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
+                            {
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.rotation = Quaternion.Euler(0, 0, windowangle);
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.rotation = Quaternion.Euler((Vector3)NowStroyActionBox.info);
+                                }
+                            }
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
                         case "bgmove":
+                            rt = GetBGLayer();
+                            Vector2 bgvector = new Vector2(rt.position.x + CharacterLayer.rect.width * float.Parse(_action.Parameter[0]), rt.position.y + CharacterLayer.rect.height * float.Parse(_action.Parameter[1]));
+                            //如果是循环，则无视
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
+                            {
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.position = bgvector;
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.position = (Vector2)NowStroyActionBox.info;
+                                }
+                            }
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
                         case "bgscale":
+                            rt = GetBGLayer();
+                            Vector2 bgscalevector = new Vector2(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]));
+                            if ((float.Parse(_action.Parameter[0]) < 0 && rt.localScale.x < 0) || (float.Parse(_action.Parameter[0]) > 0 && rt.localScale.x < 0))
+                            {
+                                windowscalevector = new Vector2(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]));
+                            }
+                            if ((float.Parse(_action.Parameter[1]) < 0 && rt.localScale.y < 0) || (float.Parse(_action.Parameter[1]) > 0 && rt.localScale.y < 0))
+                            {
+                                windowscalevector = new Vector2(bgscalevector.x, float.Parse(_action.Parameter[1]) * -1);
+                            }
+
+                            //如果是循环，则无视
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
+                            {
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.localScale = bgscalevector;
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.localScale = (Vector2)NowStroyActionBox.info;
+                                }
+                            }
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
-                        case "screenshake":
+                        case "bgrotate":
+                            rt = GetBGLayer();
+                            float bgangle = float.Parse(action.Parameter[0]);
+                            //如果是循环，则无视
+                            if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
+                            {
+                                if (!MathTool.isNumber(_action.LoopType))
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.rotation = Quaternion.Euler(0, 0, bgangle);
+                                }
+                                else
+                                {
+                                    LeanTween.cancel(rt.gameObject);
+                                    rt.rotation = Quaternion.Euler((Vector3)NowStroyActionBox.info);
+                                }
+                            }
+                            SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
                         case "talk":
                             LeanTween.cancel(TextBoardLayer.WordsText.gameObject);
@@ -1001,9 +1464,11 @@ public class ChatManager : MonoBehaviour {
     //更改窗口
     void SetChatWindow(ChatAction.StoryAction action)
     {
-        
         LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
         {
+            StoryBoardLayer.localPosition = new Vector3(0, 0, 0);
+            TextBoardLayer.WordsBacklayer.localScale = new Vector3(1, 0, 1);
+
             Sprite[] s = GetWindowsSprit(action.CharacterID);
             TextBoardLayer.WordsBacklayer.GetComponent<Image>().sprite = s[0];
             TextBoardLayer.WordsOutLayer.GetComponent<Image>().sprite = s[1];
@@ -1022,6 +1487,186 @@ public class ChatManager : MonoBehaviour {
                     DoingAction(NowStroyActionBox.NowIndex);
                 });
         });
+    }
+
+    void MoveLoopAction(ChatAction.StoryAction action,Vector3 lastmove,Vector3 movevector, RectTransform character,int index)
+    {
+        //如果是循环，则继续播放动作
+        if (action.LoopType == "loop")
+        {
+            character.position = lastmove;
+            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (action.LoopType == "pingpong")
+        {
+            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (MathTool.isNumber(action.LoopType))
+        {
+            int count = int.Parse(action.LoopType);
+            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setOnComplete(()=>
+            {
+                if (count >= 1)
+                    LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong(count - 1).setLoopPingPong(count - 1).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    }); ;
+            });
+        }
+        else
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+    }
+
+    void MoveLoopActionWindowOrBg(ChatAction.StoryAction action, Vector3 lastmove, Vector3 movevector, RectTransform character,int index)
+    {
+        //如果是循环，则继续播放动作
+        if (action.LoopType == "loop")
+        {
+            character.position = lastmove;
+            LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setLoopClamp();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (action.LoopType == "pingpong")
+        {
+            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.CharacterID)).setLoopPingPong();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (MathTool.isNumber(action.LoopType))
+        {
+            int count = int.Parse(action.LoopType);
+            LeanTween.move(character.gameObject, lastmove, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.CharacterID)).setOnComplete(() =>
+            {
+                if (count >= 1)
+                    LeanTween.move(character.gameObject, movevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setLoopPingPong(count - 1).setOnComplete(()=>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    });
+            });
+        }
+        else
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+    }
+
+    void ScaleLoopAction(ChatAction.StoryAction action, Vector3 lastscale, Vector3 scalevector, RectTransform character,int index)
+    {
+        //如果是循环，则继续播放动作
+        if (action.LoopType == "loop")
+        {
+            character.localScale = lastscale;
+            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopClamp();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (action.LoopType == "pingpong")
+        {
+            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setLoopPingPong();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (MathTool.isNumber(action.LoopType))
+        {
+            int count = int.Parse(action.LoopType);
+            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.Parameter[3])).setOnComplete(() =>
+            {
+                if (count >= 1)
+                    LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.Parameter[3])).setLoopPingPong(count - 1).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    }); ;
+            });
+        }
+        else
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+    }
+
+    void ScaleLoopActionWindowOrBg(ChatAction.StoryAction action, Vector3 lastscale, Vector3 scalevector, RectTransform character,int index)
+    {
+        //如果是循环，则继续播放动作
+        if (action.LoopType == "loop")
+        {
+            character.localScale = lastscale;
+            LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setLoopClamp();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (action.LoopType == "pingpong")
+        {
+            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.CharacterID)).setLoopPingPong();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (MathTool.isNumber(action.LoopType))
+        {
+            int count = int.Parse(action.LoopType);
+            LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.CharacterID)).setOnComplete(() =>
+            {
+                if (count >= 1)
+                    LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setLoopPingPong(count - 1).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    });
+            });
+        }
+        else
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+    }
+
+    void RotateLoopAction(ChatAction.StoryAction action, Vector3 lastangle, Vector3 angle, RectTransform character,int index)
+    {
+        //如果是循环，则继续播放动作
+        if (action.LoopType == "loop")
+        {
+            character.rotation = Quaternion.Euler(lastangle);
+            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopClamp();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (action.LoopType == "pingpong")
+        {
+            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (MathTool.isNumber(action.LoopType))
+        {
+            int count = int.Parse(action.LoopType);
+            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setOnComplete(() =>
+            {
+                if (count >= 1)
+                    LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.Parameter[2])).setLoopPingPong(count - 1).setLoopPingPong(count - 1).setLoopPingPong(count - 1).setLoopPingPong(count - 1).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    }); ;
+            });
+        }
+        else
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+    }
+
+    void RotateLoopActionWindowOrBg(ChatAction.StoryAction action, Vector3 lastangle, Vector3 angle, RectTransform character,int index)
+    {
+        //如果是循环，则继续播放动作
+        if (action.LoopType == "loop")
+        {
+            character.rotation = Quaternion.Euler(lastangle);
+            LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.CharacterID)).setLoopClamp();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (action.LoopType == "pingpong")
+        {
+            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.CharacterID)).setLoopPingPong();
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
+        }
+        else if (MathTool.isNumber(action.LoopType))
+        {
+            int count = int.Parse(action.LoopType);
+            LeanTween.rotateLocal(character.gameObject, lastangle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.CharacterID)).setOnComplete(() =>
+            {
+                if (count >= 1)
+                    LeanTween.rotateLocal(character.gameObject, angle, float.Parse(action.Parameter[1])).setEase(GetAniLeanTweenType(action.CharacterID)).setLoopPingPong(count - 1).setLoopPingPong(count - 1).setLoopPingPong(count - 1).setLoopPingPong(count - 1).setOnComplete(() =>
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    }); ;
+            });
+        }
+        else
+            SetActionState(ChatAction.NOWSTATE.DONE, index);
     }
 
     LeanTweenType GetLeanTweenType(string type)
@@ -1190,5 +1835,21 @@ public class ChatManager : MonoBehaviour {
         {
             return LeanTweenType.linear;
         }
+    }
+
+    RectTransform GetBGLayer()
+    {
+        if (NowStroyActionBox.UseBG1)
+            return BGLayer1;
+        else
+            return BGLayer2;
+    }
+
+    RectTransform GetNowBGLayer()
+    {
+        if (!NowStroyActionBox.UseBG1)
+            return BGLayer1;
+        else
+            return BGLayer2;
     }
 }
