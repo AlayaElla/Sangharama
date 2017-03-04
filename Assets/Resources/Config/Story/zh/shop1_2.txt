@@ -4,12 +4,26 @@ rourou<name:他喵的坑;image:1;windows:board1>
 dabendan<name:他喵的真坑;image:dabendan;windows:board2>
 
 [Background]
-//1
+1,test
 
 //对话列表
 [ChatList]
+<setbg 1,1,auto>
+<setbg test,3,auto>
+<setbg 1,1,auto>
 <show 0.2,0,1,0,left,idle,rourou,notloop,sametime>
 <show 0.8,0,2,0,right,idle,dabendan,notloop,click>
+<bgmove 0.2,0,3,linear,notloop,click>
+<bgscale 1.2,1.2,3,linear,notloop,click>
+<bgrotate 30,3,linear,notloop,click>
+{rourou:idle}第一句话，测试对话！
+
+//<move 0.5,-0.05,1,linear,rourou,pingpong,click>
+//<windowmove 0,-0.01,0.5,linear,loop,click>
+//<windowscale 1.05,1.05,0.5,easeInOutBack,pingpong,click>
+//<windowrotate 30,0.5,linear,5,click>
+//{rourou:idle}第一句话，测试对话！
+//{dabendan:idle}第二句话，测试对话！
 //<move 0.2,-0.05,1,easeInOutBack,rourou,pingpong,click>
 //<move 0.8,-0.05,1,linear,dabendan,loop,click>
 //<scale 1,1.05,1,easeInOutBack,rourou,pingpong,click>
@@ -20,5 +34,5 @@ dabendan<name:他喵的真坑;image:dabendan;windows:board2>
 <hide 2,happy,dabendan,notloop,click>
 
 //{rourou:happy}。。。。。。。。。。。。。。<c>。。。。。。。。。。。。。
-//<show 1.1,0,0.1,1,right,idle,dabendan,noloop,click>
+//<show 1.1,0,0.1,1,right,idle,dabendan,notloop,click>
 //<move 0.6,0,1,noloop,rourou,noloop,auto>
