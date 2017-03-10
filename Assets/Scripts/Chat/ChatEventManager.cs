@@ -15,6 +15,8 @@ public class ChatEventManager : MonoBehaviour {
 	
 	}
 
+    ChatManager chatmanager;
+
     public void StartStory(string stroy)
     {
         Scene scence = SceneManager.GetActiveScene();
@@ -26,9 +28,12 @@ public class ChatEventManager : MonoBehaviour {
             Character.ChangeStoryState();
         }
 
-        GameObject newobj = new GameObject();
-        newobj.name = "ChatSystem";
-        ChatManager chatmanager = newobj.AddComponent<ChatManager>();
+        if (chatmanager == null)
+        {
+            GameObject newobj = new GameObject();
+            newobj.name = "ChatSystem";
+            chatmanager = newobj.AddComponent<ChatManager>();
+        }
         chatmanager.SetNowScene(scence.name);
         chatmanager.LoadChatStory(stroy);
     }
