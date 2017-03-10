@@ -137,7 +137,7 @@ public class CollectAction : MonoBehaviour {
             dropMa.Type = Materiral.GetTypeByMaterialID(dropMa.MateriralType, dropMa.ID);
 
         }   //item
-        else
+        else if (dropMa.MateriralType == 1)
         {
             Materiral.Minds drop_mind = Materiral.FindMindByID(dropMa.ID);
             dropMa.Name = drop_mind.Name;

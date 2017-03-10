@@ -125,6 +125,10 @@ public class BagUI : MonoBehaviour {
         for (int i = 0; i < _bagList.Count; i++)
         {
             CharBag.Goods _map = (CharBag.Goods)_bagList[i];
+            
+            //筛选物品，特殊物品不显示
+            if (_map.MateriralType != 0 || _map.MateriralType != 1)
+                break;
 
             GameObject button = Instantiate(btn_menu);
             button.transform.SetParent(_fitter.transform);
@@ -148,10 +152,7 @@ public class BagUI : MonoBehaviour {
 
             //设置点击事件
             OnClickInScorll.Get(button.transform).parameter = _p;
-
-            //TODO:添加点击事件，点击后传递参数到shopUI，改变贴图和保存已经选择的商品。
             OnClickInScorll.Get(button.transform).onClickByParameter = p.callback;
-
             OnClickInScorll.Get(button.transform).onHoldByParameter = ShowMateriralInfo;
 
             //添加背包进入筛选背包列表

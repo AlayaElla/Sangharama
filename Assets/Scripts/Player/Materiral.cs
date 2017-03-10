@@ -147,7 +147,7 @@ public class Materiral : MonoBehaviour {
             }
             return -1;  //如果找不到则返回-1
         }
-        else
+        else if(m_type == 1)
         {
             foreach (Minds _mind in mindList)
             {
@@ -156,6 +156,8 @@ public class Materiral : MonoBehaviour {
             }
             return -1;  //如果找不到则返回-1
         }
+        else
+            return -1;
     }
 
     static public Property GetProNameByProID(int ID)
@@ -209,7 +211,7 @@ public class Materiral : MonoBehaviour {
             }
             return Wrong;  //如果找不到则返回-1
         }
-        else
+        else if (m_type == 1)
         {
             foreach (Minds _mind in mindList)
             {
@@ -218,6 +220,8 @@ public class Materiral : MonoBehaviour {
             }
             return Wrong;  //如果找不到则返回-1
         }
+        else
+            return Wrong;
     }
 
     static public Sprite GetMaterialIcon(int m_type, int ID)
@@ -233,9 +237,9 @@ public class Materiral : MonoBehaviour {
                         return s;
                 }
             }
-            return null;  //如果找不到则返回-1
+            return null;
         }
-        else
+        else if (m_type == 1)
         {
             foreach (Minds _mind in mindList)
             {
@@ -243,8 +247,10 @@ public class Materiral : MonoBehaviour {
                     if (IconSprites.TryGetValue(_mind.IMG, out s))
                         return s;
             }
-            return null;  //如果找不到则返回-1
+            return null;
         }
+        else
+            return null;
     }
 
     static public Sprite GetPropertyIcon(int ID)
@@ -285,7 +291,7 @@ public class Materiral : MonoBehaviour {
             }
             return 0;  //如果找不到则返回0
         }
-        else
+        else if (m_type == 1)
         {
             foreach (Minds _mind in mindList)
             {
@@ -294,6 +300,8 @@ public class Materiral : MonoBehaviour {
             }
             return 0;  //如果找不到则返回0
         }
+        else
+            return 0;
     }
 
 
