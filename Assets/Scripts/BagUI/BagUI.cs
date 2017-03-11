@@ -127,7 +127,7 @@ public class BagUI : MonoBehaviour {
             CharBag.Goods _map = (CharBag.Goods)_bagList[i];
             
             //筛选物品，特殊物品不显示
-            if (_map.MateriralType != 0 || _map.MateriralType != 1)
+            if (_map.MateriralType > 1)
                 break;
 
             GameObject button = Instantiate(btn_menu);
