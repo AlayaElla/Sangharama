@@ -27,6 +27,19 @@ public class Materiral : MonoBehaviour {
         public string Des;        //类型ID
     }
 
+    //材料：特殊物品，用来触发剧情
+    public struct SpecialItem
+    {
+        public int ID;     //ID
+        public string Name;     //名称
+        public string IMG;     //图片名称
+
+        public int Type;        //类型ID：0为不可见；1为可见
+        public int Price;        //价格
+        public string Des;        //类型ID
+    }
+
+
     //材料类型
     public struct MaterialType
     {
@@ -59,6 +72,7 @@ public class Materiral : MonoBehaviour {
 
    static ArrayList itemList = new ArrayList();
    static ArrayList mindList = new ArrayList();
+   static ArrayList specialItemList = new ArrayList();
    static ArrayList typeList = new ArrayList();
    static ArrayList propertyEffetList = new ArrayList();
    static ArrayList MaterialEffetList = new ArrayList();
@@ -69,6 +83,7 @@ public class Materiral : MonoBehaviour {
         XmlTool xl = new XmlTool();
         itemList = xl.loadItemXmlToArray();
         mindList = xl.loadMindXmlToArray();
+        specialItemList = xl.loadSpecialItemXmlToArray();
         typeList = xl.loadTypeXmlToArray();
         propertyEffetList = xl.loadPropertyEffetXmlToArray();
         MaterialEffetList = xl.loadMaterialEffetXmlToArray();

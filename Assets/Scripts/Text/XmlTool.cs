@@ -251,6 +251,47 @@ public class XmlTool
         return mindList;
     }
 
+
+    public ArrayList loadSpecialItemXmlToArray()
+    {
+
+        //保存路径
+        string filepath = "Config/Materiral/SpecialItem";
+
+        string _result = Resources.Load(filepath).ToString();
+
+        ArrayList specialItemList = new ArrayList();
+
+        XmlDocument xmlDoc = new XmlDocument();
+
+        xmlDoc.LoadXml(_result);
+
+        XmlNodeList nodeList = xmlDoc.SelectSingleNode("SpecialItemList").ChildNodes;
+
+        foreach (XmlElement special in nodeList)
+        {
+            Materiral.Minds _mind = new Materiral.Minds();
+
+            //读取node内属性，把string转化为对应的属性
+            if (special.GetAttribute("ID") != "")
+                _mind.ID = int.Parse(special.GetAttribute("ID"));
+            if (special.GetAttribute("Name") != "")
+                _mind.Name = special.GetAttribute("Name");
+            if (special.GetAttribute("Image") != "")
+                _mind.IMG = special.GetAttribute("Image");
+            if (special.GetAttribute("Type") != "")
+                _mind.Type = int.Parse(special.GetAttribute("Type"));
+            if (special.GetAttribute("Price") != "")
+                _mind.Price = int.Parse(special.GetAttribute("Price"));
+            if (special.GetAttribute("des") != "")
+                _mind.Des = special.GetAttribute("des");
+
+            //添加进itemList中
+            specialItemList.Add(_mind);
+        }
+        return specialItemList;
+    }
+
     public ArrayList loadTypeXmlToArray()
     {
         ArrayList _typeList = new ArrayList();
