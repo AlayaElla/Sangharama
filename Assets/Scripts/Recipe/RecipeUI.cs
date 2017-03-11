@@ -133,8 +133,8 @@ public class RecipeUI : MonoBehaviour{
 
             button.name = _map.ID.ToString();
             button.transform.FindChild("Text").GetComponent<Text>().text = _map.Name;
-            int _t = _map.Target[0].ToString() == "I" ? 0 : 1;
-            int _i = int.Parse(_map.Target.Substring(_map.Target.IndexOf(":") + 1));
+            int _t = _map.Target[0].ToString() == "0" ? 0 : 1;
+            int _i = int.Parse(_map.Target.Substring(_map.Target.IndexOf(",") + 1));
 
             button.transform.FindChild("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_t, _i);
 
@@ -607,15 +607,15 @@ public class RecipeUI : MonoBehaviour{
         goods.Name = recipe.Name;
 
         string target = recipe.Target;
-        if (target[0] == char.Parse("I"))
+        if (target[0] == char.Parse("0"))
         {
-            string mat_str = target.Substring(target.IndexOf(":") + 1);
+            string mat_str = target.Substring(target.IndexOf(",") + 1);
             goods.MateriralType = 0;
             goods.ID = int.Parse(mat_str);
         }
-        else if(target[0] == char.Parse("M"))
+        else if(target[0] == char.Parse("1"))
         {
-            string mat_str = target.Substring(target.IndexOf(":") + 1);
+            string mat_str = target.Substring(target.IndexOf(",") + 1);
             goods.MateriralType = 1;
             goods.ID = int.Parse(mat_str);
         }
