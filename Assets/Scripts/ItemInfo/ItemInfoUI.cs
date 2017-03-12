@@ -141,7 +141,7 @@ public class ItemInfoUI : MonoBehaviour {
         }
 
         //物品属性
-        if (good.Property.Length > 0)
+        if (good.Property != null)
         {
             for (int i = 0; i < good.Property.Length; i++)
             {

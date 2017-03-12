@@ -1,11 +1,11 @@
 <ItemList>
-  <Item ID="1" Name="兽牙" Image="actionIcon_49" Type="1"  Price="10" des="草食动物的牙，因为经常在坚硬的树叶边附近发现。" />
-  <Item ID="2" Name="坚硬的兽牙" Image="actionIcon_50" Type="1" Price="20"  des="镶在坚硬的树干中，为什么动物会咬树干这个不得而知。" />
-  <Item ID="3" Name="玻璃" Image="actionIcon_64" Type="2" Price="30"  des="透明的石头，放在眼前看可以看到景物扭曲的形态。\n非常常见，这个效果是用来蛊惑人的吧？" />
-  <Item ID="4" Name="琉璃" Image="actionIcon_63" Type="2" Price="40"  des="透明的石头，放在眼前看可以看到景物扭曲的形态。\n不怎么常见，据说扭曲的形态反映出了观看者的内心。" />
-  <Item ID="5" Name="研磨粉" Image="actionIcon_85" Type="1" Price="50"  des="用来研磨的粉末，放久了会凝固。" />
-  <Item ID="6" Name="中和剂·蓝" Image="actionIcon_20" Type="1" Price="60"  des="蓝的中和剂。\n散发着海草的清香味。温度会一直位置在10°C左右。夏天可以用来祛暑。" />
-  <Item ID="7" Name="中和剂·红" Image="actionIcon_18" Type="1" Price="70"  des="红色的中和剂。\n没有味道，喝下去会浑身发热。容易和伤药弄混。。因为没有毒性，而且有特别的用途。这个后面再说吧。" />
-  <Item ID="8" Name="中和剂·黄" Image="actionIcon_24" Type="2" Price="80"  des="黄色的中和剂。\n散发着一股浑厚的腥味。黏黏的看起来有点恶心。" />
-  <Item ID="9" Name="中和剂·绿" Image="actionIcon_23" Type="2" Price="90"  des="黄色的中和剂。？\n半瓶中和剂·黄，放久了就会变绿。。" />
+  <Item ID="1" Name="兽牙" Image="actionIcon_49" Type="1"  Price="10" Property="1" des="草食动物的牙，因为经常在坚硬的树叶边附近发现。" />
+  <Item ID="2" Name="坚硬的兽牙" Image="actionIcon_50" Type="1" Price="20" Property="1,2" des="镶在坚硬的树干中，为什么动物会咬树干这个不得而知。" />
+  <Item ID="3" Name="玻璃" Image="actionIcon_64" Type="2" Price="30" Property="3" des="透明的石头，放在眼前看可以看到景物扭曲的形态。\n非常常见，这个效果是用来蛊惑人的吧？" />
+  <Item ID="4" Name="琉璃" Image="actionIcon_63" Type="2" Price="40" Property="3,4" des="透明的石头，放在眼前看可以看到景物扭曲的形态。\n不怎么常见，据说扭曲的形态反映出了观看者的内心。" />
+  <Item ID="5" Name="研磨粉" Image="actionIcon_85" Type="1" Price="50" Property="5" des="用来研磨的粉末，放久了会凝固。" />
+  <Item ID="6" Name="中和剂·蓝" Image="actionIcon_20" Type="1" Price="60" Property="5,6" des="蓝的中和剂。\n散发着海草的清香味。温度会一直位置在10°C左右。夏天可以用来祛暑。" />
+  <Item ID="7" Name="中和剂·红" Image="actionIcon_18" Type="1" Price="70" Property="5,6" des="红色的中和剂。\n没有味道，喝下去会浑身发热。容易和伤药弄混。。因为没有毒性，而且有特别的用途。这个后面再说吧。" />
+  <Item ID="8" Name="中和剂·黄" Image="actionIcon_24" Type="2" Price="80" Property="5,6" des="黄色的中和剂。\n散发着一股浑厚的腥味。黏黏的看起来有点恶心。" />
+  <Item ID="9" Name="中和剂·绿" Image="actionIcon_23" Type="2" Price="90" Property="5,6" des="黄色的中和剂。？\n半瓶中和剂·黄，放久了就会变绿。。" />
 </ItemList>

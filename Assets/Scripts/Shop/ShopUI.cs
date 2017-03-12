@@ -22,7 +22,10 @@ public class ShopUI : MonoBehaviour {
         UpdateShopGoodsData();
         InitShopGoods();
         UpdateShopMoney();
-	}
+
+        EventTriggerListener.Get(GameObject.Find("Canvas/Button (2)")).onClick = OpenSpecialItemBag;
+        EventTriggerListener.Get(GameObject.Find("Canvas/Button (3)")).onClick = OpenSpecialItemBagAll;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -45,6 +48,31 @@ public class ShopUI : MonoBehaviour {
             }
         }
 	}
+
+    //打开特殊物品背包
+    void OpenSpecialItemBag(GameObject obj)
+    {
+        _bagInstance = Instantiate(_bagUI).GetComponent<BagUI>();
+        ////初始化
+        _bagInstance.Initialize(2);
+
+        Parameter.Box p = new Parameter.Box();
+        p.callback = ClickInBag;
+        _bagInstance.SetGoodsName(2);
+    }
+
+    //打开特殊物品背包
+    void OpenSpecialItemBagAll(GameObject obj)
+    {
+        _bagInstance = Instantiate(_bagUI).GetComponent<BagUI>();
+        ////初始化
+        _bagInstance.Initialize(2);
+
+        Parameter.Box p = new Parameter.Box();
+        p.callback = ClickInBag;
+        _bagInstance.SetGoodsName(-1);
+    }
+
 
     public static void ChangeStoryState()
     {

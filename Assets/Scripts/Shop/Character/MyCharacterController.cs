@@ -85,7 +85,10 @@ public class MyCharacterController : MonoBehaviour {
     public void ChangeCharaState(CharaState _state)
     {
         characterstate = _state;
+        
+#if _Debug
         Debug.Log("change characterstate:" + _state.ToString());
+#endif
     }
 
     void MoveVertical()

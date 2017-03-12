@@ -7,8 +7,8 @@ public class ChatEventManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //StartStory("shop1_1");
-	}
+        GetGoods(2, 3);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -38,4 +38,8 @@ public class ChatEventManager : MonoBehaviour {
         chatmanager.LoadChatStory(stroy);
     }
 
+    public void GetGoods(int materialType, int ID)
+    {
+        CharBag.AddGoodsByID(materialType, ID);
+    }
 }

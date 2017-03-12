@@ -13,6 +13,7 @@ public class Materiral : MonoBehaviour {
 
         public int Type;        //类型ID
         public int Price;        //价格
+        public int[] Property;    //属性
         public string Des;        //类型ID
     }
     //材料：念头类
@@ -24,6 +25,7 @@ public class Materiral : MonoBehaviour {
 
         public int Type;        //类型ID
         public int Price;        //价格
+        public int[] Property;    //属性
         public string Des;        //类型ID
     }
 
@@ -36,6 +38,7 @@ public class Materiral : MonoBehaviour {
 
         public int Type;        //类型ID：0为不可见；1为可见
         public int Price;        //价格
+        public int[] Property;    //属性
         public string Des;        //类型ID
     }
 
@@ -119,6 +122,25 @@ public class Materiral : MonoBehaviour {
         return Wrong;
     }
 
+    //通过ID查找物品
+    static public SpecialItem FindSpecialItemByID(int ID)
+    {
+        //如果返回的ID为-1，则表示没有找到物品
+        SpecialItem Wrong = new SpecialItem();
+        Wrong.ID = -1;
+        Wrong.Name = "Wrong: Not Find!";
+
+        foreach (SpecialItem item in specialItemList)
+        {
+            if (item.ID == ID)
+            {
+                return item;
+            }
+        }
+
+        return Wrong;
+    }
+
     static public Minds FindMindByID(int ID)
     {
         //如果返回的ID为-1，则表示没有找到物品
@@ -168,6 +190,15 @@ public class Materiral : MonoBehaviour {
             {
                 if (_mind.ID == ID)
                     return _mind.Type;
+            }
+            return -1;  //如果找不到则返回-1
+        }
+        else if (m_type == 2)
+        {
+            foreach (SpecialItem _sp in specialItemList)
+            {
+                if (_sp.ID == ID)
+                    return _sp.Type;
             }
             return -1;  //如果找不到则返回-1
         }
@@ -235,6 +266,15 @@ public class Materiral : MonoBehaviour {
             }
             return Wrong;  //如果找不到则返回-1
         }
+        else if (m_type == 2)
+        {
+            foreach (SpecialItem _sp in specialItemList)
+            {
+                if (_sp.ID == ID)
+                    return _sp.Des;
+            }
+            return Wrong;  //如果找不到则返回-1
+        }
         else
             return Wrong;
     }
@@ -260,6 +300,16 @@ public class Materiral : MonoBehaviour {
             {
                 if (_mind.ID == ID)
                     if (IconSprites.TryGetValue(_mind.IMG, out s))
+                        return s;
+            }
+            return null;
+        }
+        else if (m_type == 2)
+        {
+            foreach (SpecialItem _sp in specialItemList)
+            {
+                if (_sp.ID == ID)
+                    if (IconSprites.TryGetValue(_sp.IMG, out s))
                         return s;
             }
             return null;
@@ -315,9 +365,52 @@ public class Materiral : MonoBehaviour {
             }
             return 0;  //如果找不到则返回0
         }
+        else if (m_type == 2)
+        {
+            foreach (SpecialItem _sp in specialItemList)
+            {
+                if (_sp.ID == ID)
+                    return _sp.Price;
+            }
+            return 0;  //如果找不到则返回0
+        }
         else
             return 0;
     }
 
-
+    //获取特效
+    static public int[] GetMaterialProperty(int m_type, int ID)
+    {
+        if (m_type == 0)
+        {
+            foreach (Items _item in itemList)
+            {
+                if (_item.ID == ID)
+                {
+                    return _item.Property;
+                }
+            }
+            return null;  //如果找不到则返回0
+        }
+        else if (m_type == 1)
+        {
+            foreach (Minds _mind in mindList)
+            {
+                if (_mind.ID == ID)
+                    return _mind.Property;
+            }
+            return null;  //如果找不到则返回0
+        }
+        else if (m_type == 2)
+        {
+            foreach (SpecialItem _sp in specialItemList)
+            {
+                if (_sp.ID == ID)
+                    return _sp.Property;
+            }
+            return null;  //如果找不到则返回0
+        }
+        else
+            return null;
+    }
 }

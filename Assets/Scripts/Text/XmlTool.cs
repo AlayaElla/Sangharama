@@ -99,6 +99,15 @@ public class XmlTool
                 _items.Type = int.Parse(item.GetAttribute("Type"));
             if (item.GetAttribute("Price") != "")
                 _items.Price = int.Parse(item.GetAttribute("Price"));
+            if (item.GetAttribute("Property") != "")
+            {
+                string[] _proStr = item.GetAttribute("Property").Split(',');
+                _items.Property = new int[_proStr.Length];
+                for (int i = 0; i < _proStr.Length; i++)
+                {
+                    _items.Property[i] = int.Parse(_proStr[i]);
+                }
+            }
             if (item.GetAttribute("des") != "")
                 _items.Des = item.GetAttribute("des");
 
@@ -242,6 +251,15 @@ public class XmlTool
                 _mind.Type = int.Parse(mind.GetAttribute("Type"));
             if (mind.GetAttribute("Price") != "")
                 _mind.Price = int.Parse(mind.GetAttribute("Price"));
+            if (mind.GetAttribute("Property") != "")
+            {
+                string[] _proStr = mind.GetAttribute("Property").Split(',');
+                _mind.Property = new int[_proStr.Length];
+                for (int i=0;i<_proStr.Length;i++)
+                {
+                    _mind.Property[i] = int.Parse(_proStr[i]);
+                }
+            }
             if (mind.GetAttribute("des") != "")
                 _mind.Des = mind.GetAttribute("des");
 
@@ -270,24 +288,33 @@ public class XmlTool
 
         foreach (XmlElement special in nodeList)
         {
-            Materiral.Minds _mind = new Materiral.Minds();
+            Materiral.SpecialItem _sitem = new Materiral.SpecialItem();
 
             //读取node内属性，把string转化为对应的属性
             if (special.GetAttribute("ID") != "")
-                _mind.ID = int.Parse(special.GetAttribute("ID"));
+                _sitem.ID = int.Parse(special.GetAttribute("ID"));
             if (special.GetAttribute("Name") != "")
-                _mind.Name = special.GetAttribute("Name");
+                _sitem.Name = special.GetAttribute("Name");
             if (special.GetAttribute("Image") != "")
-                _mind.IMG = special.GetAttribute("Image");
+                _sitem.IMG = special.GetAttribute("Image");
             if (special.GetAttribute("Type") != "")
-                _mind.Type = int.Parse(special.GetAttribute("Type"));
+                _sitem.Type = int.Parse(special.GetAttribute("Type"));
             if (special.GetAttribute("Price") != "")
-                _mind.Price = int.Parse(special.GetAttribute("Price"));
+                _sitem.Price = int.Parse(special.GetAttribute("Price"));
+            if (special.GetAttribute("Property") != "")
+            {
+                string[] _proStr = special.GetAttribute("Property").Split(',');
+                _sitem.Property = new int[_proStr.Length];
+                for (int i = 0; i < _proStr.Length; i++)
+                {
+                    _sitem.Property[i] = int.Parse(_proStr[i]);
+                }
+            }
             if (special.GetAttribute("des") != "")
-                _mind.Des = special.GetAttribute("des");
+                _sitem.Des = special.GetAttribute("des");
 
             //添加进itemList中
-            specialItemList.Add(_mind);
+            specialItemList.Add(_sitem);
         }
         return specialItemList;
     }

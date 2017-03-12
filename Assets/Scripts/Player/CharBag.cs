@@ -68,6 +68,43 @@ public class CharBag : MonoBehaviour {
         return uid;
     }
 
+    static public int AddGoodsByID(int materialType,int ID)
+    {
+        Goods newgoods = new Goods();
+        newgoods.ID = ID;
+        newgoods.Number = 1;
+        newgoods.Property = Materiral.GetMaterialProperty(materialType, ID);
+        newgoods.Quality = 80;
+
+        if (materialType == 0)
+        {
+            Materiral.Items _item = Materiral.FindItemByID(ID);
+            newgoods.Name = _item.Name;
+            newgoods.Price = _item.Price;
+            newgoods.Type = _item.Type;
+        }   //item
+        else if (materialType == 1)
+        {
+            Materiral.Minds _mind = Materiral.FindMindByID(ID);
+            newgoods.Name = _mind.Name;
+            newgoods.Price = _mind.Price;
+            newgoods.Type = _mind.Type;
+            newgoods.MateriralType = 1;
+        }   //mind
+        else if (materialType == 2)
+        {
+            Materiral.SpecialItem _sepcial = Materiral.FindSpecialItemByID(ID);
+            newgoods.Name = _sepcial.Name;
+            newgoods.Price = _sepcial.Price;
+            newgoods.Type = _sepcial.Type;
+            newgoods.MateriralType = 2;
+        }   //specail
+
+        //添加物品
+        int uid = AddGoods(newgoods);
+        return uid;
+    }
+
     static public void SaveBagGoods()
     {
         PlayerData.BagData.UpdateBag(GoodsList);

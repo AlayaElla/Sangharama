@@ -128,7 +128,7 @@ public class BagUI : MonoBehaviour {
             
             //筛选物品，特殊物品不显示
             if (_map.MateriralType > 1)
-                break;
+                continue;
 
             GameObject button = Instantiate(btn_menu);
             button.transform.SetParent(_fitter.transform);
@@ -253,6 +253,59 @@ public class BagUI : MonoBehaviour {
 
         StartCoroutine(SetListToTop());
     }
+
+    public void SetGoodsName(int MaterialType)
+    {
+        //创建物品列表
+        for (int i = 0; i < _bagList.Count; i++)
+        {
+            CharBag.Goods _map = (CharBag.Goods)_bagList[i];
+
+            //筛选物品，特殊物品不显示
+            if (MaterialType != -1)
+            {
+                if (_map.MateriralType != MaterialType)
+                    continue;
+                if (_map.MateriralType == 2 && _map.Type == 0)
+                    continue;
+            }
+
+            GameObject button = Instantiate(btn_menu);
+            button.transform.SetParent(_fitter.transform);
+
+            button.name = _map.ID.ToString();
+            button.transform.FindChild("Text").GetComponent<Text>().text = _map.Name;
+            button.transform.FindChild("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_map.MateriralType, _map.ID);
+
+            //显示数量
+            button.transform.FindChild("num").gameObject.SetActive(true);
+            button.transform.FindChild("num/Text").GetComponent<Text>().text = _map.Number.ToString();
+
+            //显示价格
+            button.transform.FindChild("PriceBoard").gameObject.SetActive(true);
+            button.transform.FindChild("PriceBoard/Text").GetComponent<Text>().text = _map.Price.ToString();
+
+            //设置参数容器中的参数
+            Parameter.Box _p = new Parameter.Box();
+            _p.obj = _map;
+
+            //设置点击事件
+            OnClickInScorll.Get(button.transform).parameter = _p;
+            OnClickInScorll.Get(button.transform).onHoldByParameter = ShowMateriralInfo;
+
+            //添加背包进入筛选背包列表
+            f_BagList.Add(_map);
+        }
+
+        //调整列表为置顶
+        if (f_BagList.Count > 5)
+        {
+            setGird();
+        }
+
+        StartCoroutine(SetListToTop());
+    }
+
 
     IEnumerator SetListToTop()
     {

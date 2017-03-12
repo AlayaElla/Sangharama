@@ -1,5 +1,5 @@
 <SpecialItemList>
-  <SpecialItem ID="1" Name="PS4" Image="actionIcon_33" Type="1" Price="100"  des="也不算是最新的主机。。" />
-  <SpecialItem ID="2" Name="3DS" Image="actionIcon_11"  Type="1" Price="200"  des="嘿！你拿上就要被取代了！" />
-  <SpecialItem ID="3" Name="Switch" Image="actionIcon_14"  Type="0" Price="300"  des="前卫的高级货。" />
+  <SpecialItem ID="1" Name="PS4" Image="actionIcon_33" Type="1" Price="100" Property="3,4" des="也不算是最新的主机。。" />
+  <SpecialItem ID="2" Name="3DS" Image="actionIcon_11"  Type="1" Price="200" Property="4" des="嘿！你拿上就要被取代了！" />
+  <SpecialItem ID="3" Name="Switch" Image="actionIcon_14"  Type="0" Price="300" Property="5" des="前卫的高级货。" />
 </SpecialItemList>

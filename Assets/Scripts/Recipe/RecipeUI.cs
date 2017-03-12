@@ -371,6 +371,7 @@ public class RecipeUI : MonoBehaviour{
         LeanTween.moveY(recipeSlotsList.gameObject, targetPos, 0.5f).setEase(LeanTweenType.easeOutQuad);
         LeanTween.scale(recipeSlotsList.gameObject, new Vector3(0.8f, 0.8f, 0.8f), 0.5f).setEase(LeanTweenType.easeOutQuad);
 
+        AddFristPropertyUIEft();
         SetPropertyPlane();
     }
 
@@ -436,16 +437,16 @@ public class RecipeUI : MonoBehaviour{
 
     void InputMaterial(GameObject go, object parameter)
     {
+        //如果已经放入则不能再放入
+        if (InputBox.Contains(parameter))
+            return;
+
         //判断状态
         if (ripeState != RecipeStat.WaitInput)
             return;
 
         //改变状态
         ChangeRecipeStat(RecipeStat.Compose);
-
-        //如果已经放入则不能再放入
-        if (InputBox.Contains(parameter))
-            return;
  
         InputBox.Add(parameter);
         Parameter.Box pro = (Parameter.Box)parameter;
@@ -480,7 +481,7 @@ public class RecipeUI : MonoBehaviour{
         if (_slot.slot.Property != null)
         {
             AddQualityUIEft(_slot);
-            AddPropertyUIEft(_slot);
+            AddPropertyUIEft(_slot.slot);
             ComposeProperty();
         }
         else
@@ -664,17 +665,25 @@ public class RecipeUI : MonoBehaviour{
                     );
     }
 
+    void AddFristPropertyUIEft()
+    {
+        CharBag.Goods _fristGoods = new CharBag.Goods();
+        string[] mt = recipe.Target.Split(',');
+        _fristGoods.Property = Materiral.GetMaterialProperty(int.Parse(mt[0]), int.Parse(mt[1]));
+        AddPropertyUIEft(_fristGoods);
+    }
+
     //属性效果UI效果
-    void AddPropertyUIEft(SlotBox _slot)
+    void AddPropertyUIEft(CharBag.Goods _slot)
     {
         float actionTime = 0.5f;
 
-        for (int i = 0; i < _slot.slot.Property.Length; i++)
+        for (int i = 0; i < _slot.Property.Length; i++)
         {
-            if (_slot.slot.Property[i] == 0)
+            if (_slot.Property[i] == 0)
                 continue;
 
-            int proID = _slot.slot.Property[i];
+            int proID = _slot.Property[i];
             RectTransform _property = Instantiate(PropertyListElement).GetComponent<RectTransform>();
             _property.transform.SetParent(PropertyListGrid.transform);
 

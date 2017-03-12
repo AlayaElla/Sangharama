@@ -1,10 +1,10 @@
 <MindList>
-  <Mind ID="1" Name="水原石" Image="actionIcon_33" Type="1" Price="10"  des="这是什么只有水知道。" />
-  <Mind ID="2" Name="栀子烧" Image="actionIcon_11"  Type="1" Price="20"  des="可以用来烧菜！" />
-  <Mind ID="3" Name="马斯特石" Image="actionIcon_14"  Type="1" Price="30"  des="普通的的石头，只是名字很奇特。" />
-  <Mind ID="4" Name="草药" Image="actionIcon_36"  Type="2" Price="40"  des="只能生吃，烧或煮会失去效力。" />
-  <Mind ID="5" Name="伤药" Image="actionIcon_18"  Type="1" Price="50"  des="生榨草药汁！" />
-  <Mind ID="6" Name="叶子炸弹" Image="actionIcon_43"  Type="1" Price="60"  des="几片叶子用高压方式压在一起，非常不稳定，一碰就会猛烈的分开。\n因此被人用来作为武器。" />
-  <Mind ID="7" Name="果冻火药" Image="actionIcon_30"  Type="2" Price="70"  des="真的可以吃哦。实用度爆表！" />
-  <Mind ID="8" Name="天使环" Image="actionIcon_62"  Type="2" Price="80"  des="这个世界的人其实不知道天使是什么东西。\n那么这个名字是怎么来的？" />
+  <Mind ID="1" Name="水原石" Image="actionIcon_33" Type="1" Price="10" Property="1" des="这是什么只有水知道。" />
+  <Mind ID="2" Name="栀子烧" Image="actionIcon_11"  Type="1" Price="20" Property="1,2" des="可以用来烧菜！" />
+  <Mind ID="3" Name="马斯特石" Image="actionIcon_14"  Type="1" Price="30" Property="2" des="普通的的石头，只是名字很奇特。" />
+  <Mind ID="4" Name="草药" Image="actionIcon_36"  Type="2" Price="40" Property="2,3" des="只能生吃，烧或煮会失去效力。" />
+  <Mind ID="5" Name="伤药" Image="actionIcon_18"  Type="1" Price="50" Property="3" des="生榨草药汁！" />
+  <Mind ID="6" Name="叶子炸弹" Image="actionIcon_43"  Type="1" Price="60" Property="3,4" des="几片叶子用高压方式压在一起，非常不稳定，一碰就会猛烈的分开。\n因此被人用来作为武器。" />
+  <Mind ID="7" Name="果冻火药" Image="actionIcon_30"  Type="2" Price="70" Property="5" des="真的可以吃哦。实用度爆表！" />
+  <Mind ID="8" Name="天使环" Image="actionIcon_62"  Type="2" Price="80" Property="6" des="这个世界的人其实不知道天使是什么东西。\n那么这个名字是怎么来的？" />
 </MindList>
