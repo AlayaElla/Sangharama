@@ -7,15 +7,22 @@ public class ChatEventManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GetGoods(2, 3);
+        //GetGoods(2, 3);
     }
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+    public struct ChatEvent
+    {
+        public string EventType;
+    }
+
 
     ChatManager chatmanager;
+    ArrayList ChatEventsList;
+
 
     public void StartStory(string stroy)
     {

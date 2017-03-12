@@ -79,7 +79,6 @@ public class BagUI : MonoBehaviour {
     public void OpenBagMenuInShop(object parameter)
     {
         SetRecipeNameInShop(parameter);
-        ShopUI.ChangeRecipeUiState();
     }
 
 

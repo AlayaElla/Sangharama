@@ -59,6 +59,8 @@ public class ShopUI : MonoBehaviour {
         Parameter.Box p = new Parameter.Box();
         p.callback = ClickInBag;
         _bagInstance.SetGoodsName(2);
+
+        ChangeRecipeUiState();
     }
 
     //打开特殊物品背包
@@ -71,6 +73,8 @@ public class ShopUI : MonoBehaviour {
         Parameter.Box p = new Parameter.Box();
         p.callback = ClickInBag;
         _bagInstance.SetGoodsName(-1);
+
+        ChangeRecipeUiState();
     }
 
 
@@ -101,6 +105,8 @@ public class ShopUI : MonoBehaviour {
             p.obj = goodslist[slotID - 1];
         }
         _bagInstance.OpenBagMenuInShop(p);
+
+        ChangeRecipeUiState();
     }
 
     void ClickInBag(GameObject go, object parameter)
