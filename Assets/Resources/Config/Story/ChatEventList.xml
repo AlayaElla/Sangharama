@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ChatEventList>
-	<ChatEvent EventType="PutGoods" Num="3" Parameter="0,1"/>
-	<ChatEvent EventType="SellGoods" Num="3" Parameter="0,3"/>
-	<ChatEvent EventType="Inshop" Num="4"/>
-	<ChatEvent EventType="ComposeGoods" Num="4"/>
-	<ChatEvent EventType="Golds" Num="1000"/>
-	<ChatEvent EventType="InMap" Num="10"/>
-	<ChatEvent EventType="Arrive" Num="5" Parameter="6" EventItem="2,1"/>
-	<ChatEvent EventType="CollectGoods" Num="5" Parameter="0,3"/>
-	<ChatEvent EventType="Arrive" Num="5" Parameter="7" EventItem="2,2"/>
+	<ChatEvent ID="1" EventType="PutGoods" Num="3" Parameter="0,1"/>
+	<ChatEvent ID="2" EventType="SellGoods" Num="3" Parameter="0,3"/>
+	<ChatEvent ID="3" EventType="Inshop" Num="4"/>
+	<ChatEvent ID="4" EventType="ComposeGoods" Num="4"/>
+	<ChatEvent ID="5" EventType="Golds" Num="1000"/>
+	<ChatEvent ID="6" EventType="InMap" Num="10"/>
+	<ChatEvent ID="7" EventType="Arrive" Num="5" Parameter="6" EventItem="2,1"/>
+	<ChatEvent ID="8" EventType="CollectGoods" Num="5" Parameter="0,3"/>
+	<ChatEvent ID="9" EventType="Arrive" Num="5" Parameter="7" EventItem="2,2"/>
 </ChatEventList>
