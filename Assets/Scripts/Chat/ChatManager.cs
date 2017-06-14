@@ -109,7 +109,13 @@ public class ChatManager : MonoBehaviour {
             tempResource = new Dictionary<string, Sprite>();
 
             //读取角色立绘
+#if _storyDebug
+            tempSprite = ResourcesLoader.LoadTextures("character/" + character.Key);
+#else
             tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Key);
+#endif
+
+            //tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Key);
             if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
             foreach (Sprite s in tempSprite)
             {
@@ -146,7 +152,8 @@ public class ChatManager : MonoBehaviour {
     {
         //创建面板
         GameObject StoryLayerObj = Resources.Load<GameObject>("Prefab/Chat/StoryLayer");
-        StoryLayerObj = (GameObject)Instantiate(StoryLayerObj, transform.Find("/Canvas").transform);
+        StoryLayerObj = Instantiate(StoryLayerObj);
+        StoryLayerObj.transform.SetParent(transform.Find("/Canvas").transform, false);
 
         //获取组件
         GetLayerComponent(StoryLayerObj);
@@ -1330,7 +1337,7 @@ public class ChatManager : MonoBehaviour {
         if (val == clipindex || val == lastwordslengh)
             return;
 
-        Debug.Log("clipindex:"+ clipindex);
+        //Debug.Log("clipindex:"+ clipindex);
         if (mac.Count > 0)
         {
             int offset = 0;
@@ -1432,7 +1439,7 @@ public class ChatManager : MonoBehaviour {
         {
             GameObject obj = new GameObject();
             obj.name = id;
-            obj.transform.SetParent(CharacterLayer);
+            obj.transform.SetParent(CharacterLayer,false);
             c = obj.AddComponent<RectTransform>();
             c.pivot = new Vector2(0.5f, 0);
 
