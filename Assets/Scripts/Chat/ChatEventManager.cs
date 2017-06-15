@@ -7,7 +7,7 @@ public class ChatEventManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //GetGoods(2, 3);
+
     }
 	
 	// Update is called once per frame
@@ -43,10 +43,5 @@ public class ChatEventManager : MonoBehaviour {
         }
         chatmanager.SetNowScene(scence.name);
         chatmanager.LoadChatStory(stroy);
-    }
-
-    public void GetGoods(int materialType, int ID)
-    {
-        CharBag.AddGoodsByID(materialType, ID);
     }
 }

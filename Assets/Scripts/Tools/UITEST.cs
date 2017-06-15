@@ -24,4 +24,9 @@ public class UITEST : MonoBehaviour {
     {
         SceneManager.LoadScene("Shop");        
     }
+
+    public void LoadTest3Level()
+    {
+        SceneManager.LoadScene("Story");
+    }
 }

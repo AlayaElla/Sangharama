@@ -190,6 +190,11 @@ public class ChatLoader{
                             else if (parameters[2] == "sametime")
                                 action.SkipType = ChatAction.SKIPTYPE.SAMETIME;
                         }
+                        if (parameters.Length == 1)
+                        {
+                            action.Parameter = new string[1];
+                            action.Parameter[0] = parameters[0];
+                        }
                     }
 
                     box.ActionList.Add(action);

@@ -17,7 +17,7 @@ public class CharBag : MonoBehaviour {
         public int Price;   //价格
 
         //物品的属性
-        public int MateriralType; //背包物品ID；区分是item(1)还是mind(2)
+        public int MateriralType; //背包物品ID；区分是item(0),mind(1),Special(2)
         public int ID;     //子ID;
      
         public int Quality; //品质

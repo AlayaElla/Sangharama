@@ -21,7 +21,8 @@ public class ResourcesLoader
         Sprite[] sprites = new Sprite[filePaths.Count];
         for (int i = 0; i < filePaths.Count; i++)
         {
-            Texture2D tx = new Texture2D(100, 100);
+            Texture2D tx = new Texture2D(1, 1);
+            //tx.filterMode = FilterMode.Point;
             tx.LoadImage(getImageByte(filePaths[i]));
             sprites[i] = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), new Vector2(0.5f, 0.5f));
             sprites[i].name = Path.GetFileNameWithoutExtension(filePaths[i]);
@@ -34,6 +35,7 @@ public class ResourcesLoader
         string temppath = GetDataPath(path) + ".png";
         Sprite sprites = new Sprite();
         Texture2D tx = new Texture2D(1, 1);
+        //tx.filterMode = FilterMode.Point;
         tx.LoadImage(getImageByte(temppath));
         sprites = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), new Vector2(0.5f, 0.5f));
         sprites.name = Path.GetFileNameWithoutExtension(temppath);

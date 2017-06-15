@@ -28,10 +28,10 @@ public class ErrorLoger : MonoBehaviour {
 
     public bool Log;
     private Vector2 m_scroll;
-    string buttontext = "CLOSE";
+    string buttontext = "OPEN";
     internal void OnGUI()
     {
-        if (GUI.Button(new Rect(0, Screen.height - 50, 50, 50), buttontext))
+        if (GUI.Button(new Rect(Screen.width - 50, 0, 50, 50), buttontext))
         {
             Log = !Log;
             m_logs = null;

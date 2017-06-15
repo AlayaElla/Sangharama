@@ -84,8 +84,13 @@ public class ChatManager : MonoBehaviour {
     public void LoadChatStory(string storyname)
     {
         ChatLoader loader = new ChatLoader();
-        NowConfig = loader.LoadNowConfig();
 
+        //初始化
+        NowConfig = new ChatConfig();
+        NowStroyActionBox = new ChatActionBox();
+        CharacterRects = new Dictionary<string, RectTransform>();
+
+        NowConfig = loader.LoadNowConfig();
         NowStroyActionBox = loader.LoadStory(storyname, NowConfig);
         NowStroyActionBox.UseBG1 = true;
 
@@ -162,7 +167,6 @@ public class ChatManager : MonoBehaviour {
 
         //获取组件
         GetLayerComponent(StoryLayerObj);
-
         //初始化故事面板
         InstChatLayer();
     }
@@ -190,7 +194,6 @@ public class ChatManager : MonoBehaviour {
     void InstChatLayer()
     {
         //修改图片
-        //Sprite[] s = GetWindowsSprit("defaut");
         //TextBoardLayer.WordsBacklayer.GetComponent<Image>().sprite = s[0];
         //TextBoardLayer.WordsOutLayer.GetComponent<Image>().sprite = s[1];
 
@@ -207,6 +210,11 @@ public class ChatManager : MonoBehaviour {
 
         //BGLayer1.GetComponent<Image>().color = Color.clear;
         BGLayer2.GetComponent<Image>().color = Color.clear;
+
+        for (int i = 0; i < CharacterLayer.childCount; i++)
+        {
+            Destroy(CharacterLayer.GetChild(i).gameObject);
+        }  
     }
 
     public void SetNowScene(string scene)
@@ -232,6 +240,20 @@ public class ChatManager : MonoBehaviour {
             ShopUI.ChangeStoryState();
             Character.ChangeStoryState();
         }
+    }
+
+    //切换故事
+    void ChangeStory(string story)
+    {
+        LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
+        {
+            LeanTween.alpha(CharacterLayer, 0, 1f);
+            LeanTween.alpha(GetBGLayer(), 0, 1f).setOnComplete(() =>
+            {
+                Destroy(StoryBoardLayer.gameObject);
+                LoadChatStory(story);
+            });
+        });
     }
 
     void DoingAction(int index)
@@ -992,6 +1014,26 @@ public class ChatManager : MonoBehaviour {
                         WaitingForClick(action.CharacterID);
                     });
                 }
+                break;
+            case "giveitem":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+
+                string[] items = action.Parameter[0].Split(':');
+                CharBag.AddGoodsByID(int.Parse(items[0]), int.Parse(items[1]));
+
+                //如果是最后一个动作，则停止自动
+                if (index >= NowStroyActionBox.ActionList.Count)
+                {
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    return;
+                }
+                SetActionState(ChatAction.NOWSTATE.DONE, index);
+                SetActionIndex(index + 1);
+                DoingAction(NowStroyActionBox.NowIndex);
+                break;
+            case "loadstory":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                ChangeStory(action.Parameter[0]);
                 break;
             default:
                 break;
