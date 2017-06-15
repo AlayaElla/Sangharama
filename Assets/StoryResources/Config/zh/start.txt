@@ -8,7 +8,7 @@ test
 
 //对话列表
 [ChatList]
-//<setbg test,1,sametime>
+<setbg test,2,sametime>
 //<show 0.2,0,1,0,left,idle,npc1,notloop,sametime>
 {npc1:idle}第一句话，测试对话！
 //<giveitem 2:3>

@@ -227,7 +227,7 @@ public class ChatManager : MonoBehaviour {
     {
         LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
             {
-                LeanTween.alpha(CharacterLayer, 0, 1f);
+                LeanTween.alphaCanvas(CharacterLayer.GetComponent<CanvasGroup>(), 0, 1f);
                 LeanTween.alpha(GetBGLayer(), 0, 1f).setOnComplete(() =>
                 {
                     Destroy(StoryBoardLayer.gameObject);
@@ -247,7 +247,7 @@ public class ChatManager : MonoBehaviour {
     {
         LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
         {
-            LeanTween.alpha(CharacterLayer, 0, 1f);
+            LeanTween.alphaCanvas(CharacterLayer.GetComponent<CanvasGroup>(), 0, 1f);
             LeanTween.alpha(GetBGLayer(), 0, 1f).setOnComplete(() =>
             {
                 Destroy(StoryBoardLayer.gameObject);
@@ -312,10 +312,8 @@ public class ChatManager : MonoBehaviour {
                 else if (action.SkipType == ChatAction.SKIPTYPE.SAMETIME)
                 {
                     LeanTween.alpha(character, 1, float.Parse(action.Parameter[0]));
-                    LeanTween.alpha(lastBG, 0, float.Parse(action.Parameter[0])).setOnComplete(() =>
-                    {
-                        SetActionState(ChatAction.NOWSTATE.DONE, index);
-                    });
+                    LeanTween.alpha(lastBG, 0, float.Parse(action.Parameter[0]));
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
                     if (character.name == "BG1")
                         NowStroyActionBox.UseBG1 = true;
                     else

@@ -8,9 +8,6 @@ npc2<name:他喵的真坑;image:maria;windows:board2>
 
 //对话列表
 [ChatList]
-{npc1:idle}第一句话，测试对话！
-{npc1:idle}第一句话，测试对话！
-{npc1:idle}第一句话，测试对话！
 <setbg 1,1,click>
 <setbg test,3,click>
 <setbg 1,1,click>
@@ -23,7 +20,7 @@ npc2<name:他喵的真坑;image:maria;windows:board2>
 <bgscale 1.2,1.2,3,linear,notloop,click>
 <bgrotate 30,3,linear,notloop,click>
 {npc1:idle}第一句话，测试对话！
-
+{npc2:idle}第一句话，测试对话！
 //<move 0.5,-0.05,1,linear,npc1,pingpong,click>
 //<windowmove 0,-0.01,0.5,linear,loop,click>
 //<windowscale 1.05,1.05,0.5,easeInOutBack,pingpong,click>
@@ -37,7 +34,7 @@ npc2<name:他喵的真坑;image:maria;windows:board2>
 //<rotate 30,1,linear,npc1,notloop,click>
 //<rotate -30,1,linear,npc2,notloop,click>
 <hide 3,happy,npc1,notloop,click>
-<hide 2,happy,npc2,notloop,click>
+//<hide 2,happy,npc2,notloop,click>
 //{npc1:happy}。。。。。。。。。。。。。。<c>。。。。。。。。。。。。。
 //<show 1.1,0,0.1,1,right,idle,npc2,notloop,click>
 //<move 0.6,0,1,noloop,npc1,noloop,auto>
