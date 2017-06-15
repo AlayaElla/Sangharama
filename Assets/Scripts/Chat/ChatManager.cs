@@ -110,12 +110,11 @@ public class ChatManager : MonoBehaviour {
 
             //读取角色立绘
 #if _storyDebug
-            tempSprite = ResourcesLoader.LoadTextures("character/" + character.Key);
+            tempSprite = ResourcesLoader.LoadTextures("character/" + character.Value.Image);
 #else
-            tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Key);
+            tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Value.Image);
 #endif
 
-            //tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Key);
             if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
             foreach (Sprite s in tempSprite)
             {
@@ -136,8 +135,14 @@ public class ChatManager : MonoBehaviour {
             {
                 Sprite tempSprite;
 
-                //读取角色立绘
+                //读取背景
+#if _storyDebug
+                tempSprite = ResourcesLoader.LoadSingleTexture("bg/" + name);
+#else
                 tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+#endif
+
+                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
                 if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/bg/" + name);
                 NowResourcesBox.bgSprites.Add(name, tempSprite);
             }
@@ -185,12 +190,12 @@ public class ChatManager : MonoBehaviour {
     void InstChatLayer()
     {
         //修改图片
-        Sprite[] s = GetWindowsSprit("rourou");
-        TextBoardLayer.WordsBacklayer.GetComponent<Image>().sprite = s[0];
-        TextBoardLayer.WordsOutLayer.GetComponent<Image>().sprite = s[1];
+        //Sprite[] s = GetWindowsSprit("defaut");
+        //TextBoardLayer.WordsBacklayer.GetComponent<Image>().sprite = s[0];
+        //TextBoardLayer.WordsOutLayer.GetComponent<Image>().sprite = s[1];
 
-        TextBoardLayer.NameBackLayer.GetComponent<Image>().sprite = s[0];
-        TextBoardLayer.NameOutLayer.GetComponent<Image>().sprite = s[1];
+        //TextBoardLayer.NameBackLayer.GetComponent<Image>().sprite = s[0];
+        //TextBoardLayer.NameOutLayer.GetComponent<Image>().sprite = s[1];
 
         //调整大小/位置
         StoryBoardLayer.sizeDelta = new Vector2(0, 0);

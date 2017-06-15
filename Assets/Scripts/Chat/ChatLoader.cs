@@ -41,8 +41,12 @@ public class ChatLoader{
     {
         ChatManager.ChatActionBox storylist = new ChatManager.ChatActionBox();
 
+#if _storyDebug
+        string[] txt = ResourcesLoader.LoadStoryConfig("Config/" + config.Languege + "/" + path + ".txt");
+#else
         TxtTool tt = new TxtTool();
         string[] txt = tt.ReadFile(config.Languege, path);
+#endif
 
         storylist = ParseActionList(txt, config);
         

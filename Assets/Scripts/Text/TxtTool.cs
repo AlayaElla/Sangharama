@@ -9,7 +9,7 @@ public class TxtTool{
 
     public string[] ReadFile(string languege, string name)
     {
-        string filepath = "Config/Story/" + languege + "/" + name; ;
+        string filepath = "Config/Story/" + languege + "/" + name;
         string tempstr = Resources.Load(filepath).ToString();
 
         string str1 = System.Text.RegularExpressions.Regex.Unescape(tempstr);

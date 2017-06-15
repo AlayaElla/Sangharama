@@ -46,7 +46,7 @@ public class ErrorLoger : MonoBehaviour {
             return;
 
         GUIStyle bb = new GUIStyle();
-        bb.fontSize = 30;
+        bb.fontSize = 20;
         bb.normal.textColor = new Color(255, 255, 255);
 
         m_scroll = GUILayout.BeginScrollView(m_scroll, bb);

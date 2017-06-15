@@ -29,6 +29,18 @@ public class ResourcesLoader
         return sprites;
     }
 
+    public static Sprite LoadSingleTexture(string path)
+    {
+        string temppath = GetDataPath(path) + ".png";
+        Sprite sprites = new Sprite();
+        Texture2D tx = new Texture2D(1, 1);
+        tx.LoadImage(getImageByte(temppath));
+        sprites = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), new Vector2(0.5f, 0.5f));
+        sprites.name = Path.GetFileNameWithoutExtension(temppath);
+        return sprites;
+    }
+
+
     private static byte[] getImageByte(string imagePath)
     {
         FileStream files = new FileStream(imagePath, FileMode.Open);
@@ -37,6 +49,20 @@ public class ResourcesLoader
         files.Close();
         return imgByte;
     }
+
+    public static string[] LoadStoryConfig(string path)
+    {
+        string filepath = GetDataPath(path);
+
+        string tempstr = File.ReadAllText(@filepath);
+
+        string str1 = System.Text.RegularExpressions.Regex.Unescape(tempstr);
+        string[] textflie = System.Text.RegularExpressions.Regex.Split(str1, "\r\n");
+
+
+        return textflie;
+    }
+
 
     //获取路径//
     private static string GetDataPath(string path)
