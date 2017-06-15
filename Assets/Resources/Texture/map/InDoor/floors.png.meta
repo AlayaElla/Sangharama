@@ -20,12 +20,12 @@ TextureImporter:
     21300026: floors_13
     21300028: floors_14
     21300030: floors_15
-  serializedVersion: 2
+  serializedVersion: 4
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
+    sRGBTexture: 1
     linearTexture: 0
-    correctGamma: 0
     fadeOut: 0
     borderMipMap: 0
     mipMapFadeDistanceStart: 1
@@ -33,14 +33,12 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
+  generateCubemap: 6
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
-  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 256
@@ -51,21 +49,52 @@ TextureImporter:
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
-  rGBM: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
+  alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 256
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 256
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 256
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
+    serializedVersion: 2
     sprites:
-    - name: floors_0
+    - serializedVersion: 2
+      name: floors_0
       rect:
         serializedVersion: 2
         x: 0
@@ -75,7 +104,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_1
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_1
       rect:
         serializedVersion: 2
         x: 32
@@ -85,7 +117,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_2
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_2
       rect:
         serializedVersion: 2
         x: 64
@@ -95,7 +130,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_3
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_3
       rect:
         serializedVersion: 2
         x: 96
@@ -105,7 +143,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_4
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_4
       rect:
         serializedVersion: 2
         x: 128
@@ -115,7 +156,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_5
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_5
       rect:
         serializedVersion: 2
         x: 160
@@ -125,7 +169,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_6
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_6
       rect:
         serializedVersion: 2
         x: 192
@@ -135,7 +182,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_7
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_7
       rect:
         serializedVersion: 2
         x: 224
@@ -145,7 +195,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_8
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_8
       rect:
         serializedVersion: 2
         x: 0
@@ -155,7 +208,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_9
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_9
       rect:
         serializedVersion: 2
         x: 32
@@ -165,7 +221,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_10
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_10
       rect:
         serializedVersion: 2
         x: 64
@@ -175,7 +234,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_11
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_11
       rect:
         serializedVersion: 2
         x: 96
@@ -185,7 +247,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_12
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_12
       rect:
         serializedVersion: 2
         x: 128
@@ -195,7 +260,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_13
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_13
       rect:
         serializedVersion: 2
         x: 160
@@ -205,7 +273,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_14
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_14
       rect:
         serializedVersion: 2
         x: 192
@@ -215,7 +286,10 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: floors_15
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: floors_15
       rect:
         serializedVersion: 2
         x: 224
@@ -225,6 +299,9 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
