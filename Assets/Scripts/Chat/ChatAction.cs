@@ -22,6 +22,7 @@ public class ChatAction {
         public string Name;
         public string Image;
         public string Windows;
+        public string Voice;
     }
 
     public enum SKIPTYPE

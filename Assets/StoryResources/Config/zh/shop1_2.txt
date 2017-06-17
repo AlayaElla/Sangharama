@@ -1,41 +1,61 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
-npc1<name:他喵的坑;image:lili;windows:board1>
-npc2<name:他喵的真坑;image:maria;windows:board2>
+npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
+npc2<name:他喵的真坑;image:maria;windows:board2;voice:voice2>
 
 [Background]
 1,test
 
+[Sound]
+bgm1,bgm2
+
 //对话列表
 [ChatList]
+{npc1:idle}这是<color=green>播放</color>bgm
+<playbgm bgm2>
+{npc1:idle}这是<color=green>出现</color>背景
 <setbg 1,1,click>
+{npc1:idle}这是<color=green>切换</color>背景
 <setbg test,3,click>
 <setbg 1,1,click>
+{npc1:idle}然后。。<c>显示角色！
 <show 0.2,0,1,0,left,idle,npc1,notloop,sametime>
 <show 0.8,0,2,0,right,idle,npc2,notloop,click>
+{npc1:idle}做点卖萌的动作。/n这个动作是无限循环的。
 <move 0.5,-0.05,1,easeInOutBack,npc1,pingpong,click>
+{npc1:idle}点击后停止。
 <stop npc1,sametime>
 <show 0.8,0,0,1,left,idle,npc2,notloop,click>
+{npc2:idle}这是<color=green>移动</color>背景。
 <bgmove 0.2,0,3,linear,notloop,click>
+{npc2:idle}这是<color=green>缩放</color>背景。
 <bgscale 1.2,1.2,3,linear,notloop,click>
+{npc2:idle}这是<color=green>旋转</color>背景。
 <bgrotate 30,3,linear,notloop,click>
-{npc1:idle}第一句话，测试对话！
-{npc2:idle}第一句话，测试对话！
+{npc1:idle}随便说点话。
+{npc2:idle}啊，好吧。\n这<c>是<c>在<c>打<c>发<c>时<c>间<c>吧。
+{npc1:idle}换个bgm吧。
+<playbgm bgm1>
 //<move 0.5,-0.05,1,linear,npc1,pingpong,click>
-//<windowmove 0,-0.01,0.5,linear,loop,click>
-//<windowscale 1.05,1.05,0.5,easeInOutBack,pingpong,click>
-//<windowrotate 30,0.5,linear,5,click>
-{npc1:idle}第一句话，测试对话！
-//{npc2:idle}第二句话，测试对话！
-//<move 0.2,-0.05,1,easeInOutBack,npc1,pingpong,click>
-//<move 0.8,-0.05,1,linear,npc2,loop,click>
-//<scale 1,1.05,1,easeInOutBack,npc1,pingpong,click>
-//<scale 1,1.025,0.5,linear,npc2,pingpong,click>
-//<rotate 30,1,linear,npc1,notloop,click>
-//<rotate -30,1,linear,npc2,notloop,click>
+{npc1:idle}然后，这个是对话框动作。\n<color=green>移动！</color>
+<windowmove 0,-0.01,0.5,linear,loop,click>
+{npc1:idle}<color=green>缩放！</color>
+<windowscale 1.05,1.05,0.5,easeInOutBack,pingpong,click>
+{npc1:idle}<color=green>旋转！</color>
+<windowrotate 30,0.5,linear,2,click>
+{npc1:idle}恩，这个可以组合出很多表现效果。
+{npc2:idle}最后试试，角色动作。
+{npc2:idle}<color=green>移动！</color>
+<move 0.2,-0.05,1,easeInOutBack,npc1,pingpong,click>
+<move 0.8,-0.05,1,linear,npc2,loop,click>
+{npc2:idle}<color=green>缩放！</color>
+<scale 1,1.05,1,easeInOutBack,npc1,pingpong,click>
+<scale 1,1.025,0.5,linear,npc2,pingpong,click>
+{npc2:idle}<color=green>旋转！</color>
+<rotate 30,1,linear,npc1,notloop,click>
+<rotate -30,1,linear,npc2,notloop,click>
+{npc1:idle}<color=green>好了，前面介绍的可以查看在网站上查看详细说明。</color>
+{npc1:idle}<color=green>还有其他功能等待后续添加吧~</color>
+{npc1:idle}<color=green>结束。</color>
 <hide 3,happy,npc1,notloop,click>
-//<hide 2,happy,npc2,notloop,click>
-//{npc1:happy}。。。。。。。。。。。。。。<c>。。。。。。。。。。。。。
-//<show 1.1,0,0.1,1,right,idle,npc2,notloop,click>
-//<move 0.6,0,1,noloop,npc1,noloop,auto>
 <loadstory start>

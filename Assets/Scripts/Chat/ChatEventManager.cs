@@ -19,7 +19,6 @@ public class ChatEventManager : MonoBehaviour {
         public string EventType;
     }
 
-
     ChatManager chatmanager;
     ArrayList ChatEventsList;
 
@@ -40,6 +39,7 @@ public class ChatEventManager : MonoBehaviour {
             GameObject newobj = new GameObject();
             newobj.name = "ChatSystem";
             chatmanager = newobj.AddComponent<ChatManager>();
+            newobj.AddComponent<AudioSource>();
         }
         chatmanager.SetNowScene(scence.name);
         chatmanager.LoadChatStory(stroy);

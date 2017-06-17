@@ -16,6 +16,7 @@ public class ChatManager : MonoBehaviour {
         public ArrayList ActionList;
         public Dictionary<string, ChatAction.StoryCharacter> CharacterList;
         public string[] BG;
+        public string[] BGM;
         public int NowIndex;
         public bool UseBG1;
         public object info;
@@ -25,6 +26,8 @@ public class ChatManager : MonoBehaviour {
         public Dictionary<string, Sprite[]> windowsSprites;
         public Dictionary<string, Dictionary<string, Sprite>> characterSprites;
         public Dictionary<string, Sprite> bgSprites;
+        public Dictionary<string, AudioClip> bgms;
+        public Dictionary<string, AudioClip> voices;
     }
     struct ChatBoard
     {
@@ -39,7 +42,6 @@ public class ChatManager : MonoBehaviour {
         public Text WordsText;
         public Text NameText;
     }
-
     ChatConfig NowConfig;
     ChatActionBox NowStroyActionBox;
     ResourcesBox NowResourcesBox;
@@ -52,9 +54,11 @@ public class ChatManager : MonoBehaviour {
     RectTransform MaskLayer;
     ChatBoard TextBoardLayer;
     Dictionary<string, RectTransform> CharacterRects;
-
+    AudioSource AudioManager;
+    AudioSource SpeakerAudioManager;
 
     string NowScene = "";
+    string storyName = "";
     string lastWords = "";  //用于保存上一个动作时说话的台词，在点击时在lastword中增加当前语句，来达到点击快速完成当前对话的功能。啊，这个方法我知道有点坑!
 
     void Awake()
@@ -83,6 +87,7 @@ public class ChatManager : MonoBehaviour {
     //读取故事配置
     public void LoadChatStory(string storyname)
     {
+        storyName = storyname;
         ChatLoader loader = new ChatLoader();
 
         //初始化
@@ -105,6 +110,8 @@ public class ChatManager : MonoBehaviour {
         NowResourcesBox.characterSprites = new Dictionary<string, Dictionary<string, Sprite>>();
         NowResourcesBox.windowsSprites = new Dictionary<string, Sprite[]>();
         NowResourcesBox.bgSprites = new Dictionary<string, Sprite>();
+        NowResourcesBox.bgms = new Dictionary<string, AudioClip>();
+        NowResourcesBox.voices = new Dictionary<string, AudioClip>();
         Dictionary<string, Sprite> tempResource;
 
         //查找角色资源
@@ -115,11 +122,10 @@ public class ChatManager : MonoBehaviour {
 
             //读取角色立绘
 #if _storyDebug
-            tempSprite = ResourcesLoader.LoadTextures("character/" + character.Value.Image);
+            tempSprite = ResourcesLoader.LoadTextures("Textrue/character/" + character.Value.Image);
 #else
             tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Value.Image);
 #endif
-
             if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
             foreach (Sprite s in tempSprite)
             {
@@ -131,6 +137,16 @@ public class ChatManager : MonoBehaviour {
             tempSprite = Resources.LoadAll<Sprite>("Texture/story/board/" + character.Value.Windows);
             if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/board/" + character.Value.Windows);
             NowResourcesBox.windowsSprites.Add(character.Key, tempSprite);
+
+            //读取声音
+            AudioClip tempAudio;
+#if _storyDebug
+            tempAudio = ResourcesLoader.LoadWav("Sound/" + character.Value.Voice);
+#else
+            tempAudio = Resources.Load<AudioClip>("Sound/" + character.Value.Voice);
+#endif
+            if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + character.Value.Voice);
+            NowResourcesBox.voices.Add(character.Key, tempAudio);
         }
 
         //读取背景
@@ -142,7 +158,7 @@ public class ChatManager : MonoBehaviour {
 
                 //读取背景
 #if _storyDebug
-                tempSprite = ResourcesLoader.LoadSingleTexture("bg/" + name);
+                tempSprite = ResourcesLoader.LoadSingleTexture("Textrue/bg/" + name);
 #else
                 tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
 #endif
@@ -150,6 +166,26 @@ public class ChatManager : MonoBehaviour {
                 //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
                 if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/bg/" + name);
                 NowResourcesBox.bgSprites.Add(name, tempSprite);
+            }
+        }
+
+        //读取BGM
+        if (NowStroyActionBox.BGM != null)
+        {
+            foreach (string name in NowStroyActionBox.BGM)
+            {
+                AudioClip tempAudio;
+
+                //读取背景
+#if _storyDebug
+                tempAudio = ResourcesLoader.LoadMp3("Sound/" + name);
+#else
+                tempAudio = Resources.Load<AudioClip>("Sound/" + name);
+#endif
+
+                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+                if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + name);
+                NowResourcesBox.bgms.Add(name, tempAudio);
             }
         }
 
@@ -188,18 +224,13 @@ public class ChatManager : MonoBehaviour {
         TextBoardLayer.NameText = StoryBoardLayer.FindChild("TextBoard/NameBoard/Text").GetComponent<Text>();
 
         TextBoardLayer.ClickHintLayer = StoryBoardLayer.FindChild("ClickHint").GetComponent<RectTransform>();
+
+        SpeakerAudioManager = StoryBoardLayer.GetComponent<AudioSource>();
     }
 
     //初始化故事面板
     void InstChatLayer()
     {
-        //修改图片
-        //TextBoardLayer.WordsBacklayer.GetComponent<Image>().sprite = s[0];
-        //TextBoardLayer.WordsOutLayer.GetComponent<Image>().sprite = s[1];
-
-        //TextBoardLayer.NameBackLayer.GetComponent<Image>().sprite = s[0];
-        //TextBoardLayer.NameOutLayer.GetComponent<Image>().sprite = s[1];
-
         //调整大小/位置
         StoryBoardLayer.sizeDelta = new Vector2(0, 0);
         StoryBoardLayer.localPosition = new Vector3(0, 0, 0);
@@ -214,7 +245,10 @@ public class ChatManager : MonoBehaviour {
         for (int i = 0; i < CharacterLayer.childCount; i++)
         {
             Destroy(CharacterLayer.GetChild(i).gameObject);
-        }  
+        }
+
+        if (AudioManager == null)
+            AudioManager = transform.GetComponent<AudioSource>();
     }
 
     public void SetNowScene(string scene)
@@ -929,6 +963,7 @@ public class ChatManager : MonoBehaviour {
                 {
                     //改变窗口
                     SetChatWindow(action);
+                    SpeakerAudioManager.clip = GetVoice(action.CharacterID);
                     return;
                 }
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
@@ -1029,11 +1064,70 @@ public class ChatManager : MonoBehaviour {
                 SetActionIndex(index + 1);
                 DoingAction(NowStroyActionBox.NowIndex);
                 break;
+            case "playbgm":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+
+                if (AudioManager.clip != null)
+                {
+                    LeanTween.value(AudioManager.gameObject, 1, 0, 1f).setOnUpdate((float vol) =>
+                    {
+                        AudioManager.volume = vol;
+                    }).setOnComplete(() =>
+                    {
+                        LeanTween.value(AudioManager.gameObject, 0, 1, 1f).setOnUpdate((float vol) =>
+                        {
+                            AudioManager.volume = vol;
+                        });
+                        AudioManager.clip = GetBGM(action.Parameter[0]);
+                        AudioManager.Play();
+                    });
+                }
+                else
+                {
+                    LeanTween.value(AudioManager.gameObject, 0, 1, 1).setOnUpdate((float vol) =>
+                    {
+                        AudioManager.volume = vol;
+                    });
+                    AudioManager.clip = GetBGM(action.Parameter[0]);
+                    AudioManager.Play();
+                }
+
+                //如果是最后一个动作，则停止自动
+                if (index >= NowStroyActionBox.ActionList.Count)
+                {
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    return;
+                }
+                SetActionState(ChatAction.NOWSTATE.DONE, index);
+                SetActionIndex(index + 1);
+                DoingAction(NowStroyActionBox.NowIndex);
+                break;
+            case "stopbgm":
+                if (AudioManager.clip != null)
+                {
+                    LeanTween.value(AudioManager.gameObject, 1, 0, 1f).setOnUpdate((float vol) =>
+                    {
+                        AudioManager.volume = vol;
+                    }).setOnComplete(() =>
+                    {
+                        AudioManager.clip = null;
+                        AudioManager.Stop();
+                    });
+                }
+
+                SetActionState(ChatAction.NOWSTATE.DONE, index);
+                SetActionIndex(index + 1);
+                DoingAction(NowStroyActionBox.NowIndex);
+                break;
             case "loadstory":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 ChangeStory(action.Parameter[0]);
                 break;
             default:
+                Debug.Log("Don't have Action: <color=red>" + action.Command + "</color> in <color=green>" + storyName + ".txt</color>!");
+                SetActionState(ChatAction.NOWSTATE.DONE, index);
+                SetActionIndex(index + 1);
+                DoingAction(NowStroyActionBox.NowIndex);
                 break;
         }
     }
@@ -1424,6 +1518,7 @@ public class ChatManager : MonoBehaviour {
         }
 
         clipindex = val;
+        SpeakerAudioManager.Play();
     }
 
 
@@ -1461,6 +1556,30 @@ public class ChatManager : MonoBehaviour {
 
         Sprite s;
         if (NowResourcesBox.bgSprites.TryGetValue(name, out s))
+            return s;
+        return null;  //如果找不到则返回-1
+    }
+
+    //获取BGM
+    AudioClip GetBGM(string name)
+    {
+        if (name == null)
+            return null;
+
+        AudioClip s;
+        if (NowResourcesBox.bgms.TryGetValue(name, out s))
+            return s;
+        return null;  //如果找不到则返回-1
+    }
+
+    //获取Voice
+    AudioClip GetVoice(string name)
+    {
+        if (name == null)
+            return null;
+
+        AudioClip s;
+        if (NowResourcesBox.voices.TryGetValue(name, out s))
             return s;
         return null;  //如果找不到则返回-1
     }

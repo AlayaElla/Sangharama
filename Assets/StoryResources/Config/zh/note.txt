@@ -1,4 +1,4 @@
-rourou<name:肉肉;image:rourou;windows:1>
+rourou<name:肉肉;image:rourou;windows:1;voice:voice1>
 
 <t 200> 设置文本显示速度
 <a> 在文本最后配置时，可以让当前对话完成后自动开始以一个动作。
@@ -98,7 +98,17 @@ rourou<name:肉肉;image:rourou;windows:1>
 
 <setbg id,t,skiptype>
 	切换指定id的背景
+
+<loadstory storyname>
+	读取指定故事
+
+<giveitem materialType:ID>
+	赠送指定物品
 	
+<playbgm bgmname>
+	播放指定音乐
+<stopbgm>
+	停止播放音乐
 //////////////////////////////////////////////////////////////////////////
 //type:缩放/移动/旋转的方式
 	"linear"					——线性

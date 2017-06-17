@@ -83,9 +83,14 @@ public class ChatLoader{
                 loadType = 1;
                 continue;
             }
-            else if (str == "[ChatList]")
+            else if (str == "[Sound]")
             {
                 loadType = 2;
+                continue;
+            }
+            else if (str == "[ChatList]")
+            {
+                loadType = 3;
                 continue;
             }
 
@@ -107,6 +112,8 @@ public class ChatLoader{
                         character.Image = parameter[i].Substring(6, parameter[i].Length - 6);
                     else if (i == 2)
                         character.Windows = parameter[i].Substring(8, parameter[i].Length - 8);
+                    else if (i == 3)
+                        character.Voice = parameter[i].Substring(6, parameter[i].Length - 6);
                 }
 
                 box.CharacterList.Add(character.CharacterID, character);
@@ -116,18 +123,33 @@ public class ChatLoader{
             {
                 box.BG = str.Split(',');
             }
+            //读取音乐的方法
+            if (loadType == 2)
+            {
+                box.BGM = str.Split(',');
+            }
             //读取故事模式的方法
-            else if (loadType == 2)
+            else if (loadType == 3)
             {
 
                 //方法字段
                 if (str[0] == '<')
                 {
                     ChatAction.StoryAction action = new ChatAction.StoryAction();
-                    action.Command = str.Substring(1, str.IndexOf(' ') - 1);
-                    string tempstr = str.Substring(action.Command.Length + 2, str.Length - action.Command.Length - 3);
-                    string[] parameters = tempstr.Split(',');
-
+                    string tempstr;
+                    string[] parameters;
+                    if (str.Contains(" "))
+                    {
+                        action.Command = str.Substring(1, str.IndexOf(' ') - 1);
+                        tempstr = str.Substring(action.Command.Length + 2, str.Length - action.Command.Length - 3);
+                        parameters = tempstr.Split(',');
+                    }
+                    else
+                    {
+                        action.Command = str.Substring(1, str.IndexOf('>') - 1);
+                        parameters = new string[0];
+                    }
+                        
                     //通用读取方式
                     if (parameters.Length > 3)
                     {
@@ -166,6 +188,11 @@ public class ChatLoader{
                     //简短配置的读取方式
                     else
                     {
+                        if (parameters.Length == 1)
+                        {
+                            action.Parameter = new string[1];
+                            action.Parameter[0] = parameters[0];
+                        }
                         if (parameters.Length == 2)
                         {
                             action.CharacterID = parameters[0];
@@ -189,11 +216,6 @@ public class ChatLoader{
                                 action.SkipType = ChatAction.SKIPTYPE.CLICK;
                             else if (parameters[2] == "sametime")
                                 action.SkipType = ChatAction.SKIPTYPE.SAMETIME;
-                        }
-                        if (parameters.Length == 1)
-                        {
-                            action.Parameter = new string[1];
-                            action.Parameter[0] = parameters[0];
                         }
                     }
 
