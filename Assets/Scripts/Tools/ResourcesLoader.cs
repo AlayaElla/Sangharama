@@ -119,9 +119,9 @@ public class ResourcesLoader
 
 
     //获取路径//
-    private static string GetDataPath(string path)
+    public static string GetDataPath(string path)
     {
-        return Application.dataPath + "/StoryResources/" + path;
+        return PathKit.GetResourcesPath() + "StoryResources/" + path;
     }
 }
 
