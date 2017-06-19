@@ -21,7 +21,7 @@ public class ChatManager : MonoBehaviour {
         public bool UseBG1;
         public object info;
     }
-    struct ResourcesBox
+    public struct ResourcesBox
     {
         public Dictionary<string, Sprite[]> windowsSprites;
         public Dictionary<string, Dictionary<string, Sprite>> characterSprites;
@@ -56,6 +56,7 @@ public class ChatManager : MonoBehaviour {
     Dictionary<string, RectTransform> CharacterRects;
     AudioSource AudioManager;
     AudioSource SpeakerAudioManager;
+    ResourcesLoader resourcesLoader;
 
     string NowScene = "";
     string storyName = "";
@@ -95,103 +96,105 @@ public class ChatManager : MonoBehaviour {
         NowStroyActionBox = new ChatActionBox();
         CharacterRects = new Dictionary<string, RectTransform>();
 
-        NowConfig = loader.LoadNowConfig();
-        NowStroyActionBox = loader.LoadStory(storyname, NowConfig);
+        NowConfig = Loading.GetInstance().GetstoryResource().NowConfig;
+        NowStroyActionBox = Loading.GetInstance().GetstoryResource().NowStroyActionBox;
+        NowResourcesBox = Loading.GetInstance().GetstoryResource().NowResourcesBox;
+        Loading.GetInstance().CloseLoading();
+
         NowStroyActionBox.UseBG1 = true;
 
-        LoadStoryResources();
         CreateChatLayer();
         DoingAction(NowStroyActionBox.NowIndex);
     }
 
     //读取故事资源
-    void LoadStoryResources()
-    {
-        NowResourcesBox.characterSprites = new Dictionary<string, Dictionary<string, Sprite>>();
-        NowResourcesBox.windowsSprites = new Dictionary<string, Sprite[]>();
-        NowResourcesBox.bgSprites = new Dictionary<string, Sprite>();
-        NowResourcesBox.bgms = new Dictionary<string, AudioClip>();
-        NowResourcesBox.voices = new Dictionary<string, AudioClip>();
-        Dictionary<string, Sprite> tempResource;
+//    void LoadStoryResources()
+//    {
+//        NowResourcesBox.characterSprites = new Dictionary<string, Dictionary<string, Sprite>>();
+//        NowResourcesBox.windowsSprites = new Dictionary<string, Sprite[]>();
+//        NowResourcesBox.bgSprites = new Dictionary<string, Sprite>();
+//        NowResourcesBox.bgms = new Dictionary<string, AudioClip>();
+//        NowResourcesBox.voices = new Dictionary<string, AudioClip>();
+//        Dictionary<string, Sprite> tempResource;
 
-        //查找角色资源
-        foreach (KeyValuePair<string, ChatAction.StoryCharacter> character in NowStroyActionBox.CharacterList)
-        {
-            Sprite[] tempSprite;
-            tempResource = new Dictionary<string, Sprite>();
+//        //查找角色资源
+//        foreach (KeyValuePair<string, ChatAction.StoryCharacter> character in NowStroyActionBox.CharacterList)
+//        {
+//            Sprite[] tempSprite;
+//            tempResource = new Dictionary<string, Sprite>();
 
-            //读取角色立绘
-#if _storyDebug
-            tempSprite = ResourcesLoader.LoadTextures("Textrue/character/" + character.Value.Image);
-#else
-            tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Value.Image);
-#endif
-            if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
-            foreach (Sprite s in tempSprite)
-            {
-                tempResource.Add(s.name, s);
-            }
-            NowResourcesBox.characterSprites.Add(character.Key, tempResource);
+//            //读取角色立绘
+//#if _storyDebug
+//            tempSprite = resourcesLoader.LoadTextures("Texture/character/" + character.Value.Image);
+//#else
+//            tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Value.Image);
+//#endif
+//            if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
+//            foreach (Sprite s in tempSprite)
+//            {
+//                tempResource.Add(s.name, s);
+//            }
+//            NowResourcesBox.characterSprites.Add(character.Key, tempResource);
 
-            //读取窗口文件
-            tempSprite = Resources.LoadAll<Sprite>("Texture/story/board/" + character.Value.Windows);
-            if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/board/" + character.Value.Windows);
-            NowResourcesBox.windowsSprites.Add(character.Key, tempSprite);
+//            //读取窗口文件
+//            tempSprite = Resources.LoadAll<Sprite>("Texture/story/board/" + character.Value.Windows);
+//            if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/board/" + character.Value.Windows);
+//            NowResourcesBox.windowsSprites.Add(character.Key, tempSprite);
 
-            //读取声音
-            AudioClip tempAudio;
-#if _storyDebug
-            tempAudio = ResourcesLoader.LoadWav("Sound/" + character.Value.Voice);
-#else
-            tempAudio = Resources.Load<AudioClip>("Sound/" + character.Value.Voice);
-#endif
-            if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + character.Value.Voice);
-            NowResourcesBox.voices.Add(character.Key, tempAudio);
-        }
+//            //读取声音
+//            AudioClip tempAudio;
+//#if _storyDebug
+//            tempAudio = resourcesLoader.LoadWav("Sound/" + character.Value.Voice);
+//#else
+//            tempAudio = Resources.Load<AudioClip>("Sound/" + character.Value.Voice);
+//#endif
+//            if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + character.Value.Voice);
+//            NowResourcesBox.voices.Add(character.Key, tempAudio);
+//        }
 
-        //读取背景
-        if (NowStroyActionBox.BG != null)
-        {
-            foreach (string name in NowStroyActionBox.BG)
-            {
-                Sprite tempSprite;
+//        //读取背景
+//        if (NowStroyActionBox.BG != null)
+//        {
+//            foreach (string name in NowStroyActionBox.BG)
+//            {
+//                Sprite tempSprite;
 
-                //读取背景
-#if _storyDebug
-                tempSprite = ResourcesLoader.LoadSingleTexture("Textrue/bg/" + name);
-#else
-                tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
-#endif
+//                //读取背景
+//#if _storyDebug
+//                tempSprite = resourcesLoader.LoadSingleTexture("Texture/bg/" + name);
+//#else
+//                tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+//#endif
 
-                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
-                if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/bg/" + name);
-                NowResourcesBox.bgSprites.Add(name, tempSprite);
-            }
-        }
+//                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+//                if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/bg/" + name);
+//                NowResourcesBox.bgSprites.Add(name, tempSprite);
+//            }
+//        }
 
-        //读取BGM
-        if (NowStroyActionBox.BGM != null)
-        {
-            foreach (string name in NowStroyActionBox.BGM)
-            {
-                AudioClip tempAudio;
+//        //读取BGM
+//        if (NowStroyActionBox.BGM != null)
+//        {
+//            foreach (string name in NowStroyActionBox.BGM)
+//            {
+//                AudioClip tempAudio;
 
-                //读取背景
-#if _storyDebug
-                tempAudio = ResourcesLoader.LoadMp3("Sound/" + name);
-#else
-                tempAudio = Resources.Load<AudioClip>("Sound/" + name);
-#endif
+//                //读取背景
+//#if _storyDebug
+//                tempAudio = resourcesLoader.LoadAudioByWWW("Sound/" + name + ".mp3");
+//#else
+//                tempAudio = Resources.Load<AudioClip>("Sound/" + name);
+//#endif
 
-                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
-                if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + name);
-                NowResourcesBox.bgms.Add(name, tempAudio);
-            }
-        }
+//                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+//                if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + name);
+//                NowResourcesBox.bgms.Add(name, tempAudio);
+//            }
+//        }
 
-        Debug.Log("Load Story Resources Complete!");
+//        Debug.Log("Load Story Resources Complete!");
 
-    }
+//    }
 
     //创建故事面板
     void CreateChatLayer()
@@ -226,6 +229,7 @@ public class ChatManager : MonoBehaviour {
         TextBoardLayer.ClickHintLayer = StoryBoardLayer.FindChild("ClickHint").GetComponent<RectTransform>();
 
         SpeakerAudioManager = StoryBoardLayer.GetComponent<AudioSource>();
+        resourcesLoader = transform.Find("/ToolsKit/EventManager").GetComponent<ResourcesLoader>();
     }
 
     //初始化故事面板
@@ -285,7 +289,10 @@ public class ChatManager : MonoBehaviour {
             LeanTween.alpha(GetBGLayer(), 0, 1f).setOnComplete(() =>
             {
                 Destroy(StoryBoardLayer.gameObject);
-                LoadChatStory(story);
+                Loading.GetInstance().LoadingStoryScene(story, () =>
+                {
+                    LoadChatStory(story);
+                });       
             });
         });
     }

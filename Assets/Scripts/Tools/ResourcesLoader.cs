@@ -1,111 +1,111 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-using NAudio.Wave;
+using System.Collections;
 
-public class ResourcesLoader
+public class ResourcesLoader : MonoBehaviour
 {
-    public static Sprite[] LoadTextures(string path)
-    {
-        List<string> filePaths = new List<string>();
-        string imgtype = "*.BMP|*.JPG|*.GIF|*.PNG";
-        string[] ImageType = imgtype.Split('|');
-        for (int i = 0; i < ImageType.Length; i++)
-        {
-            string[] dirs = Directory.GetFiles(GetDataPath(path), ImageType[i]);
-            for (int j = 0; j < dirs.Length; j++)
-            {
-                filePaths.Add(dirs[j]);
-            }
-        }
+    //public Sprite[] LoadTextures(string path)
+    //{
+    //    List<string> filePaths = new List<string>();
+    //    string imgtype = "*.BMP|*.JPG|*.GIF|*.PNG";
+    //    string[] ImageType = imgtype.Split('|');
+    //    for (int i = 0; i < ImageType.Length; i++)
+    //    {
+    //        string[] dirs = Directory.GetFiles(GetDataPath(path), ImageType[i]);
+    //        for (int j = 0; j < dirs.Length; j++)
+    //        {
+    //            filePaths.Add(dirs[j]);
+    //        }
+    //    }
 
-        Sprite[] sprites = new Sprite[filePaths.Count];
-        for (int i = 0; i < filePaths.Count; i++)
-        {
-            Texture2D tx = new Texture2D(1, 1);
-            //tx.filterMode = FilterMode.Point;
-            tx.LoadImage(getByte(filePaths[i]));
-            sprites[i] = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), new Vector2(0.5f, 0.5f));
-            sprites[i].name = Path.GetFileNameWithoutExtension(filePaths[i]);
-        }
-        return sprites;
-    }
+    //    Sprite[] sprites = new Sprite[filePaths.Count];
+    //    for (int i = 0; i < filePaths.Count; i++)
+    //    {
+    //        Texture2D tx = new Texture2D(1, 1);
+    //        //tx.filterMode = FilterMode.Point;
+    //        tx.LoadImage(getByte(filePaths[i]));
+    //        sprites[i] = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), new Vector2(0.5f, 0.5f));
+    //        sprites[i].name = Path.GetFileNameWithoutExtension(filePaths[i]);
+    //    }
+    //    return sprites;
+    //}
 
-    public static Sprite LoadSingleTexture(string path)
-    {
-        string temppath = GetDataPath(path) + ".png";
-        Sprite sprites = new Sprite();
-        Texture2D tx = new Texture2D(1, 1);
-        //tx.filterMode = FilterMode.Point;
-        tx.LoadImage(getByte(temppath));
-        sprites = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), new Vector2(0.5f, 0.5f));
-        sprites.name = Path.GetFileNameWithoutExtension(temppath);
-        return sprites;
-    }
+    //public Sprite LoadSingleTexture(string path)
+    //{
+    //    string temppath = GetDataPath(path) + ".png";
+    //    Sprite sprites = new Sprite();
+    //    Texture2D tx = new Texture2D(1, 1);
+    //    //tx.filterMode = FilterMode.Point;
+    //    tx.LoadImage(getByte(temppath));
+    //    sprites = Sprite.Create(tx, new Rect(0, 0, tx.width, tx.height), new Vector2(0.5f, 0.5f));
+    //    sprites.name = Path.GetFileNameWithoutExtension(temppath);
+    //    return sprites;
+    //}
 
-    public static AudioClip LoadWav(string path)
-    {
-        string temppath = GetDataPath(path + ".wav");
-        AudioClip clip = FromWavData(getByte(temppath));
-        return clip;
-    }
+    //public AudioClip LoadWav(string path)
+    //{
+    //    string temppath = GetDataPath(path + ".wav");
+    //    AudioClip clip = FromWavData(getByte(temppath));
+    //    return clip;
+    //}
 
-    public static AudioClip LoadMp3(string path)
-    {
-        string temppath = GetDataPath(path + ".mp3");
-        AudioClip clip = FromMp3Data(getByte(temppath));
-        return clip;
-    }
+    //public AudioClip LoadMp3(string path)
+    //{
+    //    string temppath = GetDataPath(path + ".mp3");
+    //    AudioClip clip = FromMp3Data(getByte(temppath));
+    //    return clip;
+    //}
 
-    private static byte[] getByte(string imagePath)
-    {
-        FileStream files = new FileStream(imagePath, FileMode.Open);
-        byte[] imgByte = new byte[files.Length];
-        files.Read(imgByte, 0, imgByte.Length);
-        files.Close();
-        return imgByte;
-    }
+    //private byte[] getByte(string imagePath)
+    //{
+    //    FileStream files = new FileStream(imagePath, FileMode.Open);
+    //    byte[] imgByte = new byte[files.Length];
+    //    files.Read(imgByte, 0, imgByte.Length);
+    //    files.Close();
+    //    return imgByte;
+    //}
 
-    static AudioClip FromWavData(byte[] data)
-    {
-        WAV wav = new WAV(data);
-        AudioClip audioClip = AudioClip.Create("wavclip", wav.SampleCount, 1, wav.Frequency, false);
-        audioClip.SetData(wav.LeftChannel, 0);
-        return audioClip;
-    }
+    //AudioClip FromWavData(byte[] data)
+    //{
+    //    WAV wav = new WAV(data);
+    //    AudioClip audioClip = AudioClip.Create("wavclip", wav.SampleCount, 1, wav.Frequency, false);
+    //    audioClip.SetData(wav.LeftChannel, 0);
+    //    return audioClip;
+    //}
 
-    static AudioClip FromMp3Data(byte[] data)
-    {
-        // Load the data into a stream  
-        MemoryStream mp3stream = new MemoryStream(data);
-        // Convert the data in the stream to WAV format  
-        Mp3FileReader mp3audio = new Mp3FileReader(mp3stream);
+    //AudioClip FromMp3Data(byte[] data)
+    //{
+    //    // Load the data into a stream  
+    //    MemoryStream mp3stream = new MemoryStream(data);
+    //    // Convert the data in the stream to WAV format  
+    //    Mp3FileReader mp3audio = new Mp3FileReader(mp3stream);
 
-        WaveStream waveStream = WaveFormatConversionStream.CreatePcmStream(mp3audio);
-        // Convert to WAV data  
-        WAV wav = new WAV(AudioMemStream(waveStream).ToArray());
-        //Debug.Log(wav);  
-        AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false);
-        audioClip.SetData(wav.LeftChannel, 0);
-        // Return the clip  
-        return audioClip;
-    }
+    //    WaveStream waveStream = WaveFormatConversionStream.CreatePcmStream(mp3audio);
+    //    // Convert to WAV data  
+    //    WAV wav = new WAV(AudioMemStream(waveStream).ToArray());
+    //    //Debug.Log(wav);  
+    //    AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false);
+    //    audioClip.SetData(wav.LeftChannel, 0);
+    //    // Return the clip  
+    //    return audioClip;
+    //}
 
-    static MemoryStream AudioMemStream(WaveStream waveStream)
-    {
-        MemoryStream outputStream = new MemoryStream();
-        using (WaveFileWriter waveFileWriter = new WaveFileWriter(outputStream, waveStream.WaveFormat))
-        {
-            byte[] bytes = new byte[waveStream.Length];
-            waveStream.Position = 0;
-            waveStream.Read(bytes, 0, System.Convert.ToInt32(waveStream.Length));
-            waveFileWriter.Write(bytes, 0, bytes.Length);
-            waveFileWriter.Flush();
-        }
-        return outputStream;
-    }
+    //MemoryStream AudioMemStream(WaveStream waveStream)
+    //{
+    //    MemoryStream outputStream = new MemoryStream();
+    //    using (WaveFileWriter waveFileWriter = new WaveFileWriter(outputStream, waveStream.WaveFormat))
+    //    {
+    //        byte[] bytes = new byte[waveStream.Length];
+    //        waveStream.Position = 0;
+    //        waveStream.Read(bytes, 0, System.Convert.ToInt32(waveStream.Length));
+    //        waveFileWriter.Write(bytes, 0, bytes.Length);
+    //        waveFileWriter.Flush();
+    //    }
+    //    return outputStream;
+    //}
 
-    public static string[] LoadStoryConfig(string path)
+    public string[] LoadStoryConfig(string path)
     {
         string filepath = GetDataPath(path);
 
@@ -116,7 +116,6 @@ public class ResourcesLoader
 
         return textflie;
     }
-
 
     //获取路径//
     public static string GetDataPath(string path)
