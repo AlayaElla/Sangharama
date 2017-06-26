@@ -1,27 +1,22 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
-npc1<name:他喵的坑;image:lili;windows:board1>
-npc2<name:他喵的真坑;image:maria;windows:board2>
+npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
+npc2<name:他喵的真坑;image:maria;windows:board2;voice:voice2>
 
 [Background]
-//1
+test
+
+[Sound]
+bgm1,bgm2
 
 //对话列表
 [ChatList]
-<show 0.2,0,0.25,0,left,idle,npc1,notloop,auto>
-{npc1:idle}好吧，这是自动~\n自动自动！自动！！<a>
-{npc1:idle}下一句应该换行！\n<c>换行！！！
-{npc1:happy}我的<c><color=red>表情</color><size=80>变了</size>！
-{npc1:idle}再变！
-{npc1:happy}好，再来试下放大。。
-{npc1:happy}<size=10>这</size><size=30>种</size><size=50>感</size><size=70>觉</size><size=90>！</size><size=90>这</size><size=70>种</size><size=50>感</size><size=30>觉</size><size=10>！</size>
-{npc1:happy}好吧，这是自动~<a>
-<show 0.8,0,0.25,0,left,idle,npc2,notloop,auto>
-{npc2:happy}换个人出来！\n我的有专属对话框！
-{npc2:happy}而且我名字的位置变了。
-{npc2:idle}来试试文字变色吧~<color=red>变色！！！</color>
-{npc2:idle}来试试放大字体吧~<size=60>变大！！！</size>
-{npc2:idle}<size=30>这</size><size=40>种</size><size=50>感</size><size=60>觉</size><size=70>！</size>
-//{npc1:happy}。。。。。。。。。。。。。。<c>。。。。。。。。。。。。。
-//<show 1.1,0,0.1,1,right,idle,npc2,noloop,click>
-//<move 0.6,0,1,noloop,npc1,noloop,auto>
+<playbgm bgm1>
+<setbg test,2,sametime>
+<show 0.2,0,1,0,left,idle,npc1,notloop,sametime>
+{npc1:idle}第一句话，测试对话！
+{npc1:idle}<t 0.5>第一句话，测试对话！
+<stopbgm>
+{npc1:idle}第一句话，测试对话！
+//<giveitem 2:3>
+<loadstory shop1_2>
