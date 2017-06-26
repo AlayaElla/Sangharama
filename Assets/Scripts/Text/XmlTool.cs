@@ -643,7 +643,60 @@ public class XmlTool
         }
         return ChatConfig;
     }
-    
+
+    //读取事件配置表
+    public ArrayList loadChatEventListXmlToArray()
+    {
+        //保存路径
+        string filepath = "Config/Story/ChatEventList";
+
+        string _result = Resources.Load(filepath).ToString();
+
+        ArrayList ChatEventsList = new ArrayList();
+
+        XmlDocument xmlDoc = new XmlDocument();
+
+        xmlDoc.LoadXml(_result);
+
+        XmlNodeList nodeList = xmlDoc.SelectSingleNode("ChatEventList").ChildNodes;
+
+        foreach (XmlElement events in nodeList)
+        {
+
+            ChatEventManager.ChatEvent _event = new ChatEventManager.ChatEvent();
+
+            //读取node内属性，把string转化为对应的属性
+            if (events.GetAttribute("ID") != "")
+                _event.ID = int.Parse(events.GetAttribute("ID"));
+            if (events.GetAttribute("EventType") != "")
+                _event.EventType = events.GetAttribute("EventType");
+            if (events.GetAttribute("Num") != "")
+                _event.Num = int.Parse(events.GetAttribute("Num"));
+            if (events.GetAttribute("Parameter") != "")
+            {
+                string[] ParameterList = events.GetAttribute("Parameter").Split(',');
+                _event.Parameter = new int[ParameterList.Length];
+                for (int i = 0; i < ParameterList.Length; i++)
+                {
+                    _event.Parameter[i] = int.Parse(ParameterList[i]);
+                }
+            }
+            if (events.GetAttribute("EventItem") != "")
+            {
+                string[] EventItemList = events.GetAttribute("EventItem").Split(',');
+                _event.EventItem = new int[EventItemList.Length];
+                for (int i = 0; i < EventItemList.Length; i++)
+                {
+                    _event.EventItem[i] = int.Parse(EventItemList[i]);
+                }
+            }
+            //添加进itemList中
+            ChatEventsList.Add(_event);
+        }
+        return ChatEventsList;
+    }
+
+
     //获取路径//
     private static string GetDataPath()
     {

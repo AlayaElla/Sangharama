@@ -7,7 +7,8 @@ public class ChatEventManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        XmlTool xl = new XmlTool();
+        ChatEventsList = xl.loadChatEventListXmlToArray();
     }
 	
 	// Update is called once per frame
@@ -16,7 +17,11 @@ public class ChatEventManager : MonoBehaviour {
 	}
     public struct ChatEvent
     {
+        public int ID;
         public string EventType;
+        public int Num;
+        public int[] Parameter;
+        public int[] EventItem;
     }
 
     ChatManager chatmanager;
