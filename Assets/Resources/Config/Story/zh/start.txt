@@ -4,7 +4,7 @@ npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
 npc2<name:他喵的真坑;image:maria;windows:board2;voice:voice2>
 
 [Background]
-test
+test,1
 
 [Sound]
 bgm1,bgm2
@@ -18,5 +18,8 @@ bgm1,bgm2
 {npc1:idle}<t 0.5>第一句话，测试对话！
 <stopbgm>
 {npc1:idle}第一句话，测试对话！
+<setbg 1,2,sametime>
+<playbgm bgm2>
+{npc1:idle}第2句话，测试对话！
 //<giveitem 2:3>
 <loadstory shop1_2>

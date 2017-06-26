@@ -93,16 +93,115 @@ public class Loading : MonoBehaviour {
         storyResPack.NowConfig = loader.LoadNowConfig();
         storyResPack.NowStroyActionBox = loader.LoadStory(storyname, storyResPack.NowConfig);
 
-        StartCoroutine(LoadStroyResources(()=>
+#if _storyDebug
+        StartCoroutine(LoadStroyResourcesOut(()=>
         {
             isLoadingDone = true;
             www = null;
-            Debug.Log(storyResPack);
             loadingDone();
         }));
+#else
+        StartCoroutine(LoadStoryResources(()=>
+        {
+            isLoadingDone = true;
+            loadingDone();
+        }));
+#endif
+
+
     }
 
-    IEnumerator LoadStroyResources(System.Action loadFinish)
+
+    IEnumerator LoadStoryResources(System.Action loadingDone)
+    {
+        isLoadingDone = false;
+        storyResPack.NowResourcesBox.characterSprites = new Dictionary<string, Dictionary<string, Sprite>>();
+        storyResPack.NowResourcesBox.windowsSprites = new Dictionary<string, Sprite[]>();
+        storyResPack.NowResourcesBox.bgSprites = new Dictionary<string, Sprite>();
+        storyResPack.NowResourcesBox.bgms = new Dictionary<string, AudioClip>();
+        storyResPack.NowResourcesBox.voices = new Dictionary<string, AudioClip>();
+        Dictionary<string, Sprite> tempResource;
+        ResourceRequest rq;
+
+        //查找角色资源
+        foreach (KeyValuePair<string, ChatAction.StoryCharacter> character in storyResPack.NowStroyActionBox.CharacterList)
+        {
+            Sprite[] tempSprite;
+            tempResource = new Dictionary<string, Sprite>();
+            //读取角色立绘
+
+            tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Value.Image);
+            Debug.Log("Texture/story/character/" + character.Value.Image);
+
+            if (tempSprite.Length == 0) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
+            else
+            {
+                foreach (Sprite s in tempSprite)
+                {
+                    tempResource.Add(s.name, s);
+                }
+                storyResPack.NowResourcesBox.characterSprites.Add(character.Key, tempResource);
+            }
+
+            //读取窗口文件
+            tempSprite = Resources.LoadAll<Sprite>("Texture/story/board/" + character.Value.Windows);
+            if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/board/" + character.Value.Windows);
+            storyResPack.NowResourcesBox.windowsSprites.Add(character.Key, tempSprite);
+
+            //读取声音
+            AudioClip tempAudio;
+
+            //tempAudio = Resources.Load<AudioClip>("Sound/" + character.Value.Voice);
+            rq = Resources.LoadAsync<AudioClip>("Sound/" + character.Value.Voice);
+            yield return rq;
+            tempAudio = (AudioClip)rq.asset;
+
+            if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + character.Value.Voice);
+            storyResPack.NowResourcesBox.voices.Add(character.Key, tempAudio);
+        }
+
+        //读取背景
+        if (storyResPack.NowStroyActionBox.BG != null)
+        {
+            foreach (string name in storyResPack.NowStroyActionBox.BG)
+            {
+                Sprite tempSprite;
+
+                //读取背景
+                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+                rq = Resources.LoadAsync<Sprite>("Texture/story/bg/" + name);
+                yield return rq;
+                tempSprite = (Sprite)rq.asset;
+
+                //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
+                if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/bg/" + name);
+                storyResPack.NowResourcesBox.bgSprites.Add(name, tempSprite);
+            }
+        }
+
+        //读取BGM
+        if (storyResPack.NowStroyActionBox.BGM != null)
+        {
+            foreach (string name in storyResPack.NowStroyActionBox.BGM)
+            {
+                AudioClip tempAudio;
+
+                //读取背景
+                //tempAudio = Resources.Load<AudioClip>("Sound/" + name);
+                rq = Resources.LoadAsync<AudioClip>("Sound/" + name);
+                yield return rq;
+                tempAudio = (AudioClip)rq.asset;
+
+                if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + name);
+                storyResPack.NowResourcesBox.bgms.Add(name, tempAudio);
+            }
+        }
+        rq = null;
+        loadingDone();
+    }
+
+
+    IEnumerator LoadStroyResourcesOut(System.Action loadFinish)
     {
         isLoadingDone = false;
         storyResPack.NowResourcesBox.characterSprites = new Dictionary<string, Dictionary<string, Sprite>>();
@@ -148,14 +247,12 @@ public class Loading : MonoBehaviour {
 
             //读取声音
             AudioClip tempAudio;
-#if _storyDebug
+
             www = new WWW("file:///" + GetDataPath("Sound/" + character.Value.Voice) + ".wav");
             yield return www;
-            Debug.Log(www.url);
+            //Debug.Log(www.url);
             tempAudio = www.audioClip;
-#else
-            tempAudio = Resources.Load<AudioClip>("Sound/" + character.Value.Voice);
-#endif
+
             if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + character.Value.Voice);
             storyResPack.NowResourcesBox.voices.Add(character.Key, tempAudio);
         }
@@ -166,18 +263,17 @@ public class Loading : MonoBehaviour {
             Sprite tempSprite;
             foreach (string name in storyResPack.NowStroyActionBox.BG)
             {
+                Debug.Log("loadingBG: " + name);
                 //读取背景
-#if _storyDebug
+
                 string bgpath = GetDataPath("Texture/bg/" + name + ".png");
                 www = new WWW("file:///" + bgpath);
                 yield return www;
-                Debug.Log(www.url);
+                //Debug.Log(www.url);
                 Texture2D texture = www.texture;
                 tempSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 tempSprite.name = Path.GetFileNameWithoutExtension(bgpath);
-#else
-                tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
-#endif
+
                 if (tempSprite == null) Debug.LogError("Can't find " + "Texture/story/bg/" + name);
                 storyResPack.NowResourcesBox.bgSprites.Add(name, tempSprite);
             }
@@ -190,14 +286,12 @@ public class Loading : MonoBehaviour {
             {
                 AudioClip tempAudio;
                 //读取背景
-#if _storyDebug
+
                 www = new WWW("file:///" + GetDataPath("Sound/" + name + ".mp3"));
                 yield return www;
-                Debug.Log(www.url);
+                //Debug.Log(www.url);
                 tempAudio = www.audioClip;
-#else
-                tempAudio = Resources.Load<AudioClip>("Sound/" + name);
-#endif
+
 
                 //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);
                 if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + name);
