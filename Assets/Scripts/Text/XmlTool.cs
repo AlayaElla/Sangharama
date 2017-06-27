@@ -690,6 +690,8 @@ public class XmlTool
                     _event.EventItem[i] = int.Parse(EventItemList[i]);
                 }
             }
+            if (events.GetAttribute("StoryName") != "")
+                _event.StoryName = events.GetAttribute("StoryName");
             //添加进itemList中
             ChatEventsList.Add(_event);
         }

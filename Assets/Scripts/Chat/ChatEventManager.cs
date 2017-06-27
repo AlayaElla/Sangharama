@@ -22,6 +22,7 @@ public class ChatEventManager : MonoBehaviour {
         public int Num;
         public int[] Parameter;
         public int[] EventItem;
+        public string StoryName;
     }
 
     ChatManager chatmanager;
