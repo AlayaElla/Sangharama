@@ -24,6 +24,7 @@ public class CharBag : MonoBehaviour {
         public int[] Property;    //属性
         public int MaterialEffet;    //材料特性
         public int Type;        //类型ID
+
     }
 
     static ArrayList GoodsList = new ArrayList();

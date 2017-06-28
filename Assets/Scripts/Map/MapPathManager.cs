@@ -101,6 +101,11 @@ public class MapPathManager : MonoBehaviour {
 
 	}
 
+    public static Path[] GetPathList()
+    {
+        return PathList;
+    }
+
     void GetPathConfig()
     {
         XmlTool xt = new XmlTool();

@@ -103,6 +103,21 @@ public class Materiral : MonoBehaviour {
         return itemList;
     }
 
+    static public ArrayList GetMindList()
+    {
+        return mindList;
+    }
+
+    static public ArrayList GetSpecialItemList()
+    {
+        return specialItemList;
+    }
+
+    static public ArrayList GetPropertyList()
+    {
+        return propertyEffetList;
+    }
+
     //通过ID查找物品
     static public Items FindItemByID(int ID)
     {
