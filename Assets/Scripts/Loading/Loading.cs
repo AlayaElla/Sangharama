@@ -131,7 +131,7 @@ public class Loading : MonoBehaviour {
             //读取角色立绘
 
             tempSprite = Resources.LoadAll<Sprite>("Texture/story/character/" + character.Value.Image);
-            Debug.Log("Texture/story/character/" + character.Value.Image);
+            //Debug.Log("Texture/story/character/" + character.Value.Image);
 
             if (tempSprite.Length == 0) Debug.LogError("Can't find " + "Texture/story/character/" + character.Key);
             else

@@ -117,7 +117,7 @@ public class PlayerInfo : MonoBehaviour {
             playerinfo = new Info();
             InitPlayerInfoData();
             Debug.Log("dont have playerinfo!");
-            PlayerData.PlayerInfoData.SaveData("PlayerInfoData.sav");
+            PlayerData.PlayerInfoData.Save(playerinfo);
         }
     }
 
@@ -181,13 +181,19 @@ public class PlayerInfo : MonoBehaviour {
         }
 
         ////初始化地图路点数据
-        //foreach (MapPathManager.Path p in MapPathManager.GetPathList())
-        //{
-        //    MapInfo m = new MapInfo();
-        //    m.ID = p.Map;
-        //    m.InCount = 0;
-        //    playerinfo.MapInfoList.Add(m);
-        //}
+        XmlTool xt = new XmlTool();
+        ArrayList _list = xt.loadPathXmlToArray();
+        MapPathManager.Path[] PathList = new MapPathManager.Path[_list.Count];
+        _list.CopyTo(PathList);
+        xt = null;_list.Clear();
+
+        foreach (MapPathManager.Path p in PathList)
+        {
+            MapInfo m = new MapInfo();
+            m.ID = p.Map;
+            m.InCount = 0;
+            playerinfo.MapInfoList.Add(m);
+        }
     }
 
 

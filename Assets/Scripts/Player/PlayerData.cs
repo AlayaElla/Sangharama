@@ -23,6 +23,10 @@ public class PlayerData : MonoBehaviour {
     {
         static public ArrayList datas = new ArrayList();
 
+        /// <summary>
+        /// 这个是需要保存的方法模板，不要直接用这个保存，需要使用每个class里面重写的保存方法
+        /// </summary>
+        /// <param name="name">保存的文件名称</param>
         static public void SaveData(string name)
         {
             try
