@@ -669,7 +669,44 @@ public class XmlTool
             if (events.GetAttribute("ID") != "")
                 _event.ID = int.Parse(events.GetAttribute("ID"));
             if (events.GetAttribute("EventType") != "")
-                _event.EventType = events.GetAttribute("EventType");
+            {
+                switch (events.GetAttribute("EventType"))
+                {
+                    case "PutGoods":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.PutGoods;
+                        break;
+                    case "SellGoods":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.SellGoods;
+                        break;
+                    case "ComposeGoods":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.ComposeGoods;
+                        break;
+                    case "CollectGoods":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.CollectGoods;
+                        break;
+                    case "ComposeProperty":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.ComposeProperty;
+                        break;
+                    case "InShop":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.InShop;
+                        break;
+                    case "InMap":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.InMap;
+                        break;
+                    case "Arrive":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.Arrive;
+                        break;
+                    case "Mines":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.Mines;
+                        break;
+                    case "Golds":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.Golds;
+                        break;
+                    default:
+                        Debug.LogError("Unkown EventType:" + events.GetAttribute("EventType") + "!!!!");
+                        break;
+                }
+            }
             if (events.GetAttribute("Num") != "")
                 _event.Num = int.Parse(events.GetAttribute("Num"));
             if (events.GetAttribute("Parameter") != "")

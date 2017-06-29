@@ -22,6 +22,7 @@ public class Loading : MonoBehaviour {
         loadingBG = Instance.transform.FindChild("LoadingBG").GetComponent<RectTransform>();
         progressText = Instance.transform.FindChild("loadingText").GetComponent<Text>();
         LoadingLayer = Instance.transform.GetComponent<CanvasGroup>();
+        progressText.text = "loading...";
         LoadingLayer.alpha = 0;
         loadingBG.position = new Vector2(640, 0);
         LeanTween.alphaCanvas(transform.GetComponent<CanvasGroup>(), 1, 0.5f);
