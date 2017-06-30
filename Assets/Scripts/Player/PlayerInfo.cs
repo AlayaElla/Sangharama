@@ -14,6 +14,7 @@ public class PlayerInfo : MonoBehaviour {
         public MaterialInfo MaterialInfoList;
         public ArrayList SenceInfoList;
         public ArrayList MapInfoList;
+        public ArrayList CompleteEvents;
     }
 
     static Info playerinfo;
@@ -134,6 +135,7 @@ public class PlayerInfo : MonoBehaviour {
         playerinfo.MaterialInfoList.SpecialItems = new ArrayList();
         playerinfo.MaterialInfoList.Propertys = new ArrayList();
         playerinfo.SenceInfoList = new ArrayList();
+        playerinfo.CompleteEvents = new ArrayList();
 
         //初始材料
         foreach (Materiral.Items m in Materiral.GetItemList())
@@ -221,6 +223,13 @@ public class PlayerInfo : MonoBehaviour {
     static public void ChangeMineCount(int num)
     {
         playerinfo.MineCount += num;
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
+    static public void ClearCompleteEvents(GameObject obj)
+    {
+        playerinfo.CompleteEvents.Clear();
+        Debug.Log("Clear CompleteEvents!\nEvents Count:" + playerinfo.CompleteEvents.Count);
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
 }

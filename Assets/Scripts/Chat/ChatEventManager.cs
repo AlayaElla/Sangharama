@@ -10,7 +10,7 @@ public class ChatEventManager : MonoBehaviour {
         XmlTool xl = new XmlTool();
         ChatEventsList = xl.loadChatEventListXmlToArray();
     }
-	
+
 	// Update is called once per frame
 	void Update () {
 	
@@ -41,8 +41,13 @@ public class ChatEventManager : MonoBehaviour {
     ArrayList ChatEventsList;
     ArrayList StoryList;
 
-    public void StartStory(string stroy)
+    public void StartStory()
     {
+        if (StoryList.Count == 0 || StoryList == null)
+        {
+            Debug.LogError("Can't Start Story,Don't have StoryList!");
+            return;
+        }
         Scene scence = SceneManager.GetActiveScene();
         Debug.Log("Now scence: " + scence.name);
 
@@ -60,7 +65,7 @@ public class ChatEventManager : MonoBehaviour {
             newobj.AddComponent<AudioSource>();
         }
         chatmanager.SetNowScene(scence.name);
-        chatmanager.LoadChatStory(stroy);
+        chatmanager.LoadChatStory((string)StoryList[0]);
     }
 
     /// <summary>
@@ -71,6 +76,7 @@ public class ChatEventManager : MonoBehaviour {
     public bool CheckEventList(ChatEvent.EventTypeList EventType)
     {
         bool ishit = false;
+        PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
 
         //筛选需要判断的事件
         ArrayList CheckList = new ArrayList();
@@ -90,8 +96,7 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.SellGoods:
                 case ChatEvent.EventTypeList.ComposeGoods:
                 case ChatEvent.EventTypeList.CollectGoods:
-                case ChatEvent.EventTypeList.ComposeProperty:
-                    
+                case ChatEvent.EventTypeList.ComposeProperty:        
                     break;
                 case ChatEvent.EventTypeList.InShop:
                     break;
@@ -102,6 +107,12 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Mines:
                     break;
                 case ChatEvent.EventTypeList.Golds:
+                    if (_event.Num <= playerInfo.Money && !playerInfo.CompleteEvents.Contains(_event.ID))
+                    {
+                        ishit = true;
+                        playerInfo.CompleteEvents.Add(_event.ID);
+                        AddStroyName(_event.StoryName);
+                    }
                     break;
                 default:
                     Debug.LogWarning("Can't Check EventType:" + EventType + "!");
@@ -151,5 +162,10 @@ public class ChatEventManager : MonoBehaviour {
                 break;
         }
         return ishit;
+    }
+
+    public void AddStroyName(string name)
+    {
+        StoryList.Add(name);
     }
 }

@@ -25,6 +25,7 @@ public class ShopUI : MonoBehaviour {
 
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (2)")).onClick = OpenSpecialItemBag;
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (3)")).onClick = OpenSpecialItemBagAll;
+        EventTriggerListener.Get(GameObject.Find("Canvas/Button (4)")).onClick = PlayerInfo.ClearCompleteEvents;
     }
 	
 	// Update is called once per frame

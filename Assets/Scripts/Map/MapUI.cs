@@ -16,9 +16,13 @@ public class MapUI : MonoBehaviour {
 
     //保存角色信息
     PlayerInfo.Info playerInfo = new PlayerInfo.Info();
+    ChatEventManager eventmanager;
+
 
 	// Use this for initialization
 	void Start () {
+        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
+
         moneyIcon = MoneyBoard.FindChild("icon").GetComponent<RectTransform>();
         moneyText = MoneyBoard.FindChild("Text").GetComponent<Text>();
 
@@ -63,6 +67,9 @@ public class MapUI : MonoBehaviour {
 
         PlayerInfo.ChangeMoney(num);
         UpdateMapUI();
+
+        bool ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds);
+        Debug.Log(ishit);
 
         LeanTween.cancel(moneyIcon.gameObject);
         LeanTween.scale(moneyIcon, new Vector3(1.1f, 1.1f, 1.1f), actiontime).setLoopPingPong(1);
@@ -130,7 +137,6 @@ public class MapUI : MonoBehaviour {
 
     void FlyToPositon(Image img, RectTransform rect,int num)
     {
-
         if (num > 50)
             num = 50;
 
