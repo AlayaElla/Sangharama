@@ -58,6 +58,7 @@ public class ChatManager : MonoBehaviour {
     AudioSource SpeakerAudioManager;
     ResourcesLoader resourcesLoader;
 
+    ArrayList StoryList;
     string NowScene = "";
     string storyName = "";
     string lastWords = "";  //用于保存上一个动作时说话的台词，在点击时在lastword中增加当前语句，来达到点击快速完成当前对话的功能。啊，这个方法我知道有点坑!
@@ -85,10 +86,25 @@ public class ChatManager : MonoBehaviour {
 
 	}
 
+    //添加故事列表
+    public void PushStoryList(ArrayList list)
+    {
+        StoryList = new ArrayList();
+        StoryList = list;
+    }
+
+    //获取故事列表
+    public ArrayList GetStoryList()
+    {
+        return StoryList;
+    }
+
     //读取故事配置
     public void LoadChatStory(string storyname)
     {
         storyName = storyname;
+        Debug.Log("Start: " + storyname);
+
         ChatLoader loader = new ChatLoader();
 
         //初始化
@@ -263,6 +279,16 @@ public class ChatManager : MonoBehaviour {
     //关闭故事面板
     void EndChatLayer()
     {
+        if (StoryList.Count > 0)
+        {
+            StoryList.RemoveAt(0);
+        }
+        if (StoryList.Count > 0)
+        {
+            ChangeStory((string)StoryList[0]);
+            return;
+        }
+
         LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
             {
                 LeanTween.alphaCanvas(CharacterLayer.GetComponent<CanvasGroup>(), 0, 1f);
@@ -283,17 +309,10 @@ public class ChatManager : MonoBehaviour {
     //切换故事
     void ChangeStory(string story)
     {
-        LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 0, 0.25f).setOnComplete(() =>
+        Loading.GetInstance().LoadingStoryScene(story, () =>
         {
-            LeanTween.alphaCanvas(CharacterLayer.GetComponent<CanvasGroup>(), 0, 1f);
-            LeanTween.alpha(GetBGLayer(), 0, 1f).setOnComplete(() =>
-            {
-                Destroy(StoryBoardLayer.gameObject);
-                Loading.GetInstance().LoadingStoryScene(story, () =>
-                {
-                    LoadChatStory(story);
-                });       
-            });
+            Destroy(StoryBoardLayer.gameObject);
+            LoadChatStory(story);
         });
     }
 
@@ -427,12 +446,12 @@ public class ChatManager : MonoBehaviour {
                 if (action.Parameter[4] == "left")
                 {
                     if (character.localScale.x > 0)
-                        character.localScale = new Vector2(character.localScale.x * -1, character.localScale.y);
+                        character.localScale = new Vector3(character.localScale.x * -1, character.localScale.y, 1);
                 }
                 else
                 {
                     if (character.localScale.x > 0)
-                        character.localScale = new Vector2(character.localScale.x * -1, character.localScale.y);
+                        character.localScale = new Vector3(character.localScale.x * -1, character.localScale.y, 1);
                 }
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
@@ -573,16 +592,16 @@ public class ChatManager : MonoBehaviour {
             case "scale":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetCharacterRectTransform(action.CharacterID);
-                Vector2 lastscale = character.localScale;
+                Vector3 lastscale = character.localScale;
                 NowStroyActionBox.info = lastscale;
-                Vector2 scalevector = new Vector2(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]));
+                Vector3 scalevector = new Vector3(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]), 1);
                 if ((float.Parse(action.Parameter[0]) < 0 && character.localScale.x < 0)|| (float.Parse(action.Parameter[0]) > 0 && character.localScale.x < 0))
                 {
-                    scalevector = new Vector2(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]));
+                    scalevector = new Vector3(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]), 1);
                 }
                 if ((float.Parse(action.Parameter[1]) < 0 && character.localScale.y < 0) || (float.Parse(action.Parameter[1]) > 0 && character.localScale.y < 0))
                 {
-                    scalevector = new Vector2(scalevector.x, float.Parse(action.Parameter[1]) * -1);
+                    scalevector = new Vector3(scalevector.x, float.Parse(action.Parameter[1]) * -1, 1);
                 }
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
@@ -721,16 +740,16 @@ public class ChatManager : MonoBehaviour {
             case "windowscale":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = TextBoardLayer.WordsBacklayer;
-                Vector2 windowlastscale = character.localScale;
+                Vector3 windowlastscale = character.localScale;
                 NowStroyActionBox.info = windowlastscale;
-                Vector2 windowscalevector = new Vector2(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]));
+                Vector3 windowscalevector = new Vector3(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]), 1);
                 if ((float.Parse(action.Parameter[0]) < 0 && character.localScale.x < 0) || (float.Parse(action.Parameter[0]) > 0 && character.localScale.x < 0))
                 {
-                    windowscalevector = new Vector2(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]));
+                    windowscalevector = new Vector3(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]), 1);
                 }
                 if ((float.Parse(action.Parameter[1]) < 0 && character.localScale.y < 0) || (float.Parse(action.Parameter[1]) > 0 && character.localScale.y < 0))
                 {
-                    windowscalevector = new Vector2(windowscalevector.x, float.Parse(action.Parameter[1]) * -1);
+                    windowscalevector = new Vector3(windowscalevector.x, float.Parse(action.Parameter[1]) * -1, 1);
                 }
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
@@ -869,16 +888,16 @@ public class ChatManager : MonoBehaviour {
             case "bgscale":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 character = GetBGLayer();
-                Vector2 bglastscale = character.localScale;
+                Vector3 bglastscale = character.localScale;
                 NowStroyActionBox.info = bglastscale;
-                Vector2 bgscalevector = new Vector2(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]));
+                Vector3 bgscalevector = new Vector3(float.Parse(action.Parameter[0]), float.Parse(action.Parameter[1]), 1);
                 if ((float.Parse(action.Parameter[0]) < 0 && character.localScale.x < 0) || (float.Parse(action.Parameter[0]) > 0 && character.localScale.x < 0))
                 {
-                    bgscalevector = new Vector2(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]));
+                    bgscalevector = new Vector3(float.Parse(action.Parameter[0]) * -1, float.Parse(action.Parameter[1]), 1);
                 }
                 if ((float.Parse(action.Parameter[1]) < 0 && character.localScale.y < 0) || (float.Parse(action.Parameter[1]) > 0 && character.localScale.y < 0))
                 {
-                    bgscalevector = new Vector2(bgscalevector.x, float.Parse(action.Parameter[1]) * -1);
+                    bgscalevector = new Vector3(bgscalevector.x, float.Parse(action.Parameter[1]) * -1, 1);
                 }
 
                 if (action.SkipType == ChatAction.SKIPTYPE.AUTO)
@@ -1215,14 +1234,14 @@ public class ChatManager : MonoBehaviour {
                             break;
                         case "scale":
                             rt = GetCharacterRectTransform(_action.CharacterID);
-                            Vector2 scalevector = new Vector2(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]));
+                            Vector3 scalevector = new Vector3(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]), 1);
                             if ((float.Parse(_action.Parameter[0]) < 0 && rt.localScale.x < 0) || (float.Parse(_action.Parameter[0]) > 0 && rt.localScale.x < 0))
                             {
-                                scalevector = new Vector2(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]));
+                                scalevector = new Vector3(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]), 1);
                             }
                             if ((float.Parse(_action.Parameter[1]) < 0 && rt.localScale.y < 0) || (float.Parse(_action.Parameter[1]) > 0 && rt.localScale.y < 0))
                             {
-                                scalevector = new Vector2(scalevector.x, float.Parse(_action.Parameter[1]) * -1);
+                                scalevector = new Vector3(scalevector.x, float.Parse(_action.Parameter[1]) * -1, 1);
                             }
 
                             //如果是循环，则无视
@@ -1236,7 +1255,7 @@ public class ChatManager : MonoBehaviour {
                                 else
                                 {
                                     LeanTween.cancel(rt.gameObject);
-                                    rt.localScale = (Vector2)NowStroyActionBox.info;
+                                    rt.localScale = (Vector3)NowStroyActionBox.info;
                                 }
                             }
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
@@ -1281,14 +1300,14 @@ public class ChatManager : MonoBehaviour {
                             break;
                         case "windowscale":
                             rt = TextBoardLayer.WordsBacklayer;
-                            Vector2 windowscalevector = new Vector2(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]));
+                            Vector3 windowscalevector = new Vector3(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]), 1);
                             if ((float.Parse(_action.Parameter[0]) < 0 && rt.localScale.x < 0) || (float.Parse(_action.Parameter[0]) > 0 && rt.localScale.x < 0))
                             {
-                                windowscalevector = new Vector2(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]));
+                                windowscalevector = new Vector3(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]), 1);
                             }
                             if ((float.Parse(_action.Parameter[1]) < 0 && rt.localScale.y < 0) || (float.Parse(_action.Parameter[1]) > 0 && rt.localScale.y < 0))
                             {
-                                windowscalevector = new Vector2(windowscalevector.x, float.Parse(_action.Parameter[1]) * -1);
+                                windowscalevector = new Vector3(windowscalevector.x, float.Parse(_action.Parameter[1]) * -1, 1);
                             }
 
                             //如果是循环，则无视
@@ -1302,7 +1321,7 @@ public class ChatManager : MonoBehaviour {
                                 else
                                 {
                                     LeanTween.cancel(rt.gameObject);
-                                    rt.localScale = (Vector2)NowStroyActionBox.info;
+                                    rt.localScale = (Vector3)NowStroyActionBox.info;
                                 }
                             }
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
@@ -1347,14 +1366,14 @@ public class ChatManager : MonoBehaviour {
                             break;
                         case "bgscale":
                             rt = GetBGLayer();
-                            Vector2 bgscalevector = new Vector2(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]));
+                            Vector3 bgscalevector = new Vector3(float.Parse(_action.Parameter[0]), float.Parse(_action.Parameter[1]), 1);
                             if ((float.Parse(_action.Parameter[0]) < 0 && rt.localScale.x < 0) || (float.Parse(_action.Parameter[0]) > 0 && rt.localScale.x < 0))
                             {
-                                windowscalevector = new Vector2(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]));
+                                windowscalevector = new Vector3(float.Parse(_action.Parameter[0]) * -1, float.Parse(_action.Parameter[1]), 1);
                             }
                             if ((float.Parse(_action.Parameter[1]) < 0 && rt.localScale.y < 0) || (float.Parse(_action.Parameter[1]) > 0 && rt.localScale.y < 0))
                             {
-                                windowscalevector = new Vector2(bgscalevector.x, float.Parse(_action.Parameter[1]) * -1);
+                                windowscalevector = new Vector3(bgscalevector.x, float.Parse(_action.Parameter[1]) * -1, 1);
                             }
 
                             //如果是循环，则无视
@@ -1368,7 +1387,7 @@ public class ChatManager : MonoBehaviour {
                                 else
                                 {
                                     LeanTween.cancel(rt.gameObject);
-                                    rt.localScale = (Vector2)NowStroyActionBox.info;
+                                    rt.localScale = (Vector3)NowStroyActionBox.info;
                                 }
                             }
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
@@ -1610,6 +1629,7 @@ public class ChatManager : MonoBehaviour {
         {
             GameObject obj = new GameObject();
             obj.name = id;
+            obj.layer = 5;
             obj.transform.SetParent(CharacterLayer,false);
             c = obj.AddComponent<RectTransform>();
             c.pivot = new Vector2(0.5f, 0);
@@ -1632,6 +1652,7 @@ public class ChatManager : MonoBehaviour {
             Image objimg = rt.GetComponent<Image>();
             objimg.sprite = NowResourcesBox.characterSprites[id][name];
             objimg.SetNativeSize();
+            //rt.localScale = new Vector3(rt.localScale.x, rt.localScale.y, 1);
         }
         else
         {
@@ -1658,7 +1679,7 @@ public class ChatManager : MonoBehaviour {
             TextBoardLayer.NameText.text = NowStroyActionBox.CharacterList[action.CharacterID].Name;
 
             RectTransform rt = GetCharacterRectTransform(action.CharacterID);
-            TextBoardLayer.NameBackLayer.localPosition = new Vector2(rt.localPosition.x - TextBoardLayer.WordsBacklayer.rect.width / 2, TextBoardLayer.NameBackLayer.localPosition.y);
+            TextBoardLayer.NameBackLayer.localPosition = new Vector3(rt.localPosition.x - TextBoardLayer.WordsBacklayer.rect.width / 2, TextBoardLayer.NameBackLayer.localPosition.y, 1);
 
             LeanTween.scaleY(TextBoardLayer.WordsBacklayer.gameObject, 1, 0.25f).setOnComplete(() =>
                 {

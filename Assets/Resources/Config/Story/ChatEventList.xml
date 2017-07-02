@@ -9,5 +9,5 @@
 	<ChatEvent ID="7" EventType="InMap" Num="10" StoryName="shop1_1"/>
 	<ChatEvent ID="8" EventType="Arrive" Num="5" Parameter="7" EventItem="2,2" StoryName="shop1_1"/>
 	<ChatEvent ID="9" EventType="Mines" Num="10" StoryName="start"/>
-	<ChatEvent ID="10" EventType="Golds" Num="100" StoryName="start"/>
+	<ChatEvent ID="10" EventType="Golds" Num="100" StoryName="gold1_1"/>
 </ChatEventList>

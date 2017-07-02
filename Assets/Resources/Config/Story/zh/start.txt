@@ -22,4 +22,4 @@ bgm1,bgm2
 <playbgm bgm2>
 {npc1:idle}第2句话，测试对话！
 //<giveitem 2:3>
-<loadstory shop1_2>
+//<loadstory shop1_2>

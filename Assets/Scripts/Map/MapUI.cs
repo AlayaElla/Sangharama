@@ -40,7 +40,12 @@ public class MapUI : MonoBehaviour {
         {
             AddMoney(100 - playerInfo.Money, null);
         }
-	}
+        eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, true);
+        if (eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false))
+        {
+            eventmanager.StartStory();
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -67,9 +72,7 @@ public class MapUI : MonoBehaviour {
 
         PlayerInfo.ChangeMoney(num);
         UpdateMapUI();
-
-        bool ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds);
-        Debug.Log(ishit);
+        //Debug.Log(ishit);
 
         LeanTween.cancel(moneyIcon.gameObject);
         LeanTween.scale(moneyIcon, new Vector3(1.1f, 1.1f, 1.1f), actiontime).setLoopPingPong(1);

@@ -9,10 +9,11 @@ public class ChatEventManager : MonoBehaviour {
 	void Start () {
         XmlTool xl = new XmlTool();
         ChatEventsList = xl.loadChatEventListXmlToArray();
+        StoryList = new ArrayList();
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
 	
 	}
     public struct ChatEvent
@@ -65,7 +66,18 @@ public class ChatEventManager : MonoBehaviour {
             newobj.AddComponent<AudioSource>();
         }
         chatmanager.SetNowScene(scence.name);
-        chatmanager.LoadChatStory((string)StoryList[0]);
+        chatmanager.PushStoryList(StoryList);
+
+        Loading.GetInstance().LoadingStoryScene((string)chatmanager.GetStoryList()[0], () =>
+        {
+            chatmanager.LoadChatStory((string)chatmanager.GetStoryList()[0]);
+        });
+    }
+
+    public void StartStory(string storyname)
+    {
+        AddStroyName(storyname);
+        StartStory();
     }
 
     /// <summary>
@@ -73,9 +85,10 @@ public class ChatEventManager : MonoBehaviour {
     /// </summary>
     /// <param name="EventType"></param>
     /// <returns></returns>
-    public bool CheckEventList(ChatEvent.EventTypeList EventType)
+    public bool CheckEventList(ChatEvent.EventTypeList EventType,bool ClearStoryList)
     {
         bool ishit = false;
+        if(ClearStoryList)  StoryList = new ArrayList();
         PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
 
         //筛选需要判断的事件
@@ -105,9 +118,15 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Arrive:
                     break;
                 case ChatEvent.EventTypeList.Mines:
+                    if (_event.Num <= playerInfo.MineCount && !playerInfo.CompleteEvents.Contains(_event.ID))
+                    {
+                        ishit = true;
+                        playerInfo.CompleteEvents.Add(_event.ID);
+                        AddStroyName(_event.StoryName);
+                    }
                     break;
                 case ChatEvent.EventTypeList.Golds:
-                    if (_event.Num <= playerInfo.Money && !playerInfo.CompleteEvents.Contains(_event.ID))
+                    if (_event.Num <= playerInfo.Money&& !playerInfo.CompleteEvents.Contains(_event.ID))
                     {
                         ishit = true;
                         playerInfo.CompleteEvents.Add(_event.ID);
@@ -164,7 +183,7 @@ public class ChatEventManager : MonoBehaviour {
         return ishit;
     }
 
-    public void AddStroyName(string name)
+    void AddStroyName(string name)
     {
         StoryList.Add(name);
     }

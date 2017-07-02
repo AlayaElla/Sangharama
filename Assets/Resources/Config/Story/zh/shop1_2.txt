@@ -11,6 +11,7 @@ bgm1,bgm2
 
 //对话列表
 [ChatList]
+//<show 0.2,0,1,0,left,idle,npc1,notloop,click>
 {npc1:idle}这是<color=green>播放</color>bgm
 <playbgm bgm2>
 {npc1:idle}这是<color=green>出现</color>背景
@@ -18,7 +19,7 @@ bgm1,bgm2
 {npc1:idle}这是<color=green>切换</color>背景
 <setbg test,3,click>
 <setbg 1,1,click>
-<loadstory start>
+//<loadstory start>
 {npc1:idle}然后。。<c>显示角色！
 <show 0.2,0,1,0,left,idle,npc1,notloop,sametime>
 <show 0.8,0,2,0,right,idle,npc2,notloop,click>

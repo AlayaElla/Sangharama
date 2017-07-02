@@ -17,7 +17,6 @@ public class Loading : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
         loadingIcon = Instance.transform.FindChild("icon").GetComponent<RectTransform>();
         loadingBG = Instance.transform.FindChild("LoadingBG").GetComponent<RectTransform>();
         progressText = Instance.transform.FindChild("loadingText").GetComponent<Text>();
@@ -104,8 +103,11 @@ public class Loading : MonoBehaviour {
 #else
         StartCoroutine(LoadStoryResources(()=>
         {
-            isLoadingDone = true;
-            loadingDone();
+            LeanTween.delayedCall(0.5f, () =>
+            {
+                isLoadingDone = true;
+                loadingDone();
+            });
         }));
 #endif
 
