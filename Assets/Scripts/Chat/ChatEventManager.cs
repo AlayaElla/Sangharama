@@ -116,6 +116,15 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.InMap:
                     break;
                 case ChatEvent.EventTypeList.Arrive:
+                    foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
+                    {
+                        if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount && !playerInfo.CompleteEvents.Contains(_event.ID))
+                        {
+                            ishit = true;
+                            playerInfo.CompleteEvents.Add(_event.ID);
+                            AddStroyName(_event.StoryName);
+                        }
+                    }
                     break;
                 case ChatEvent.EventTypeList.Mines:
                     if (_event.Num <= playerInfo.MineCount && !playerInfo.CompleteEvents.Contains(_event.ID))

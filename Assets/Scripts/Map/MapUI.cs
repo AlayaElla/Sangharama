@@ -16,13 +16,9 @@ public class MapUI : MonoBehaviour {
 
     //保存角色信息
     PlayerInfo.Info playerInfo = new PlayerInfo.Info();
-    ChatEventManager eventmanager;
-
 
 	// Use this for initialization
 	void Start () {
-        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
-
         moneyIcon = MoneyBoard.FindChild("icon").GetComponent<RectTransform>();
         moneyText = MoneyBoard.FindChild("Text").GetComponent<Text>();
 
@@ -39,11 +35,6 @@ public class MapUI : MonoBehaviour {
         if (playerInfo.Money < 100)
         {
             AddMoney(100 - playerInfo.Money, null);
-        }
-        eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, true);
-        if (eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false))
-        {
-            eventmanager.StartStory();
         }
     }
 	

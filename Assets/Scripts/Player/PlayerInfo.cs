@@ -226,6 +226,22 @@ public class PlayerInfo : MonoBehaviour {
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
+    //增加路点次数信息
+    static public void AddMapInfo(int id)
+    {
+        for (int i = 0; i < playerinfo.MapInfoList.Count; i++)
+        {
+            MapInfo info = (MapInfo)playerinfo.MapInfoList[i];
+            if (info.ID== id)
+            {
+                info.InCount++;
+                playerinfo.MapInfoList[i] = info;
+                break;
+            }
+        }
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
     static public void ClearCompleteEvents(GameObject obj)
     {
         playerinfo.CompleteEvents.Clear();

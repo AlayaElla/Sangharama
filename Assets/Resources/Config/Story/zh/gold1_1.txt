@@ -1,0 +1,18 @@
+//角色名<id:角色ID;image:立绘>
+[Character]
+npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
+npc2<name:他喵的真坑;image:maria;windows:board2;voice:voice2>
+
+[Background]
+1,test
+
+[Sound]
+bgm1,bgm2
+
+//对话列表
+[ChatList]
+//<show 0.2,0,1,0,left,idle,npc1,notloop,click>
+{npc1:idle}这是<color=green>播放</color>bgm
+<playbgm bgm2>
+{npc1:idle}这是glod1_1的对话
+{npc1:idle}结束！

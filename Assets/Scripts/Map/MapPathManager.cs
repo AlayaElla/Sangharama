@@ -66,8 +66,11 @@ public class MapPathManager : MonoBehaviour {
     //获取采集控制脚本
     CollectAction collectAction;
 
-	// Use this for initialization
-	void Start () {
+    //事件管理器
+    ChatEventManager eventmanager;
+
+    // Use this for initialization
+    void Start () {
         //获取路径配置表
         GetPathConfig();
         state = MoveState.Stay;
@@ -91,6 +94,14 @@ public class MapPathManager : MonoBehaviour {
         _mapUI = GameObject.Find("/CollectionTools/Colection").GetComponent<MapUI>();
         //读取采集控制脚本
         collectAction = GameObject.Find("/CollectionTools/Colection").GetComponent<CollectAction>();
+        //获取事件控制器
+        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
+
+        eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, true);
+        if (eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false))
+        {
+            eventmanager.StartStory();
+        }
 
         InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
@@ -343,6 +354,15 @@ public class MapPathManager : MonoBehaviour {
         //如果到达终点则打断
         if (playerPoints.Nowpoint == playerPoints.Targetpoint)
         {
+            //增加路点次数信息
+            PlayerInfo.AddMapInfo(playerPoints.Nowpoint);
+
+            //检测触发事件
+            if (eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Arrive, true))
+            {
+                eventmanager.StartStory();
+            }
+
             state = MoveState.Stay;
             AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
 
@@ -362,7 +382,6 @@ public class MapPathManager : MonoBehaviour {
                 ShowHomeBoard(1);
                 return;
             }
-
         }
 
         //找到移动的路径
