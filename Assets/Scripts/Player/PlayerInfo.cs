@@ -91,6 +91,20 @@ public class PlayerInfo : MonoBehaviour {
         public int InCount;    //进入次数次数
     }
 
+    //事件的状态类型
+    [Serializable]
+    public struct EventInfo
+    {
+        public enum EventInfoType
+        {
+            Todo=0,
+            Complete
+        }
+        public EventInfoType Type; 
+        public int ID;     //ID
+    }
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -240,6 +254,43 @@ public class PlayerInfo : MonoBehaviour {
             }
         }
         PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
+    //增加事件
+    static public void AddEvents(int Event)
+    {
+        EventInfo info = new EventInfo();
+        info.ID = Event;
+        info.Type = EventInfo.EventInfoType.Todo;
+
+        playerinfo.CompleteEvents.Add(info);
+    }
+
+    /// <summary>
+    /// 判断是否已经完成事件,true已经完成，false没有完成
+    /// </summary>
+    /// <param name="Event"></param>
+    static public bool CheckEvents(int Event)
+    {
+        EventInfo info = new EventInfo();
+        info.ID = Event;
+        info.Type = EventInfo.EventInfoType.Complete;
+
+        return playerinfo.CompleteEvents.Contains(info);
+    }
+
+    static public void SetEventsCompelete(int Event)
+    {
+        for (int i = 0; i < playerinfo.CompleteEvents.Count; i++)
+        {
+            EventInfo info =(EventInfo)playerinfo.CompleteEvents[i];
+            if (info.ID == Event)
+            {
+                info.Type = EventInfo.EventInfoType.Complete;
+                playerinfo.CompleteEvents[i] = info;
+                return;
+            }
+        }
     }
 
     static public void ClearCompleteEvents(GameObject obj)
