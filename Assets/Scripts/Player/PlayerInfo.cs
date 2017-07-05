@@ -264,6 +264,7 @@ public class PlayerInfo : MonoBehaviour {
         info.Type = EventInfo.EventInfoType.Todo;
 
         playerinfo.CompleteEvents.Add(info);
+        PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
     /// <summary>
@@ -279,6 +280,7 @@ public class PlayerInfo : MonoBehaviour {
         return playerinfo.CompleteEvents.Contains(info);
     }
 
+    //设置事件为完成
     static public void SetEventsCompelete(int Event)
     {
         for (int i = 0; i < playerinfo.CompleteEvents.Count; i++)
@@ -288,6 +290,7 @@ public class PlayerInfo : MonoBehaviour {
             {
                 info.Type = EventInfo.EventInfoType.Complete;
                 playerinfo.CompleteEvents[i] = info;
+                PlayerData.PlayerInfoData.Save(playerinfo);
                 return;
             }
         }

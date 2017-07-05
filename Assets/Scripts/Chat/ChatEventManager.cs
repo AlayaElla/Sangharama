@@ -68,15 +68,20 @@ public class ChatEventManager : MonoBehaviour {
         chatmanager.SetNowScene(scence.name);
         chatmanager.PushStoryList(StoryList);
 
-        Loading.GetInstance().LoadingStoryScene((string)chatmanager.GetStoryList()[0], () =>
+        ChatEvent ct = (ChatEvent)chatmanager.GetStoryList()[0];
+        Loading.GetInstance().LoadingStoryScene(ct.StoryName, () =>
         {
-            chatmanager.LoadChatStory((string)chatmanager.GetStoryList()[0]);
+            chatmanager.LoadChatStory(ct.StoryName);
         });
     }
 
     public void StartStory(string storyname)
     {
-        AddStroyName(storyname);
+        ChatEvent ct = new ChatEvent();
+        ct.StoryName = storyname;
+        ct.ID = -1;
+
+        AddStroyName(ct);
         StartStory();
     }
 
@@ -118,28 +123,28 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Arrive:
                     foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
                     {
-                        if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount && !playerInfo.CompleteEvents.Contains(_event.ID))
+                        if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
                         {
                             ishit = true;
-                            playerInfo.CompleteEvents.Add(_event.ID);
-                            AddStroyName(_event.StoryName);
+                            PlayerInfo.AddEvents(_event.ID);
+                            AddStroyName(_event);
                         }
                     }
                     break;
                 case ChatEvent.EventTypeList.Mines:
-                    if (_event.Num <= playerInfo.MineCount && !playerInfo.CompleteEvents.Contains(_event.ID))
+                    if (_event.Num <= playerInfo.MineCount && !PlayerInfo.CheckEvents(_event.ID))
                     {
                         ishit = true;
-                        playerInfo.CompleteEvents.Add(_event.ID);
-                        AddStroyName(_event.StoryName);
+                        PlayerInfo.AddEvents(_event.ID);
+                        AddStroyName(_event);
                     }
                     break;
                 case ChatEvent.EventTypeList.Golds:
-                    if (_event.Num <= playerInfo.Money&& !playerInfo.CompleteEvents.Contains(_event.ID))
+                    if (_event.Num <= playerInfo.Money&& !PlayerInfo.CheckEvents(_event.ID))
                     {
                         ishit = true;
-                        playerInfo.CompleteEvents.Add(_event.ID);
-                        AddStroyName(_event.StoryName);
+                        PlayerInfo.AddEvents(_event.ID);
+                        AddStroyName(_event);
                     }
                     break;
                 default:
@@ -192,8 +197,41 @@ public class ChatEventManager : MonoBehaviour {
         return ishit;
     }
 
-    void AddStroyName(string name)
+    void AddStroyName(ChatEvent events)
     {
-        StoryList.Add(name);
+        StoryList.Add(events);
+    }
+
+    /// <summary>
+    /// 检查是否有未完成事件
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckUnCompleteEvent()
+    {
+        bool ishit = false;
+        PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
+        foreach (PlayerInfo.EventInfo info in playerInfo.CompleteEvents)
+        {
+            if (info.Type == PlayerInfo.EventInfo.EventInfoType.Todo)
+            {
+                ChatEvent ct = FindEvetByID(info.ID);
+                if (ct.StoryName != null)
+                {
+                    AddStroyName(ct);
+                    ishit = true;
+                }
+            }
+        }
+        return ishit;
+    }
+
+    ChatEvent FindEvetByID(int id)
+    {
+        foreach (ChatEvent _event in ChatEventsList)
+        {
+            if (_event.ID == id)
+                return _event;
+        }
+        return new ChatEvent();
     }
 }

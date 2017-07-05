@@ -279,13 +279,19 @@ public class ChatManager : MonoBehaviour {
     //关闭故事面板
     void EndChatLayer()
     {
+
         if (StoryList.Count > 0)
         {
+            //完成故事事件
+            ChatEventManager.ChatEvent ct = (ChatEventManager.ChatEvent)StoryList[0];
+            PlayerInfo.SetEventsCompelete(ct.ID);
+
             StoryList.RemoveAt(0);
         }
         if (StoryList.Count > 0)
         {
-            ChangeStory((string)StoryList[0]);
+            ChatEventManager.ChatEvent ct = (ChatEventManager.ChatEvent)StoryList[0];
+            ChangeStory(ct.StoryName);
             return;
         }
 

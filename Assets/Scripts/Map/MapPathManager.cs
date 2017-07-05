@@ -97,8 +97,11 @@ public class MapPathManager : MonoBehaviour {
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
 
-        eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, true);
-        if (eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false))
+        bool ishit = false;
+        ishit= eventmanager.CheckUnCompleteEvent();
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, true);
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false);
+        if (ishit)
         {
             eventmanager.StartStory();
         }
