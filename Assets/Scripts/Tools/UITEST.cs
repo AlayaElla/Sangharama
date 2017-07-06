@@ -27,7 +27,7 @@ public class UITEST : MonoBehaviour {
 
     public void LoadTest3Level()
     {
-        Loading.GetInstance().LoadingStoryScene("start",()=>
+        Loading.GetInstance().LoadingStoryScene("giveitem",()=>
         {
             SceneManager.LoadScene("Story");
         });

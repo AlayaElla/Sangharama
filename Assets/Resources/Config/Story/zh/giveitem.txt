@@ -1,0 +1,17 @@
+//角色名<id:角色ID;image:立绘>
+[Character]
+npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
+
+[Background]
+test,1
+
+[Sound]
+
+
+//对话列表
+[ChatList]
+<setbg test,2,sametime>
+<show 0.2,0,1,0,left,idle,npc1,notloop,sametime>
+{npc1:idle}给你一个东西！
+<giveitem 2:2>
+{npc1:idle}好了收到了！

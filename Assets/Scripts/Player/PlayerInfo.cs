@@ -273,11 +273,12 @@ public class PlayerInfo : MonoBehaviour {
     /// <param name="Event"></param>
     static public bool CheckEvents(int Event)
     {
-        EventInfo info = new EventInfo();
-        info.ID = Event;
-        info.Type = EventInfo.EventInfoType.Complete;
-
-        return playerinfo.CompleteEvents.Contains(info);
+        foreach (EventInfo i in playerinfo.CompleteEvents)
+        {
+            if (i.ID == Event)
+                return true;
+        }
+        return false;
     }
 
     //设置事件为完成

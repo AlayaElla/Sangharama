@@ -9,7 +9,8 @@ public class QuickStory : MonoBehaviour {
     // Use this for initialization
     void Start () {
         chatEventManager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
-        chatEventManager.StartStory();
+
+        chatEventManager.StartStory("giveitem");
     }
 	
 	// Update is called once per frame

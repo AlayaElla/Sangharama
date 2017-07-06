@@ -99,8 +99,8 @@ public class MapPathManager : MonoBehaviour {
 
         bool ishit = false;
         ishit= eventmanager.CheckUnCompleteEvent();
-        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, true);
-        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false);
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, false) || ishit;
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false) || ishit;
         if (ishit)
         {
             eventmanager.StartStory();

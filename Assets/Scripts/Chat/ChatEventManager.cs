@@ -125,26 +125,35 @@ public class ChatEventManager : MonoBehaviour {
                     {
                         if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
                         {
-                            ishit = true;
-                            PlayerInfo.AddEvents(_event.ID);
-                            AddStroyName(_event);
+                            if (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1]))
+                            {
+                                ishit = true;
+                                PlayerInfo.AddEvents(_event.ID);
+                                AddStroyName(_event);
+                            }
                         }
                     }
                     break;
                 case ChatEvent.EventTypeList.Mines:
                     if (_event.Num <= playerInfo.MineCount && !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        ishit = true;
-                        PlayerInfo.AddEvents(_event.ID);
-                        AddStroyName(_event);
+                        if (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1]))
+                        {
+                            ishit = true;
+                            PlayerInfo.AddEvents(_event.ID);
+                            AddStroyName(_event);
+                        }
                     }
                     break;
                 case ChatEvent.EventTypeList.Golds:
                     if (_event.Num <= playerInfo.Money&& !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        ishit = true;
-                        PlayerInfo.AddEvents(_event.ID);
-                        AddStroyName(_event);
+                        if (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1]))
+                        {
+                            ishit = true;
+                            PlayerInfo.AddEvents(_event.ID);
+                            AddStroyName(_event);
+                        }
                     }
                     break;
                 default:

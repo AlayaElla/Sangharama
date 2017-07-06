@@ -132,9 +132,19 @@ public class CharBag : MonoBehaviour {
         PlayerData.BagData.UpdateBag(GoodsList);
     }
 
-
     static public void UpdateGoods(ArrayList bags)
     {
         GoodsList = bags;
+    }
+
+    //查看是否有对应的物品
+    static public bool ContainsGoods(int materialType,int id)
+    {
+        foreach (Goods goods in GoodsList)
+        {
+            if (goods.MateriralType == materialType && goods.ID == id)
+                return true;
+        }
+        return false;
     }
 }
