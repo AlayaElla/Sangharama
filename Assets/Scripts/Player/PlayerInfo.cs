@@ -256,6 +256,25 @@ public class PlayerInfo : MonoBehaviour {
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
+    /// <summary>
+    ///增加场景进入次数信息;ID 0:shop; 1:map
+    /// </summary>
+    /// <param name="id"></param>
+    static public void AddSenceInfo(int id)
+    {
+        for (int i = 0; i < playerinfo.SenceInfoList.Count; i++)
+        {
+            SenceInfo info = (SenceInfo)playerinfo.SenceInfoList[i];
+            if (info.ID == id)
+            {
+                info.InCount++;
+                playerinfo.SenceInfoList[i] = info;
+                break;
+            }
+        }
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
     //增加事件
     static public void AddEvents(int Event)
     {

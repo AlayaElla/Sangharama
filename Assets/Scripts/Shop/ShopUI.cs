@@ -14,10 +14,16 @@ public class ShopUI : MonoBehaviour {
     //商店的商品列表
     CharBag.Goods[] goodslist = new CharBag.Goods[18];
 
-	// Use this for initialization
-	void Start () {
+    //事件管理器
+    ChatEventManager eventmanager;
+
+    // Use this for initialization
+    void Start () {
         _bagUI = Resources.Load<GameObject>("Prefab/BagUI");
         Money = transform.Find("/Canvas/gold/Text").GetComponent<Text>();
+
+        //获取事件控制器
+        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
 
         UpdateShopGoodsData();
         InitShopGoods();
@@ -26,6 +32,17 @@ public class ShopUI : MonoBehaviour {
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (2)")).onClick = OpenSpecialItemBag;
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (3)")).onClick = OpenSpecialItemBagAll;
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (4)")).onClick = PlayerInfo.ClearCompleteEvents;
+
+        //增加进入地图次数
+        PlayerInfo.AddSenceInfo(0);
+
+        bool ishit = false;
+        ishit = eventmanager.CheckUnCompleteEvent() || ishit;
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.InShop, false) || ishit;
+        if (ishit)
+        {
+            eventmanager.StartStory();
+        }
     }
 	
 	// Update is called once per frame

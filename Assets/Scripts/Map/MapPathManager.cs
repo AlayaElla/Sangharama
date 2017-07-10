@@ -97,15 +97,6 @@ public class MapPathManager : MonoBehaviour {
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
 
-        bool ishit = false;
-        ishit= eventmanager.CheckUnCompleteEvent();
-        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, false) || ishit;
-        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false) || ishit;
-        if (ishit)
-        {
-            eventmanager.StartStory();
-        }
-
         InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
 	}
@@ -659,7 +650,7 @@ public class MapPathManager : MonoBehaviour {
         });
 
         //扣除货币如果不足则弹出货币不足提示
-        if (!_mapUI.DownMoney(playerPoints.Price, playerPoints.Targetposition))
+        if (!_mapUI.DownMoney(playerPoints.Price, playerPoints.Targetposition, true))
         {
             SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
             sNotice = sNotice.INIT();
@@ -757,7 +748,7 @@ public class MapPathManager : MonoBehaviour {
         if (iscanClick)
         {
             //如果次数不足则弹出次数不足提示
-            if (!_mapUI.DownMineCount(1, playerPoints.Targetposition))
+            if (!_mapUI.DownMineCount(1, playerPoints.Targetposition, true))
             {
                 SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
                 sNotice = sNotice.INIT();

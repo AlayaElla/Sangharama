@@ -17,25 +17,34 @@ public class MapUI : MonoBehaviour {
     //保存角色信息
     PlayerInfo.Info playerInfo = new PlayerInfo.Info();
 
-	// Use this for initialization
-	void Start () {
+    //事件管理器
+    ChatEventManager eventmanager;
+
+    // Use this for initialization
+    void Start () {
         moneyIcon = MoneyBoard.FindChild("icon").GetComponent<RectTransform>();
         moneyText = MoneyBoard.FindChild("Text").GetComponent<Text>();
 
         mineIcon = mineBoard.FindChild("icon").GetComponent<RectTransform>();
         mineText = mineBoard.FindChild("Text").GetComponent<Text>();
 
-        //更新显示
-        UpdateMapUI();
+        //获取事件控制器
+        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
         
         //临时增加采集次数
-        AddMineCount(10 - playerInfo.MineCount,null);
+        AddMineCount(10 - playerInfo.MineCount,null,false);
 
         //临时增加金币数
         if (playerInfo.Money < 100)
         {
-            AddMoney(100 - playerInfo.Money, null);
+            AddMoney(100 - playerInfo.Money, null, false);
         }
+
+        //增加进入地图次数
+        PlayerInfo.AddSenceInfo(1);
+
+        //更新显示
+        InstMapUI();
     }
 	
 	// Update is called once per frame
@@ -43,26 +52,56 @@ public class MapUI : MonoBehaviour {
 	
 	}
 
-    //更新显示金币
-    void UpdateMapUI()
+    //初始化显示地图ui
+    void InstMapUI()
     {
         playerInfo = PlayerInfo.GetPlayerInfo();
 
         mineText.text = playerInfo.MineCount.ToString();
         moneyText.text = playerInfo.Money.ToString();
+
+        bool ishit = false;
+        ishit = eventmanager.CheckUnCompleteEvent() || ishit;
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.InMap, false) || ishit;
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, false) || ishit;
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false) || ishit;
+        if (ishit)
+        {
+            eventmanager.StartStory();
+        }
+    }
+
+    //更新显示金币
+    void UpdateMapUI(bool checkEvent)
+    {
+        playerInfo = PlayerInfo.GetPlayerInfo();
+
+        mineText.text = playerInfo.MineCount.ToString();
+        moneyText.text = playerInfo.Money.ToString();
+
+        if (checkEvent)
+        {
+            bool ishit = false;
+            ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Mines, true) || ishit;
+            ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Golds, false) || ishit;
+            if (ishit)
+            {
+                eventmanager.StartStory();
+            }
+        }
     }
 
     float actiontime = 0.25f;
 
     //增加金币
-    public bool AddMoney(int num, RectTransform positon)
+    public bool AddMoney(int num, RectTransform positon,bool checkEvent)
     {
         //如果大于一定值则返回false
         //if (playerInfo.Money + num > 999999)
         //    return false;
 
         PlayerInfo.ChangeMoney(num);
-        UpdateMapUI();
+        UpdateMapUI(checkEvent);
         //Debug.Log(ishit);
 
         LeanTween.cancel(moneyIcon.gameObject);
@@ -75,14 +114,14 @@ public class MapUI : MonoBehaviour {
     }
 
     //减少金币
-    public bool DownMoney(int num, RectTransform positon)
+    public bool DownMoney(int num, RectTransform positon,bool checkEvent)
     {
         //如果不足则返回false
         if (playerInfo.Money - num < 0)
             return false;
 
         PlayerInfo.ChangeMoney(-num);
-        UpdateMapUI();
+        UpdateMapUI(checkEvent);
 
         LeanTween.cancel(moneyIcon.gameObject);
         LeanTween.scale(moneyIcon, new Vector3(1.1f, 1.1f, 1.1f), actiontime).setLoopPingPong(1);
@@ -93,14 +132,14 @@ public class MapUI : MonoBehaviour {
     }
 
     //增加采集次数
-    public bool AddMineCount(int num, RectTransform positon)
+    public bool AddMineCount(int num, RectTransform positon,bool checkEvent)
     {
         //如果大于一定值则返回false
         //if (playerInfo.MineCount + num > 999999)
         //    return false;
 
         PlayerInfo.ChangeMineCount(num);
-        UpdateMapUI();
+        UpdateMapUI(checkEvent);
 
         LeanTween.cancel(mineIcon.gameObject);
         LeanTween.scale(mineIcon, new Vector3(1.1f, 1.1f, 1.1f), actiontime).setLoopPingPong(1);
@@ -112,14 +151,14 @@ public class MapUI : MonoBehaviour {
     }
 
     //减少采集次数
-    public bool DownMineCount(int num, RectTransform positon)
+    public bool DownMineCount(int num, RectTransform positon,bool checkEvent)
     {
         //如果不足则返回false
         if (playerInfo.MineCount - num < 0)
             return false;
 
         PlayerInfo.ChangeMineCount(-num);
-        UpdateMapUI();
+        UpdateMapUI(checkEvent);
 
         LeanTween.cancel(mineIcon.gameObject);
         LeanTween.scale(mineIcon, new Vector3(1.1f, 1.1f, 1.1f), actiontime).setLoopPingPong(1);

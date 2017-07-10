@@ -117,18 +117,41 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.ComposeProperty:        
                     break;
                 case ChatEvent.EventTypeList.InShop:
+                    PlayerInfo.SenceInfo shop_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[0];
+                    if (_event.Num <= shop_senceinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
+                    {
+                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        {
+                            ishit = true;
+                            PlayerInfo.AddEvents(_event.ID);
+                            Debug.Log("hit event: " + _event.ID);
+                            AddStroyName(_event);
+                        }
+                    }
                     break;
                 case ChatEvent.EventTypeList.InMap:
+                    PlayerInfo.SenceInfo map_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[1];
+                    if (_event.Num <= map_senceinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
+                    {
+                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        {
+                            ishit = true;
+                            PlayerInfo.AddEvents(_event.ID);
+                            Debug.Log("hit event: " + _event.ID);
+                            AddStroyName(_event);
+                        }
+                    }
                     break;
                 case ChatEvent.EventTypeList.Arrive:
                     foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
                     {
                         if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
                         {
-                            if (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1]))
+                            if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
                             {
                                 ishit = true;
                                 PlayerInfo.AddEvents(_event.ID);
+                                Debug.Log("hit event: " + _event.ID);
                                 AddStroyName(_event);
                             }
                         }
@@ -137,10 +160,11 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Mines:
                     if (_event.Num <= playerInfo.MineCount && !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1]))
+                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
                         {
                             ishit = true;
                             PlayerInfo.AddEvents(_event.ID);
+                            Debug.Log("hit event: " + _event.ID);
                             AddStroyName(_event);
                         }
                     }
@@ -148,10 +172,11 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Golds:
                     if (_event.Num <= playerInfo.Money&& !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1]))
+                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
                         {
                             ishit = true;
                             PlayerInfo.AddEvents(_event.ID);
+                            Debug.Log("hit event: " + _event.ID);
                             AddStroyName(_event);
                         }
                     }
