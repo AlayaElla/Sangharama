@@ -26,6 +26,7 @@ public class PlayerInfo : MonoBehaviour {
 
         //事件判断
         public int PutCount;    //上架次数
+        public int SellCount;    //卖出次数
         public int RecipeCount;    //合成次数
         public int CollectCount;    //采集次数
     }
@@ -37,6 +38,7 @@ public class PlayerInfo : MonoBehaviour {
 
         //事件判断
         public int PutCount;    //上架次数
+        public int SellCount;    //卖出次数
         public int RecipeCount;    //合成次数
         public int CollectCount;    //采集次数
     }
@@ -48,6 +50,7 @@ public class PlayerInfo : MonoBehaviour {
 
         //事件判断
         public int PutCount;    //上架次数
+        public int SellCount;    //卖出次数
         public int RecipeCount;    //合成次数
         public int CollectCount;    //采集次数
     }
@@ -157,6 +160,7 @@ public class PlayerInfo : MonoBehaviour {
             ItemsInfo _m = new ItemsInfo();
             _m.ID = m.ID;
             _m.PutCount = 0;
+            _m.SellCount = 0;
             _m.RecipeCount = 0;
             _m.CollectCount = 0;
             playerinfo.MaterialInfoList.Items.Add(_m);
@@ -166,6 +170,7 @@ public class PlayerInfo : MonoBehaviour {
             MindsInfo _m = new MindsInfo();
             _m.ID = m.ID;
             _m.PutCount = 0;
+            _m.SellCount = 0;
             _m.RecipeCount = 0;
             _m.CollectCount = 0;
             playerinfo.MaterialInfoList.Minds.Add(_m);
@@ -175,6 +180,7 @@ public class PlayerInfo : MonoBehaviour {
             SpecialItemsInfo _m = new SpecialItemsInfo();
             _m.ID = m.ID;
             _m.PutCount = 0;
+            _m.SellCount = 0;
             _m.RecipeCount = 0;
             _m.CollectCount = 0;
             playerinfo.MaterialInfoList.SpecialItems.Add(_m);
@@ -274,6 +280,132 @@ public class PlayerInfo : MonoBehaviour {
         }
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
+
+    //_m.PutCount = 0;
+    //    _m.SellCount = 0;
+    //    _m.RecipeCount = 0;
+    //    _m.CollectCount = 0;
+
+    public enum GoodsInfoType
+    {
+        PutCount=0,
+        SellCount,
+        RecipeCount,
+        CollectCount
+    }
+
+    static public void AddGoodsInfo(int goodstype, int id, GoodsInfoType type)
+    {
+        ArrayList goodlist = new ArrayList();
+        if (goodstype == 0)
+        {
+            goodlist = playerinfo.MaterialInfoList.Items;
+            //查找对应的物品信息
+            for (int i = 0; i <= goodlist.Count; i++)
+            {
+                ItemsInfo info = (ItemsInfo)goodlist[i];
+                if (info.ID == id)
+                {
+                    if (type == GoodsInfoType.PutCount)
+                    {
+                        info.PutCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.SellCount)
+                    {
+                        info.SellCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.RecipeCount)
+                    {
+                        info.RecipeCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.CollectCount)
+                    {
+                        info.CollectCount++;
+                        goodlist[i] = info;
+                    }
+                    playerinfo.MaterialInfoList.Items = goodlist;
+                    return;
+                }
+            }
+        }
+        else if (goodstype == 1)
+        {
+            goodlist = playerinfo.MaterialInfoList.Minds;
+            //查找对应的物品信息
+            for (int i = 0; i <= goodlist.Count; i++)
+            {
+                MindsInfo info = (MindsInfo)goodlist[i];
+                if (info.ID == id)
+                {
+                    if (type == GoodsInfoType.PutCount)
+                    {
+                        info.PutCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.SellCount)
+                    {
+                        info.SellCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.RecipeCount)
+                    {
+                        info.RecipeCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.CollectCount)
+                    {
+                        info.CollectCount++;
+                        goodlist[i] = info;
+                    }
+                    playerinfo.MaterialInfoList.Minds = goodlist;
+                    return;
+                }
+            }
+        }
+        else if (goodstype == 0)
+        {
+            goodlist = playerinfo.MaterialInfoList.SpecialItems;
+            //查找对应的物品信息
+            for (int i = 0; i <= goodlist.Count; i++)
+            {
+                SpecialItemsInfo info = (SpecialItemsInfo)goodlist[i];
+                if (info.ID == id)
+                {
+                    if (type == GoodsInfoType.PutCount)
+                    {
+                        info.PutCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.SellCount)
+                    {
+                        info.SellCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.RecipeCount)
+                    {
+                        info.RecipeCount++;
+                        goodlist[i] = info;
+                    }
+                    else if (type == GoodsInfoType.CollectCount)
+                    {
+                        info.CollectCount++;
+                        goodlist[i] = info;
+                    }
+                    playerinfo.MaterialInfoList.SpecialItems = goodlist;
+                    return;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Unknow goodstype: " + goodstype);
+            return;
+        }
+    }
+
 
     //增加事件
     static public void AddEvents(int Event)

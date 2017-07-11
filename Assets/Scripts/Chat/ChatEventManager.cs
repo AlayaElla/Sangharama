@@ -114,7 +114,177 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.SellGoods:
                 case ChatEvent.EventTypeList.ComposeGoods:
                 case ChatEvent.EventTypeList.CollectGoods:
-                case ChatEvent.EventTypeList.ComposeProperty:        
+                case ChatEvent.EventTypeList.ComposeProperty:
+                    if (_event.EventType == ChatEvent.EventTypeList.ComposeProperty)
+                    {
+                        foreach (PlayerInfo.PropertysInfo pinfo in playerInfo.MaterialInfoList.Propertys)
+                        {
+                            if (pinfo.ID == _event.Parameter[0] && _event.Num <= pinfo.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
+                            {
+                                if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                {
+                                    ishit = true;
+                                    PlayerInfo.AddEvents(_event.ID);
+                                    Debug.Log("hit event: " + _event.ID);
+                                    AddStroyName(_event);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (_event.Parameter[0] == 0)
+                        {
+                            foreach (PlayerInfo.ItemsInfo items in playerInfo.MaterialInfoList.Items)
+                            {
+                                if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.PutGoods && _event.Num <= items.PutCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.SellGoods && _event.Num <= items.SellCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.ComposeGoods && _event.Num <= items.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.CollectGoods && _event.Num <= items.CollectCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                            }
+                        }   //item
+                        else if (_event.Parameter[0] == 1)
+                        {
+                            foreach (PlayerInfo.MindsInfo minds in playerInfo.MaterialInfoList.Minds)
+                            {
+                                if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.PutGoods && _event.Num <= minds.PutCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.SellGoods && _event.Num <= minds.SellCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.ComposeGoods && _event.Num <= minds.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.CollectGoods && _event.Num <= minds.CollectCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                            }
+                        }   //mind
+                        else if (_event.Parameter[0] == 2)
+                        {
+                            foreach (PlayerInfo.SpecialItemsInfo spitems in playerInfo.MaterialInfoList.SpecialItems)
+                            {
+                                if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.PutGoods && _event.Num <= spitems.PutCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.SellGoods && _event.Num <= spitems.SellCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.ComposeGoods && _event.Num <= spitems.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                                else if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.CollectGoods && _event.Num <= spitems.CollectCount && !PlayerInfo.CheckEvents(_event.ID))
+                                {
+                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    {
+                                        ishit = true;
+                                        PlayerInfo.AddEvents(_event.ID);
+                                        Debug.Log("hit event: " + _event.ID);
+                                        AddStroyName(_event);
+                                        break;
+                                    }
+                                }
+                            }
+                        }   //specail
+                    }                      
                     break;
                 case ChatEvent.EventTypeList.InShop:
                     PlayerInfo.SenceInfo shop_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[0];
@@ -153,6 +323,7 @@ public class ChatEventManager : MonoBehaviour {
                                 PlayerInfo.AddEvents(_event.ID);
                                 Debug.Log("hit event: " + _event.ID);
                                 AddStroyName(_event);
+                                break;
                             }
                         }
                     }
