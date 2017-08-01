@@ -161,6 +161,8 @@ public class ShopUI : MonoBehaviour {
         PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
         CharBag.SaveBagGoods();
 
+        //更新物品信息
+        PlayerInfo.AddGoodsInfo(goods.MateriralType, goods.ID, PlayerInfo.GoodsInfoType.PutCount);
     }
 
     void RemoveGoods(GameObject go, object parameter)
@@ -207,6 +209,9 @@ public class ShopUI : MonoBehaviour {
             transform.FindChild(pricepath).gameObject.SetActive(false);
 
             PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
+
+            //更新物品信息
+            PlayerInfo.AddGoodsInfo(goods.goods.MateriralType, goods.goods.ID, PlayerInfo.GoodsInfoType.SellCount);
         }
         else
         {

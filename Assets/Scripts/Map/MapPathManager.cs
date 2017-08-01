@@ -650,7 +650,7 @@ public class MapPathManager : MonoBehaviour {
         });
 
         //扣除货币如果不足则弹出货币不足提示
-        if (!_mapUI.DownMoney(playerPoints.Price, playerPoints.Targetposition, true))
+        if (!_mapUI.DownMoney(playerPoints.Price, playerPoints.Targetposition, false))
         {
             SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
             sNotice = sNotice.INIT();
@@ -748,7 +748,7 @@ public class MapPathManager : MonoBehaviour {
         if (iscanClick)
         {
             //如果次数不足则弹出次数不足提示
-            if (!_mapUI.DownMineCount(1, playerPoints.Targetposition, true))
+            if (!_mapUI.DownMineCount(1, playerPoints.Targetposition, false))
             {
                 SmallNoticeUI sNotice = gameObject.AddComponent<SmallNoticeUI>();
                 sNotice = sNotice.INIT();

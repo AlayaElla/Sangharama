@@ -631,6 +631,9 @@ public class RecipeUI : MonoBehaviour{
         //添加道具
         goods.UID = CharBag.AddGoods(goods);
 
+        //更新物品信息
+        PlayerInfo.AddGoodsInfo(goods.MateriralType, goods.ID, PlayerInfo.GoodsInfoType.RecipeCount);
+
         //删除道具
         foreach (SlotBox slot in SlotList.Values)
         {

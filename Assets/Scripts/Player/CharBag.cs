@@ -65,7 +65,6 @@ public class CharBag : MonoBehaviour {
         GoodsList.Add(goods);
 
         PlayerData.BagData.UpdateBag(GoodsList);
-
         return uid;
     }
 

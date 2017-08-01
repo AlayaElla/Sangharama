@@ -301,7 +301,7 @@ public class PlayerInfo : MonoBehaviour {
         {
             goodlist = playerinfo.MaterialInfoList.Items;
             //查找对应的物品信息
-            for (int i = 0; i <= goodlist.Count; i++)
+            for (int i = 0; i <= goodlist.Count - 1; i++)
             {
                 ItemsInfo info = (ItemsInfo)goodlist[i];
                 if (info.ID == id)
@@ -327,7 +327,7 @@ public class PlayerInfo : MonoBehaviour {
                         goodlist[i] = info;
                     }
                     playerinfo.MaterialInfoList.Items = goodlist;
-                    return;
+                    break;
                 }
             }
         }
@@ -335,7 +335,7 @@ public class PlayerInfo : MonoBehaviour {
         {
             goodlist = playerinfo.MaterialInfoList.Minds;
             //查找对应的物品信息
-            for (int i = 0; i <= goodlist.Count; i++)
+            for (int i = 0; i <= goodlist.Count - 1; i++)
             {
                 MindsInfo info = (MindsInfo)goodlist[i];
                 if (info.ID == id)
@@ -361,7 +361,7 @@ public class PlayerInfo : MonoBehaviour {
                         goodlist[i] = info;
                     }
                     playerinfo.MaterialInfoList.Minds = goodlist;
-                    return;
+                    break;
                 }
             }
         }
@@ -369,7 +369,7 @@ public class PlayerInfo : MonoBehaviour {
         {
             goodlist = playerinfo.MaterialInfoList.SpecialItems;
             //查找对应的物品信息
-            for (int i = 0; i <= goodlist.Count; i++)
+            for (int i = 0; i <= goodlist.Count - 1; i++)
             {
                 SpecialItemsInfo info = (SpecialItemsInfo)goodlist[i];
                 if (info.ID == id)
@@ -395,7 +395,7 @@ public class PlayerInfo : MonoBehaviour {
                         goodlist[i] = info;
                     }
                     playerinfo.MaterialInfoList.SpecialItems = goodlist;
-                    return;
+                    break;
                 }
             }
         }
@@ -404,6 +404,7 @@ public class PlayerInfo : MonoBehaviour {
             Debug.Log("Unknow goodstype: " + goodstype);
             return;
         }
+        PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
 
