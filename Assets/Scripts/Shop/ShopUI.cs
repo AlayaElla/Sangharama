@@ -39,6 +39,7 @@ public class ShopUI : MonoBehaviour {
         bool ishit = false;
         ishit = eventmanager.CheckUnCompleteEvent() || ishit;
         ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.InShop, false) || ishit;
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.SellGoods, false) || ishit;
         if (ishit)
         {
             eventmanager.StartStory();

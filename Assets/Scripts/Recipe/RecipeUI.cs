@@ -46,6 +46,9 @@ public class RecipeUI : MonoBehaviour{
     public GameObject PropertyListElement;
     private Vector3 PropertyListPlaneRect;
 
+    //事件管理器
+    ChatEventManager eventmanager;
+
     public struct SlotBox
     {
         public GameObject button;
@@ -60,6 +63,9 @@ public class RecipeUI : MonoBehaviour{
 
 	// Use this for initialization
 	void Start () {
+        //获取事件控制器
+        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
+
         iteminfo = Resources.Load<GameObject>("Prefab/ItemInfoUI");
         _bagUI = Resources.Load<GameObject>("Prefab/BagUI");
         scrollList = MenuUI.transform.FindChild("ScrollList/RecipeList").gameObject;
@@ -205,6 +211,14 @@ public class RecipeUI : MonoBehaviour{
         recipeSlotsList.gameObject.SetActive(true);
 
         ClearRecipeData();
+
+        //触发合成事件
+        bool ishit = false;
+        ishit = eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.ComposeGoods, true) || ishit;
+        if (ishit)
+        {
+            eventmanager.StartStory();
+        }
     }
 
     void ClearRecipeData()
