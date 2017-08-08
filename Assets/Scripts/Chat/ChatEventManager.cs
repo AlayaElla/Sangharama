@@ -134,6 +134,7 @@ public class ChatEventManager : MonoBehaviour {
                     }
                     else
                     {
+                        if (_event.Parameter == null || _event.Parameter.Length <= 0) Debug.LogWarning("事件配置表Parameter出错！ eventID:" + _event.ID);
                         if (_event.Parameter[0] == 0)
                         {
                             foreach (PlayerInfo.ItemsInfo items in playerInfo.MaterialInfoList.Items)
