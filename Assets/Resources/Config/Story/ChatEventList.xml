@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ChatEventList>
-	<ChatEvent ID="1" EventType="PutGoods" Num="3" Parameter="0,1" StoryName="start"/>
+	<ChatEvent ID="1" EventType="PutGoods" Num="3" Parameter="0,2" StoryName="start"/>
 	<ChatEvent ID="2" EventType="SellGoods" Num="3" Parameter="0,3" StoryName="shop1_1"/>
-	<ChatEvent ID="3" EventType="ComposeGoods" Num="4" StoryName="shop1_1"/>
+	<ChatEvent ID="3" EventType="ComposeGoods" Num="3" Parameter="0,5" StoryName="shop1_1"/>
 	<ChatEvent ID="4" EventType="CollectGoods" Num="5" Parameter="0,3" StoryName="shop1_2"/>
 	<ChatEvent ID="5" EventType="ComposeProperty" Num="2" Parameter="1" StoryName="start"/>
 	<ChatEvent ID="6" EventType="InShop" Num="4" StoryName="shop1_2"/>
