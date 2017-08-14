@@ -1,4 +1,3 @@
-<!--GroupType 0：主线；1：支线；2：隐藏-->
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <QuestGroupList>
 	<QuestGroup ID="1" GroupType="0" Name="第1个任务组：主线" />

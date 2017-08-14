@@ -768,9 +768,9 @@ public class XmlTool
             if (quest.GetAttribute("Bigicon") != "")
                 _quest.Bigicon = quest.GetAttribute("Bigicon");
             if (quest.GetAttribute("Name") != "")
-                _quest.Bigicon = quest.GetAttribute("Name");
+                _quest.name = quest.GetAttribute("Name");
             if (quest.GetAttribute("Des") != "")
-                _quest.Bigicon = quest.GetAttribute("Des");
+                _quest.des = quest.GetAttribute("Des");
 
             for (int i = 0; i < quest.ChildNodes.Count; i++)
             {
@@ -786,7 +786,7 @@ public class XmlTool
                         _quest.QuestNeed.NeedGoods = new int[Goods.Length];
                         for (int j = 0; j < Goods.Length; j++)
                         {
-                            _quest.QuestNeed.NeedGoods[i] = int.Parse(Goods[i]);
+                            _quest.QuestNeed.NeedGoods[i] = int.Parse(Goods[j]);
                         }
                     }
                 }
@@ -797,52 +797,112 @@ public class XmlTool
                     {
                         switch (element.GetAttribute("QuestType"))
                         {
-                            case "Arrive":
-                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.Arrive;
-                                break;
-                            case "CollectGoods":
-                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.CollectGoods;
-                                break;
-                            case "ComposeGoods":
-                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.ComposeGoods;
-                                break;
-                            case "ComposeProperty":
-                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.ComposeProperty;
-                                break;
-                            case "Golds":
-                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.Golds;
-                                break;
                             case "PutGoods":
                                 _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.PutGoods;
                                 break;
                             case "SellGoods":
                                 _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.SellGoods;
                                 break;
+                            case "ComposeGoods":
+                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.ComposeGoods;
+                                break;
+                            case "CollectGoods":
+                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.CollectGoods;
+                                break;
+                            case "ComposeProperty":
+                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.ComposeProperty;
+                                break;
+                            case "Arrive":
+                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.Arrive;
+                                break;
+                            case "Golds":
+                                _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.Golds;
+                                break;
                             default:
                                 Debug.LogError("Unkown EventType:" + element.GetAttribute("QuestType") + "!!!!");
                                 break;
                         }
                     }
-                    if (element.GetAttribute("Goods") != "")
+                    if (element.GetAttribute("Num") != "")
+                        _quest.QuestComplete.Num = int.Parse(element.GetAttribute("Num"));
+                    if (element.GetAttribute("Parameter") != "")
                     {
-                        string[] Goods = element.GetAttribute("Goods").Split(',');
-                        _quest.QuestNeed.NeedGoods = new int[Goods.Length];
-                        for (int j = 0; j < Goods.Length; j++)
+                        string[] parameter = element.GetAttribute("Parameter").Split(',');
+                        _quest.QuestComplete.Parameter = new int[parameter.Length];
+                        for (int j = 0; j < parameter.Length; j++)
                         {
-                            _quest.QuestNeed.NeedGoods[i] = int.Parse(Goods[i]);
+                            _quest.QuestComplete.Parameter[i] = int.Parse(parameter[j]);
                         }
                     }
                 }
-            }
 
-            //添加进itemList中
-            recipeList.Add(_recipe);
+                if (element.Name == "Award")
+                {
+                    if (element.GetAttribute("Golds") != "")
+                        _quest.Award.Gold = int.Parse(element.GetAttribute("Golds"));
+                    if (element.GetAttribute("Exp") != "")
+                        _quest.Award.Exp = int.Parse(element.GetAttribute("Exp"));
+                    if (element.GetAttribute("Story") != "")
+                        _quest.Award.Stroy = element.GetAttribute("Story");
+                    if (element.GetAttribute("TaskPoint") != "")
+                        _quest.Award.TaskPoint = int.Parse(element.GetAttribute("TaskPoint"));
+                }
+            }
+            //添加进List中
+            List.Add(_quest);
         }
-        return recipeList;
+        return List;
     }
 
     //读取任务类型配置
+    public ArrayList loadQuestGroupXmlToArray()
+    {
+        //保存路径
+        string filepath = "Config/Quest/QuestGroup";
 
+        string _result = Resources.Load(filepath).ToString();
+
+        ArrayList List = new ArrayList();
+
+        XmlDocument xmlDoc = new XmlDocument();
+
+        xmlDoc.LoadXml(_result);
+
+        XmlNodeList nodeList = xmlDoc.SelectSingleNode("QuestGroupList").ChildNodes;
+
+        foreach (XmlElement group in nodeList)
+        {
+            QuestManager.QuestGroupBase _group = new QuestManager.QuestGroupBase();
+
+            //读取node内属性，把string转化为对应的属性
+            if (group.GetAttribute("ID") != "")
+                _group.ID = int.Parse(group.GetAttribute("ID"));
+            if (group.GetAttribute("GroupType") != "")
+            {
+                switch (group.GetAttribute("GroupType"))
+                {
+                    case "0":
+                        _group.GroupType = QuestManager.GroupTypeList.Main;
+                        break;
+                    case "1":
+                        _group.GroupType = QuestManager.GroupTypeList.Sub;
+                        break;
+                    case "2":
+                        _group.GroupType = QuestManager.GroupTypeList.Secret;
+                        break;
+                    default:
+                        Debug.LogError("Unkown GroupType:" + group.GetAttribute("GroupType") + "!!!!");
+                        break;
+                }
+            }
+            if (group.GetAttribute("Name") != "")
+                _group.Name = group.GetAttribute("Name");
+
+            //添加进itemList中
+            List.Add(_group);
+        }
+        return List;
+    }
 
     
     //获取路径//

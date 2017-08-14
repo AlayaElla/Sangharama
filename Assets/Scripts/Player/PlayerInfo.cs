@@ -15,6 +15,8 @@ public class PlayerInfo : MonoBehaviour {
         public ArrayList SenceInfoList;
         public ArrayList MapInfoList;
         public ArrayList CompleteEvents;
+        public ArrayList QuestList;
+        public ArrayList CompleteQuests;
     }
 
     static Info playerinfo;
@@ -103,11 +105,24 @@ public class PlayerInfo : MonoBehaviour {
             Todo=0,
             Complete
         }
-        public EventInfoType Type; 
+        public EventInfoType Type;
         public int ID;     //ID
     }
 
-
+    //任务的状态类型
+    [Serializable]
+    public struct QuestInfo
+    {
+        public enum QuestInfoType
+        {
+            Todo = 0,
+            WaitingCheck,
+            Complete
+        }
+        public QuestInfoType Type;
+        public int Progress;
+        public int ID;     //ID
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -153,6 +168,8 @@ public class PlayerInfo : MonoBehaviour {
         playerinfo.MaterialInfoList.Propertys = new ArrayList();
         playerinfo.SenceInfoList = new ArrayList();
         playerinfo.CompleteEvents = new ArrayList();
+        playerinfo.QuestList = new ArrayList();
+        playerinfo.CompleteQuests = new ArrayList();
 
         //初始材料
         foreach (Materiral.Items m in Materiral.GetItemList())
@@ -453,6 +470,38 @@ public class PlayerInfo : MonoBehaviour {
     {
         playerinfo.CompleteEvents.Clear();
         Debug.Log("Clear CompleteEvents!\nEvents Count:" + playerinfo.CompleteEvents.Count);
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
+
+    //增加任务
+    static public void AddQuest(int Quest)
+    {
+        QuestInfo info = new QuestInfo();
+        info.ID = Quest;
+        info.Type = QuestInfo.QuestInfoType.Todo;
+        info.Progress = 0;
+
+        playerinfo.QuestList.Add(info);
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
+    //更新任务数据
+    static public void UpdateQuest(int Quest,int Progress)
+    {
+        QuestInfo info = new QuestInfo();
+        info.ID = Quest;
+        info.Type = QuestInfo.QuestInfoType.Todo;
+        info.Progress = 0;
+
+        playerinfo.QuestList.Add(info);
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
+    //增加完成时间
+    static public void AddCompleteQuest(int Quest)
+    {
+        playerinfo.CompleteQuests.Add(Quest);
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
 }
