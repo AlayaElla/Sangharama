@@ -94,6 +94,42 @@ public class QuestManager : MonoBehaviour {
 		
 	}
 
+    //更新任务信息到列表
+    void AddQuestInfoToList(int questID)
+    {
+        QuestBase Quest = new QuestBase();
+        Quest = GetQuestInfoByID(questID);
+    }
+
+    //查找任务信息
+    QuestBase GetQuestInfoByID(int questID)
+    {
+        foreach (QuestBase q in QuestList)
+        {
+            if (q.ID == questID)
+            {
+                return q;
+            }
+        }
+        Debug.LogWarning("Can't find questID: " + questID);
+        return new QuestBase();
+    }
+
+    //查找任务组信息
+    QuestGroupBase GetQuestGroupInfo(int groupID)
+    {
+        foreach (QuestGroupBase g in QuestList)
+        {
+            if (g.ID == groupID)
+            {
+                return g;
+            }
+        }
+        Debug.LogWarning("Can't find questgroupID: " + groupID);
+        return new QuestGroupBase();
+    }
+
+
     /// <summary>
     /// 用于检查是否触发事件,物品判断的条件不管使用哪个EventType都一样
     /// </summary>
