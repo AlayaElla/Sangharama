@@ -121,6 +121,8 @@ public class PlayerInfo : MonoBehaviour {
         }
         public QuestInfoType Type;
         public int Progress;
+        public int Goal;
+        public int TaskPoint;
         public int ID;     //ID
     }
 
