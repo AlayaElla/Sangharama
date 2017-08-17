@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ShopUI : MonoBehaviour {
 
@@ -54,6 +55,13 @@ public class ShopUI : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            //当前检测到的是否是UI层   
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                //是UI的时候，执行相关的UI操作
+                return;
+            }
+
             Vector2 mousepos = Input.mousePosition;
             Vector2 mouseToWorld = Camera.main.ScreenToWorldPoint(mousepos);
             //设定相应动画的按钮                

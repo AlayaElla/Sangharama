@@ -127,9 +127,8 @@ public class PlayerInfo : MonoBehaviour {
     }
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         playerinfo = new Info();
-
         LoadPlayerInfo();
 	}
 	

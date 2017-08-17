@@ -88,13 +88,26 @@ public class QuestManager : MonoBehaviour {
         NowQuestList = PlayerInfo.GetPlayerInfo().QuestList;
 
         //获取UI
-        UIInstance = this.GetComponent<QuestUI>();
-	}
+        UIInstance = gameObject.GetComponent<QuestUI>();
+
+        ShowQuest(1);
+        ShowQuest(2);
+        ShowQuest(3);
+        ShowQuest(4);
+        ShowQuest(5);
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+
+    void ShowQuest(int questID)
+    {
+        AddQuestToList(questID);
+        UIInstance.AddQustUI(GetQuestInfoByID(questID));
+    }
 
     //添加任务信息到列表
     void AddQuestToList(int questID)
@@ -115,7 +128,7 @@ public class QuestManager : MonoBehaviour {
     }
 
     //查找任务信息
-    QuestBase GetQuestInfoByID(int questID)
+    public QuestBase GetQuestInfoByID(int questID)
     {
         foreach (QuestBase q in QuestList)
         {
@@ -140,5 +153,19 @@ public class QuestManager : MonoBehaviour {
         }
         Debug.LogWarning("Can't find questgroupID: " + groupID);
         return new QuestGroupBase();
+    }
+
+    public int GetQuestProgress(int questID)
+    {
+        foreach (PlayerInfo.QuestInfo q in NowQuestList)
+        {
+            if (q.ID == questID)
+            {
+                return q.Progress;
+            }
+        }
+
+        Debug.LogWarning("Can't find questID: " + questID);
+        return 0;
     }
 }
