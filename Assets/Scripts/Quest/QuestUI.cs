@@ -44,7 +44,12 @@ public class QuestUI : MonoBehaviour {
 
     void OpenQuestBoard(GameObject go)
     {
-        QuestManager.QuestBase quest = questManager.GetQuestInfoByID(int.Parse(go.name));
+        OpenQuestBoard(int.Parse(go.name), 0);
+    }
+
+    public void OpenQuestBoard(int questID,float delyTime)
+    {
+        QuestManager.QuestBase quest = questManager.GetQuestInfoByID(questID);
 
         GameObject Board = Instantiate(QuestBoard);
         Board.name = quest.ID.ToString();
@@ -58,6 +63,7 @@ public class QuestUI : MonoBehaviour {
         Text prograssBarText = Board.transform.FindChild("QuestBoard/questName/progress/progressText").GetComponent<Text>();
         GameObject closebutton = Board.transform.FindChild("QuestBoard/Close").gameObject;
         GameObject Mask = Board.transform.FindChild("Mask").gameObject;
+        GameObject questBoardBG = closebutton.transform.parent.gameObject;
 
         //更新参数
         iconImage.sprite = Materiral.GetIconByName(quest.Bigicon);
@@ -68,12 +74,20 @@ public class QuestUI : MonoBehaviour {
 
         //关闭按钮
         EventTriggerListener.Get(closebutton).onClick = CloseQuestBoard;
+
+        questBoardBG.transform.localPosition = new Vector2(0, Screen.height / 2 + 200);
+        LeanTween.moveLocalY(closebutton.transform.parent.gameObject, 300, 0.5f).setEaseOutBack().setDelay(delyTime);
     }
 
     void CloseQuestBoard(GameObject go)
     {
         Transform board = go.transform.parent.parent;
         Destroy(board.gameObject);
+
+        if (questManager.GetNewQuests().Count > 0)
+        {
+            questManager.OpenQuestBoardInUI((int)questManager.GetNewQuests()[0], 0);
+        }
     }
 
 }

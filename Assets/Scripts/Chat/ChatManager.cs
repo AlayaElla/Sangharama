@@ -63,6 +63,8 @@ public class ChatManager : MonoBehaviour {
     string storyName = "";
     string lastWords = "";  //用于保存上一个动作时说话的台词，在点击时在lastword中增加当前语句，来达到点击快速完成当前对话的功能。啊，这个方法我知道有点坑!
 
+    QuestManager questManager;
+
     void Awake()
     {
         
@@ -118,6 +120,8 @@ public class ChatManager : MonoBehaviour {
         Loading.GetInstance().CloseLoading();
 
         NowStroyActionBox.UseBG1 = true;
+
+        questManager = transform.Find("/ToolsKit/QuestManager").GetComponent<QuestManager>();
 
         CreateChatLayer();
         DoingAction(NowStroyActionBox.NowIndex);
@@ -309,6 +313,11 @@ public class ChatManager : MonoBehaviour {
         {
             ShopUI.ChangeStoryState();
             Character.ChangeStoryState();
+        }
+
+        if (questManager.GetNewQuests().Count > 0)
+        {
+            questManager.OpenQuestBoardInUI((int)questManager.GetNewQuests()[0], 0.5f);
         }
     }
 
@@ -1154,6 +1163,21 @@ public class ChatManager : MonoBehaviour {
             case "loadstory":
                 SetActionState(ChatAction.NOWSTATE.DOING, index);
                 ChangeStory(action.Parameter[0]);
+                break;
+            case "addquest":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+
+                questManager.AddShowQuest(int.Parse(action.Parameter[0]));
+
+                //如果是最后一个动作，则停止自动
+                if (index >= NowStroyActionBox.ActionList.Count)
+                {
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    return;
+                }
+                SetActionState(ChatAction.NOWSTATE.DONE, index);
+                SetActionIndex(index + 1);
+                DoingAction(NowStroyActionBox.NowIndex);
                 break;
             default:
                 Debug.Log("Don't have Action: <color=red>" + action.Command + "</color> in <color=green>" + storyName + ".txt</color>!");

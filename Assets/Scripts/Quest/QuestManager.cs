@@ -9,6 +9,7 @@ public class QuestManager : MonoBehaviour {
 
     ArrayList NowQuestInfoList = new ArrayList();
     ArrayList NowQuestList = new ArrayList();
+    ArrayList NewQuests = new ArrayList();
 
     QuestUI UIInstance;
 
@@ -90,11 +91,8 @@ public class QuestManager : MonoBehaviour {
         //获取UI
         UIInstance = gameObject.GetComponent<QuestUI>();
 
-        ShowQuest(1);
-        ShowQuest(2);
-        ShowQuest(3);
-        ShowQuest(4);
-        ShowQuest(5);
+        AddShowQuest(1);
+        AddShowQuest(2);
     }
 	
 	// Update is called once per frame
@@ -103,10 +101,27 @@ public class QuestManager : MonoBehaviour {
 	}
 
 
-    void ShowQuest(int questID)
+    public void AddShowQuest(int questID)
     {
         AddQuestToList(questID);
         UIInstance.AddQustUI(GetQuestInfoByID(questID));
+    }
+
+    //添加任务到显示new的列表中
+    void AddQuestToNew(int questID)
+    {
+        NewQuests.Add(questID);
+    }
+    //去除任务显示new
+    void RemoveQuestToNew(int questID)
+    {
+        if(NewQuests.Count>0)
+            NewQuests.Remove(questID);
+    }
+
+    public ArrayList GetNewQuests()
+    {
+        return NewQuests;
     }
 
     //添加任务信息到列表
@@ -125,6 +140,8 @@ public class QuestManager : MonoBehaviour {
         newQuest.Type = PlayerInfo.QuestInfo.QuestInfoType.Todo;
         newQuest.TaskPoint = Quest.Award.TaskPoint;
         PlayerInfo.GetPlayerInfo().QuestList.Add(newQuest);
+
+        AddQuestToNew(questID);
     }
 
     //查找任务信息
@@ -167,5 +184,11 @@ public class QuestManager : MonoBehaviour {
 
         Debug.LogWarning("Can't find questID: " + questID);
         return 0;
+    }
+
+    public void OpenQuestBoardInUI(int questID,float delyTime)
+    {
+        RemoveQuestToNew(questID);
+        UIInstance.OpenQuestBoard(questID, delyTime);
     }
 }

@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class UITEST : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    ChatEventManager chatEventManager;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -27,10 +28,11 @@ public class UITEST : MonoBehaviour {
 
     public void LoadTest3Level()
     {
-        Loading.GetInstance().LoadingStoryScene("giveitem",()=>
-        {
-            SceneManager.LoadScene("Story");
-        });
-        
+        //Loading.GetInstance().LoadingStoryScene("giveitem",()=>
+        //{
+        //    SceneManager.LoadScene("Story");
+        //});
+        chatEventManager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
+        chatEventManager.StartStory("addquest");
     }
 }
