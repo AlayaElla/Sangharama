@@ -505,4 +505,18 @@ public class PlayerInfo : MonoBehaviour {
         playerinfo.CompleteQuests.Add(Quest);
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
+
+    //获取任务进度
+    static public int GetQuestProgress(int quest)
+    {
+        for (int i = 0; i < playerinfo.QuestList.Count; i++)
+        {
+            QuestInfo info = (QuestInfo)playerinfo.QuestList[i];
+            if (info.ID == quest)
+            {
+                return info.Progress;
+            }
+        }
+        return -1;
+    }
 }

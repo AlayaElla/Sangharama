@@ -82,12 +82,15 @@ public class QuestUI : MonoBehaviour {
     void CloseQuestBoard(GameObject go)
     {
         Transform board = go.transform.parent.parent;
-        Destroy(board.gameObject);
-
-        if (questManager.GetNewQuests().Count > 0)
+        LeanTween.moveLocalY(go.transform.parent.gameObject, Screen.height / 2 + 200, 0.3f).setEaseInBack().setOnComplete(()=>
         {
-            questManager.OpenQuestBoardInUI((int)questManager.GetNewQuests()[0], 0);
-        }
+            Destroy(board.gameObject);
+
+            if (questManager.GetNewQuests().Count > 0)
+            {
+                questManager.OpenQuestBoardInUI((int)questManager.GetNewQuests()[0], 0);
+            }
+        });
     }
 
 }

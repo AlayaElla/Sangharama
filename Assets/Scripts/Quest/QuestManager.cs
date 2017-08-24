@@ -191,4 +191,61 @@ public class QuestManager : MonoBehaviour {
         RemoveQuestToNew(questID);
         UIInstance.OpenQuestBoard(questID, delyTime);
     }
+
+    /// <summary>
+    /// 用于检查是否触发事件,物品判断的条件不管使用哪个EventType都一样
+    /// </summary>
+    /// <param name="EventType"></param>
+    /// <returns></returns>
+    public bool AddQuestListWithGoods(QuestTypeList EventType,CharBag.Goods goods)
+    {
+        PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
+        bool ishit = false;
+        //事件判断
+        foreach (QuestBase _event in NowQuestInfoList)
+        {
+            switch (_event.QuestComplete.QuestType)
+            {
+                //给物品相关的判断，统一处理
+                case QuestTypeList.PutGoods:
+                case QuestTypeList.SellGoods:
+                case QuestTypeList.ComposeGoods:
+                case QuestTypeList.CollectGoods:
+                case QuestTypeList.ComposeProperty:
+                    if (_event.QuestComplete.QuestType == QuestTypeList.ComposeProperty)
+                    {
+                        foreach (PlayerInfo.PropertysInfo pinfo in playerInfo.MaterialInfoList.Propertys)
+                        {
+                            //判断合成属性
+                        }
+                    }
+                    else
+                    {
+                        if (_event.QuestComplete.Parameter == null || _event.QuestComplete.Parameter.Length <= 0) Debug.LogWarning("任务配置表Parameter出错！ questID:" + _event.ID);
+                        if (_event.QuestComplete.Parameter[0] == 0)
+                        {
+                            if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.PutGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
+                            {
+
+                            }
+                            else if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.SellGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
+                            {
+
+                            }
+                            else if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.ComposeGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
+                            {
+
+                            }
+                            else if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.CollectGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
+                            {
+
+                            }
+                        }   //item
+                    }
+                    break;
+            }
+        }
+        return ishit;
+    }
+
 }
