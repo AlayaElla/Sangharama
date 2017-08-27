@@ -11,7 +11,7 @@ public class QuestUI : MonoBehaviour {
     GameObject QuestCanvas;
 
     QuestManager questManager;
-
+    public Sprite[] hintsprites;
     // Use this for initialization
     void Start () {
         questManager = gameObject.GetComponent<QuestManager>();
@@ -69,7 +69,7 @@ public class QuestUI : MonoBehaviour {
         iconImage.sprite = Materiral.GetIconByName(quest.Bigicon);
         questinfoText.text = quest.des;
         questnameText.text = quest.name;
-        prograssBar.value = questManager.GetQuestProgress(quest.ID) / quest.QuestComplete.Num;
+        prograssBar.value = (float)questManager.GetQuestProgress(quest.ID) / quest.QuestComplete.Num;
         prograssBarText.text = questManager.GetQuestProgress(quest.ID) + "/" + quest.QuestComplete.Num;
 
         //关闭按钮
@@ -93,4 +93,21 @@ public class QuestUI : MonoBehaviour {
         });
     }
 
+    public void UpdateQuestUI(int quest)
+    {
+        PlayerInfo.QuestInfo info = PlayerInfo.GetQuestInfo(quest);
+        Transform questButton = QuestListUI.transform.FindChild(info.ID.ToString());
+        Slider prograssBar = questButton.transform.FindChild("progress").GetComponent<Slider>();
+        Transform hint = questButton.transform.FindChild("hint");
+
+        prograssBar.value = (float)info.Progress / info.Goal;
+
+        //如果已经完成
+        if (prograssBar.value >= 1)
+        {
+            hint.gameObject.SetActive(true);
+            AniController.Get(hint.gameObject).AddSprite(hintsprites);
+            AniController.Get(hint.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+        }
+    }
 }

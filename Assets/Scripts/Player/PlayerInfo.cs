@@ -519,4 +519,59 @@ public class PlayerInfo : MonoBehaviour {
         }
         return -1;
     }
+
+    //获取任务状态
+    static public QuestInfo.QuestInfoType GetQuestStatus(int quest)
+    {
+        for (int i = 0; i < playerinfo.QuestList.Count; i++)
+        {
+            QuestInfo info = (QuestInfo)playerinfo.QuestList[i];
+            if (info.ID == quest)
+            {
+                return info.Type;
+            }
+        }
+        return QuestInfo.QuestInfoType.Complete;
+    }
+
+    //增加任务状态
+    static public void AddQuestProgress(int quest,int max)
+    {
+        for (int i = 0; i < playerinfo.QuestList.Count; i++)
+        {
+            QuestInfo info = (QuestInfo)playerinfo.QuestList[i];
+            if (info.ID == quest)
+            {
+                Mathf.Clamp(info.Progress++, 0, max);
+                if (info.Progress >= max)
+                    info.Type = QuestInfo.QuestInfoType.WaitingCheck;
+                playerinfo.QuestList[i] = info;
+                return;
+            }
+        }
+        Debug.Log("Can't find quest:" + quest);
+    }
+
+    //获取任务信息
+    static public QuestInfo GetQuestInfo(int quest)
+    {
+        for (int i = 0; i < playerinfo.QuestList.Count; i++)
+        {
+            QuestInfo info = (QuestInfo)playerinfo.QuestList[i];
+            if (info.ID == quest)
+            {
+                return info;
+            }
+        }
+        Debug.Log("Can't find quest:" + quest);
+        return new QuestInfo();
+    }
+
+    //清空任务列表
+    static public void ClearQuestList()
+    {
+        playerinfo.QuestList.Clear();
+        PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
 }

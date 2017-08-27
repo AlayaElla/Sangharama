@@ -8,7 +8,6 @@ public class QuestManager : MonoBehaviour {
     ArrayList QuesGrouptList = new ArrayList();
 
     ArrayList NowQuestInfoList = new ArrayList();
-    ArrayList NowQuestList = new ArrayList();
     ArrayList NewQuests = new ArrayList();
 
     QuestUI UIInstance;
@@ -85,8 +84,6 @@ public class QuestManager : MonoBehaviour {
         XmlTool xt = new XmlTool();
         QuestList = xt.loadQuestXmlToArray();
         QuesGrouptList = xt.loadQuestGroupXmlToArray();
-
-        NowQuestList = PlayerInfo.GetPlayerInfo().QuestList;
 
         //获取UI
         UIInstance = gameObject.GetComponent<QuestUI>();
@@ -174,7 +171,7 @@ public class QuestManager : MonoBehaviour {
 
     public int GetQuestProgress(int questID)
     {
-        foreach (PlayerInfo.QuestInfo q in NowQuestList)
+        foreach (PlayerInfo.QuestInfo q in PlayerInfo.GetPlayerInfo().QuestList)
         {
             if (q.ID == questID)
             {
@@ -197,7 +194,7 @@ public class QuestManager : MonoBehaviour {
     /// </summary>
     /// <param name="EventType"></param>
     /// <returns></returns>
-    public bool AddQuestListWithGoods(QuestTypeList EventType,CharBag.Goods goods)
+    public bool CheckQuestListWithGoods(QuestTypeList EventType,CharBag.Goods goods)
     {
         PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
         bool ishit = false;
@@ -212,33 +209,49 @@ public class QuestManager : MonoBehaviour {
                 case QuestTypeList.ComposeGoods:
                 case QuestTypeList.CollectGoods:
                 case QuestTypeList.ComposeProperty:
+                    if (_event.QuestComplete.Parameter == null || _event.QuestComplete.Parameter.Length <= 0) Debug.LogWarning("任务配置表Parameter出错！ questID:" + _event.ID);
                     if (_event.QuestComplete.QuestType == QuestTypeList.ComposeProperty)
                     {
-                        foreach (PlayerInfo.PropertysInfo pinfo in playerInfo.MaterialInfoList.Propertys)
+                        foreach (int p in goods.Property)
                         {
-                            //判断合成属性
+                            if (p == _event.QuestComplete.Parameter[0] && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID) && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
+                            {
+                                PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                UIInstance.UpdateQuestUI(_event.ID);
+                                ishit = true;
+                            }
                         }
                     }
                     else
                     {
-                        if (_event.QuestComplete.Parameter == null || _event.QuestComplete.Parameter.Length <= 0) Debug.LogWarning("任务配置表Parameter出错！ questID:" + _event.ID);
                         if (_event.QuestComplete.Parameter[0] == 0)
                         {
-                            if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.PutGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
+                            if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID) && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
                             {
-
-                            }
-                            else if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.SellGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
-                            {
-
-                            }
-                            else if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.ComposeGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
-                            {
-
-                            }
-                            else if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.QuestType == QuestTypeList.CollectGoods && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID))
-                            {
-
+                                if (_event.QuestComplete.QuestType == QuestTypeList.PutGoods)
+                                {
+                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    ishit = true;
+                                }
+                                else if (_event.QuestComplete.QuestType == QuestTypeList.SellGoods)
+                                {
+                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    ishit = true;
+                                }
+                                else if (_event.QuestComplete.QuestType == QuestTypeList.ComposeGoods)
+                                {
+                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    ishit = true;
+                                }
+                                else if (_event.QuestComplete.QuestType == QuestTypeList.CollectGoods)
+                                {
+                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    ishit = true;
+                                }
                             }
                         }   //item
                     }
@@ -248,4 +261,20 @@ public class QuestManager : MonoBehaviour {
         return ishit;
     }
 
+
+    public void TestQuest()
+    {
+        //PlayerInfo.ClearQuestList();
+
+        int type = 0;
+        int id = 2;
+        CharBag.Goods newgoods = new CharBag.Goods();
+        newgoods.MateriralType = type;
+        newgoods.ID = id;
+        newgoods.Number = 1;
+        newgoods.Property = Materiral.GetMaterialProperty(type, id);
+        newgoods.Quality = 80;
+
+        CheckQuestListWithGoods(QuestTypeList.PutGoods, newgoods);
+    }
 }
