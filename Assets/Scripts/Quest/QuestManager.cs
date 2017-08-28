@@ -88,14 +88,31 @@ public class QuestManager : MonoBehaviour {
         //获取UI
         UIInstance = gameObject.GetComponent<QuestUI>();
 
-        AddShowQuest(1);
-        AddShowQuest(2);
+        InstQuest();
+        //AddShowQuest(1);
+        //AddShowQuest(2);
+        //AddShowQuest(3);
+        //AddShowQuest(4);
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    //游戏开始时，初始化任务面板
+    void InstQuest()
+    {
+        ArrayList questlist = PlayerInfo.GetPlayerInfo().QuestList;
+        foreach (PlayerInfo.QuestInfo info in questlist)
+        {
+            //添加任务信息记录，方便以后查找
+            QuestBase Quest = new QuestBase();
+            Quest = GetQuestInfoByID(info.ID);
+            NowQuestInfoList.Add(Quest);
+            UIInstance.AddQustUI(GetQuestInfoByID(info.ID));
+        }
+    }
 
 
     public void AddShowQuest(int questID)
@@ -136,8 +153,7 @@ public class QuestManager : MonoBehaviour {
         newQuest.Progress = 0;
         newQuest.Type = PlayerInfo.QuestInfo.QuestInfoType.Todo;
         newQuest.TaskPoint = Quest.Award.TaskPoint;
-        PlayerInfo.GetPlayerInfo().QuestList.Add(newQuest);
-
+        PlayerInfo.AddQuest(newQuest);
         AddQuestToNew(questID);
     }
 
@@ -196,7 +212,6 @@ public class QuestManager : MonoBehaviour {
     /// <returns></returns>
     public bool CheckQuestListWithGoods(QuestTypeList EventType,CharBag.Goods goods)
     {
-        PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
         bool ishit = false;
         //事件判断
         foreach (QuestBase _event in NowQuestInfoList)
@@ -258,6 +273,7 @@ public class QuestManager : MonoBehaviour {
                     break;
             }
         }
+        if(ishit==true) PlayerData.PlayerInfoData.Save(PlayerInfo.GetPlayerInfo());
         return ishit;
     }
 

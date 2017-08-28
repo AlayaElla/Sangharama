@@ -35,10 +35,17 @@ public class QuestUI : MonoBehaviour {
 
         Image iconImage = questButton.transform.FindChild("icon").GetComponent<Image>();
         Slider prograssBar = questButton.transform.FindChild("progress").GetComponent<Slider>();
+        Transform hint = questButton.transform.FindChild("hint");
 
         iconImage.sprite = Materiral.GetIconByName(quest.Smallicon);
-        prograssBar.value = 0;
-
+        prograssBar.value = (float)PlayerInfo.GetQuestProgress(quest.ID) / quest.QuestComplete.Num;
+        //如果已经完成
+        if (prograssBar.value >= 1)
+        {
+            hint.gameObject.SetActive(true);
+            AniController.Get(hint.gameObject).AddSprite(hintsprites);
+            AniController.Get(hint.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+        }
         EventTriggerListener.Get(questButton).onClick = OpenQuestBoard;
     }
 

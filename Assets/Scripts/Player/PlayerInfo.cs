@@ -476,26 +476,9 @@ public class PlayerInfo : MonoBehaviour {
 
 
     //增加任务
-    static public void AddQuest(int Quest)
+    static public void AddQuest(QuestInfo Quest)
     {
-        QuestInfo info = new QuestInfo();
-        info.ID = Quest;
-        info.Type = QuestInfo.QuestInfoType.Todo;
-        info.Progress = 0;
-
-        playerinfo.QuestList.Add(info);
-        PlayerData.PlayerInfoData.Save(playerinfo);
-    }
-
-    //更新任务数据
-    static public void UpdateQuest(int Quest,int Progress)
-    {
-        QuestInfo info = new QuestInfo();
-        info.ID = Quest;
-        info.Type = QuestInfo.QuestInfoType.Todo;
-        info.Progress = 0;
-
-        playerinfo.QuestList.Add(info);
+        playerinfo.QuestList.Add(Quest);
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
