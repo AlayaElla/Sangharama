@@ -45,6 +45,8 @@ public class QuestManager : MonoBehaviour {
         {
             public int Gold;
             public int Exp;
+            public int[] Goods;
+            public int GoodsNum;
             public string Stroy;
             public int TaskPoint;
         }
@@ -93,6 +95,8 @@ public class QuestManager : MonoBehaviour {
         //AddShowQuest(2);
         //AddShowQuest(3);
         //AddShowQuest(4);
+        //AddShowQuest(5);
+        //AddShowQuest(6);
     }
 	
 	// Update is called once per frame

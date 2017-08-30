@@ -3,46 +3,46 @@
 	<Quest ID="1" Questgroup="1" GroupID="1" Smallicon="actionIcon_20" Bigicon="actionIcon_18" Name="任务名称1" Des="这是任务描述1">
 		<Need Quest="1" Goods="0,1"/>
 		<Complete QuestType="PutGoods" Num="3" Parameter="0,2"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="0"/>
+		<Award Golds="100" Exp="10" Goods="0,1" GoodsNum="1" Story="shop1_1" TaskPoint="0"/>
 	</Quest>
 	<Quest ID="2" Questgroup="1" GroupID="2" Smallicon="actionIcon_21" Bigicon="actionIcon_19" Name="任务名称2" Des="这是任务描述2">
 		<Need Quest="2" Goods="0,2"/>
 		<Complete QuestType="SellGoods" Num="3" Parameter="0,2"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="1"/>
+		<Award Golds="200" Exp="20" Goods="0,2" GoodsNum="2" Story="shop1_1" TaskPoint="1"/>
 	</Quest>
 	<Quest ID="3" Questgroup="1" GroupID="3" Smallicon="actionIcon_22" Bigicon="actionIcon_20" Name="任务名称3" Des="这是任务描述3">
 		<Need Quest="3" Goods="0,3"/>
 		<Complete QuestType="ComposeGoods" Num="3" Parameter="0,3"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="2"/>
+		<Award Golds="300" Exp="30" Goods="0,3" GoodsNum="3" Story="shop1_1" TaskPoint="2"/>
 	</Quest>
 	<Quest ID="4" Questgroup="1" GroupID="4" Smallicon="actionIcon_23" Bigicon="actionIcon_21" Name="任务名称4" Des="这是任务描述4">
 		<Need Quest="4" Goods="0,4"/>
 		<Complete QuestType="CollectGoods" Num="3" Parameter="0,4"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="3"/>
+		<Award Golds="400" Exp="40" Goods="0,4" GoodsNum="4" Story="shop1_1" TaskPoint="3"/>
 	</Quest>
 	<Quest ID="5" Questgroup="1" GroupID="5" Smallicon="actionIcon_24" Bigicon="actionIcon_22" Name="任务名称5" Des="这是任务描述5">
 		<Need Quest="5" Goods="0,5"/>
 		<Complete QuestType="ComposeProperty" Num="3" Parameter="0,2"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="4"/>
+		<Award Golds="500" Exp="50" Goods="0,5" GoodsNum="5" Story="shop1_1" TaskPoint="4"/>
 	</Quest>
 	<Quest ID="6" Questgroup="1" GroupID="6" Smallicon="actionIcon_25" Bigicon="actionIcon_23" Name="任务名称6" Des="这是任务描述6">
 		<Need Quest="6" Goods="0,6"/>
 		<Complete QuestType="Arrive" Num="3" Parameter="0,2"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="5"/>
+		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="6" Story="shop1_1" TaskPoint="5"/>
 	</Quest>
 	<Quest ID="7" Questgroup="1" GroupID="7" Smallicon="actionIcon_26" Bigicon="actionIcon_24" Name="任务名称7" Des="这是任务描述7">
 		<Need Quest="7" Goods="0,7"/>
 		<Complete QuestType="Golds" Num="3" Parameter="0,2"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="6"/>
+		<Award Golds="700" Exp="70" Goods="0,7" GoodsNum="7" Story="shop1_1" TaskPoint="6"/>
 	</Quest>
 	<Quest ID="8" Questgroup="2" GroupID="1" Smallicon="actionIcon_27" Bigicon="actionIcon_25" Name="任务名称8" Des="这是任务描述8">
 		<Need/>
 		<Complete QuestType="Arrive" Num="3" Parameter="0,2"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="7"/>
+		<Award Golds="800" Exp="80" Goods="0,8" GoodsNum="8" Story="shop1_1" TaskPoint="7"/>
 	</Quest>
 	<Quest ID="9" Questgroup="3" GroupID="1" Smallicon="actionIcon_28" Bigicon="actionIcon_26" Name="任务名称9" Des="这是任务描述9">
 		<Need/>
 		<Complete QuestType="Arrive" Num="3" Parameter="0,2"/>
-		<Award Golds="500" Exp="100" Story="shop1_1" TaskPoint="8"/>
+		<Award Golds="900" Exp="90" Goods="0,9" GoodsNum="9" Story="shop1_1" TaskPoint="8"/>
 	</Quest>
 </QuestList>

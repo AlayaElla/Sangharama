@@ -842,6 +842,17 @@ public class XmlTool
                         _quest.Award.Gold = int.Parse(element.GetAttribute("Golds"));
                     if (element.GetAttribute("Exp") != "")
                         _quest.Award.Exp = int.Parse(element.GetAttribute("Exp"));
+                    if (element.GetAttribute("Goods") != "")
+                    {
+                        string[] parameter = element.GetAttribute("Goods").Split(',');
+                        _quest.Award.Goods = new int[parameter.Length];
+                        for (int j = 0; j < parameter.Length; j++)
+                        {
+                            _quest.Award.Goods[j] = int.Parse(parameter[j]);
+                        }
+                    }
+                    if (element.GetAttribute("GoodsNum") != "")
+                        _quest.Award.GoodsNum = int.Parse(element.GetAttribute("GoodsNum"));
                     if (element.GetAttribute("Story") != "")
                         _quest.Award.Stroy = element.GetAttribute("Story");
                     if (element.GetAttribute("TaskPoint") != "")

@@ -69,18 +69,42 @@ public class QuestUI : MonoBehaviour {
         Slider prograssBar = Board.transform.FindChild("QuestBoard/questName/progress").GetComponent<Slider>();
         Text prograssBarText = Board.transform.FindChild("QuestBoard/questName/progress/progressText").GetComponent<Text>();
         GameObject closebutton = Board.transform.FindChild("QuestBoard/Close").gameObject;
+        Text closebuttonText = closebutton.transform.FindChild("Text").GetComponent<Text>();
         GameObject Mask = Board.transform.FindChild("Mask").gameObject;
         GameObject questBoardBG = closebutton.transform.parent.gameObject;
+        //Award
+        Text awardGoldNum = Board.transform.FindChild("QuestBoard/award/Gold/Num").GetComponent<Text>();
+        Text awardExpNum = Board.transform.FindChild("QuestBoard/award/Exp/Num").GetComponent<Text>();
+        Image AwardGoodsImage = Board.transform.FindChild("QuestBoard/award/Goods").GetComponent<Image>();
+        Text AwardGoodsNum = Board.transform.FindChild("QuestBoard/award/Goods/Num").GetComponent<Text>();
 
         //更新参数
         iconImage.sprite = Materiral.GetIconByName(quest.Bigicon);
         questinfoText.text = quest.des;
         questnameText.text = quest.name;
+        awardGoldNum.text = "x" + quest.Award.Gold;
+        awardExpNum.text= "x" + quest.Award.Exp;
+        AwardGoodsImage.sprite = Materiral.GetMaterialIcon(quest.Award.Goods[0], quest.Award.Goods[1]);
+        AwardGoodsNum.text= "x" + quest.Award.GoodsNum;
+
         prograssBar.value = (float)questManager.GetQuestProgress(quest.ID) / quest.QuestComplete.Num;
         prograssBarText.text = questManager.GetQuestProgress(quest.ID) + "/" + quest.QuestComplete.Num;
 
-        //关闭按钮
-        EventTriggerListener.Get(closebutton).onClick = CloseQuestBoard;
+        //设置按钮响应
+        if (prograssBar.value >= 1)
+        {
+            //设置领取
+            closebutton.GetComponent<Image>().color = Color.green;
+            closebuttonText.text = "领取";
+            EventTriggerListener.Get(closebutton).onClick = CloseQuestBoard;
+        }
+        else
+        {
+            //关闭按钮
+            closebutton.GetComponent<Image>().color = Color.white;
+            closebuttonText.text = "关闭";
+            EventTriggerListener.Get(closebutton).onClick = CloseQuestBoard;
+        }
 
         questBoardBG.transform.localPosition = new Vector2(0, Screen.height / 2 + 200);
         LeanTween.moveLocalY(closebutton.transform.parent.gameObject, 300, 0.5f).setEaseOutBack().setDelay(delyTime);
