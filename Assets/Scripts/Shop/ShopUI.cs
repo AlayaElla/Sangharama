@@ -17,6 +17,7 @@ public class ShopUI : MonoBehaviour {
 
     //事件管理器
     ChatEventManager eventmanager;
+    QuestManager questManager;
 
     // Use this for initialization
     void Start () {
@@ -25,6 +26,7 @@ public class ShopUI : MonoBehaviour {
 
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
+        questManager = transform.Find("/ToolsKit/QuestManager").GetComponent<QuestManager>();
 
         UpdateShopGoodsData();
         InitShopGoods();
@@ -136,6 +138,7 @@ public class ShopUI : MonoBehaviour {
         ChangeRecipeUiState();
     }
 
+    //上架商品
     void ClickInBag(GameObject go, object parameter)
     {
         Parameter.Box p = (Parameter.Box)parameter;
@@ -170,6 +173,8 @@ public class ShopUI : MonoBehaviour {
         PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
         CharBag.SaveBagGoods();
 
+        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.PutGoods, goods);
+
         //更新物品信息
         PlayerInfo.AddGoodsInfo(goods.MateriralType, goods.ID, PlayerInfo.GoodsInfoType.PutCount);
     }
@@ -201,6 +206,7 @@ public class ShopUI : MonoBehaviour {
         PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
     }
 
+    //购买物品
     public void BuyedGoods(MyCharacterController.ShopGood goods)
     {
         //如果货架上有商品则移除
@@ -217,8 +223,9 @@ public class ShopUI : MonoBehaviour {
             transform.FindChild(priceiconpath).gameObject.SetActive(false);
             transform.FindChild(pricepath).gameObject.SetActive(false);
 
-            PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
+            questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.SellGoods, goods.goods);
 
+            PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
             //更新物品信息
             PlayerInfo.AddGoodsInfo(goods.goods.MateriralType, goods.goods.ID, PlayerInfo.GoodsInfoType.SellCount);
         }

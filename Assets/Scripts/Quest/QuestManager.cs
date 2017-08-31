@@ -247,25 +247,25 @@ public class QuestManager : MonoBehaviour {
                         {
                             if (goods.ID == _event.QuestComplete.Parameter[1] && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID) && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
                             {
-                                if (_event.QuestComplete.QuestType == QuestTypeList.PutGoods)
+                                if (_event.QuestComplete.QuestType == QuestTypeList.PutGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
                                     ishit = true;
                                 }
-                                else if (_event.QuestComplete.QuestType == QuestTypeList.SellGoods)
+                                else if (_event.QuestComplete.QuestType == QuestTypeList.SellGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
                                     ishit = true;
                                 }
-                                else if (_event.QuestComplete.QuestType == QuestTypeList.ComposeGoods)
+                                else if (_event.QuestComplete.QuestType == QuestTypeList.ComposeGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
                                     ishit = true;
                                 }
-                                else if (_event.QuestComplete.QuestType == QuestTypeList.CollectGoods)
+                                else if (_event.QuestComplete.QuestType == QuestTypeList.CollectGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
@@ -284,7 +284,7 @@ public class QuestManager : MonoBehaviour {
 
     public void TestQuest()
     {
-        //PlayerInfo.ClearQuestList();
+        PlayerInfo.ClearQuestList();
 
         int type = 0;
         int id = 2;

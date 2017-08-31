@@ -786,7 +786,7 @@ public class XmlTool
                         _quest.QuestNeed.NeedGoods = new int[Goods.Length];
                         for (int j = 0; j < Goods.Length; j++)
                         {
-                            _quest.QuestNeed.NeedGoods[i] = int.Parse(Goods[j]);
+                            _quest.QuestNeed.NeedGoods[j] = int.Parse(Goods[j]);
                         }
                     }
                 }
@@ -831,7 +831,7 @@ public class XmlTool
                         _quest.QuestComplete.Parameter = new int[parameter.Length];
                         for (int j = 0; j < parameter.Length; j++)
                         {
-                            _quest.QuestComplete.Parameter[i] = int.Parse(parameter[j]);
+                            _quest.QuestComplete.Parameter[j] = int.Parse(parameter[j]);
                         }
                     }
                 }

@@ -15,6 +15,9 @@ public class CollectAction : MonoBehaviour {
     //素材按钮框
     RectTransform MateriralList;
 
+    //任务管理器
+    QuestManager questManager;
+
     //////////////////////
     //逻辑相关
     //道具掉落的基本类型，用CollectionList来保存
@@ -39,6 +42,9 @@ public class CollectAction : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        //获取事件控制器
+        questManager = transform.Find("/ToolsKit/QuestManager").GetComponent<QuestManager>();
+
         //获取掉落配置表
         XmlTool xt = new XmlTool();
         CollectionList = xt.loadCollectionXmlToArray();
@@ -153,6 +159,7 @@ public class CollectAction : MonoBehaviour {
         //添加物品
         dropMa.UID = CharBag.AddGoods(dropMa);
 
+        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.CollectGoods, dropMa);
         //更新物品信息
         PlayerInfo.AddGoodsInfo(dropMa.MateriralType, dropMa.ID, PlayerInfo.GoodsInfoType.CollectCount);
 

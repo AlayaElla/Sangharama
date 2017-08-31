@@ -46,8 +46,9 @@ public class RecipeUI : MonoBehaviour{
     public GameObject PropertyListElement;
     private Vector3 PropertyListPlaneRect;
 
-    //事件管理器
+    //事件&任务管理器
     ChatEventManager eventmanager;
+    QuestManager questManager;
 
     public struct SlotBox
     {
@@ -65,6 +66,7 @@ public class RecipeUI : MonoBehaviour{
 	void Start () {
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
+        questManager = transform.Find("/ToolsKit/QuestManager").GetComponent<QuestManager>();
 
         iteminfo = Resources.Load<GameObject>("Prefab/ItemInfoUI");
         _bagUI = Resources.Load<GameObject>("Prefab/BagUI");
@@ -645,6 +647,7 @@ public class RecipeUI : MonoBehaviour{
         //添加道具
         goods.UID = CharBag.AddGoods(goods);
 
+        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.ComposeGoods, goods);
         //更新物品信息
         PlayerInfo.AddGoodsInfo(goods.MateriralType, goods.ID, PlayerInfo.GoodsInfoType.RecipeCount);
 
@@ -774,7 +777,8 @@ public class RecipeUI : MonoBehaviour{
                     composID.Base1.Button.FindChild("Text").GetComponent<Text>().text = composID.Base1.Property.Name;
                     composID.Base1.Button.FindChild("Image").GetComponent<Image>().sprite = Materiral.GetIconByName(composID.Base1.Property.IMG);
                     Destroy(composID.Base2.Button.gameObject);
-
+                    //更新任务
+                    //questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.ComposeProperty, composID.Base1.ID);
                     LeanTween.scale(composID.Base1.Button.gameObject, new Vector3(1.1f, 1.1f, 1.1f), 0.125f).setLoopPingPong(1).setOnComplete(
                         () =>
                         {
