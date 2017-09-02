@@ -36,6 +36,7 @@ public class ShopUI : MonoBehaviour {
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (3)")).onClick = OpenSpecialItemBagAll;
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (4)")).onClick = PlayerInfo.ClearCompleteEvents;
 
+        eventmanager.PreCheckEventList(0);
         //增加进入地图次数
         PlayerInfo.AddSenceInfo(0);
 

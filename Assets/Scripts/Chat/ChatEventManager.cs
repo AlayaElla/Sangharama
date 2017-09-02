@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ChatEventManager : MonoBehaviour {
 
+    public Sprite[] eventHint;
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +33,7 @@ public class ChatEventManager : MonoBehaviour {
             Mines,              //挖掘次数
             Golds               //金币数
         };
+        public int GroupType;   //事件类型 0:故事事件；1:任务事件；2:隐藏事件
         public EventTypeList EventType;
         public int Num;
         public int[] Parameter;
@@ -439,5 +442,146 @@ public class ChatEventManager : MonoBehaviour {
                 return _event;
         }
         return new ChatEvent();
+    }
+
+
+    //预检查事件 ，用于显示可以触发的任务
+    /// <summary>
+    /// 预检查事件 ，用于显示可以触发的任务
+    /// sceneID 0;shop;1:map
+    /// </summary>
+    /// <param name="sceneID"></param>
+    /// <returns></returns>
+    public void PreCheckEventList(int sceneID)
+    {
+        ArrayList preCheckEvent = new ArrayList();
+        PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
+
+        //筛选需要判断的事件
+        ArrayList CheckList = new ArrayList();
+        foreach (ChatEvent _event in ChatEventsList)
+        {
+            if (_event.EventType == ChatEvent.EventTypeList.Arrive
+                || _event.EventType == ChatEvent.EventTypeList.InMap
+                || _event.EventType == ChatEvent.EventTypeList.InShop)
+                CheckList.Add(_event);
+        }
+
+        //事件判断
+        foreach (ChatEvent _event in CheckList)
+        {
+            switch (_event.EventType)
+            {
+                case ChatEvent.EventTypeList.InShop:
+                    if (sceneID == 0) break;
+
+                    PlayerInfo.SenceInfo shop_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[0];
+                    if (_event.Num <= shop_senceinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID))
+                    {
+                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        {
+                            Debug.Log("prehit event: " + _event.ID);
+                            preCheckEvent.Add(_event);
+                        }
+                    }
+                    break;
+                case ChatEvent.EventTypeList.InMap:
+                    if (sceneID == 1) break;
+
+                    PlayerInfo.SenceInfo map_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[1];
+                    if (_event.Num <= map_senceinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID))
+                    {
+                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        {
+                            Debug.Log("prehit event: " + _event.ID);
+                            preCheckEvent.Add(_event);
+                        }
+                    }
+                    break;
+                case ChatEvent.EventTypeList.Arrive:
+                    foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
+                    {
+                        if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID))
+                        {
+                            if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            {
+                                Debug.Log("prehit event: " + _event.ID);
+                                preCheckEvent.Add(_event);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    Debug.LogWarning("Can't Check EventType:" + _event.EventType + "!");
+                    break;
+            }
+        }
+        if (preCheckEvent.Count > 0)
+            ShowEventHint(sceneID, preCheckEvent);
+    }
+
+    public void ShowEventHint(int sceneID,ArrayList preCheckEvent)
+    {
+        Transform root;
+        if (sceneID == 0)
+            root = GameObject.Find("Canvas/Button/").transform;
+        else if (sceneID == 1)
+            root = GameObject.Find("Canvas/Scroll View/Viewport/Content/map/").transform;
+        else
+            root = null;
+        //事件判断
+        foreach (ChatEvent _event in preCheckEvent)
+        {
+            Transform p;
+            switch (_event.EventType)
+            {
+                case ChatEvent.EventTypeList.InShop:
+                    if (sceneID == 0) break;
+                    p = root.FindChild("action1/1");
+                    CreateHintSprite(sceneID,p, _event.GroupType);
+                    break;
+                case ChatEvent.EventTypeList.InMap:
+                    if (sceneID == 1) break;
+                    CreateHintSprite(sceneID,root, _event.GroupType);
+                    break;
+                case ChatEvent.EventTypeList.Arrive:
+                    if (sceneID == 0)
+                    {
+                        CreateHintSprite(sceneID,root, _event.GroupType);
+                        break;
+                    };
+
+                    p = root.FindChild("action" + _event.Parameter[0] + "/" + _event.Parameter[0]);
+                    CreateHintSprite(sceneID,p, _event.GroupType);
+                    break;
+                default:
+                    Debug.LogWarning("Can't Check EventType:" + _event.EventType + "!");
+                    break;
+            }
+        }
+    }
+
+    void CreateHintSprite(int sceneID,Transform t,int type)
+    {
+        //type 2隐藏任务，直接跳过
+        if (type == 2) return;
+
+        GameObject obj = new GameObject();
+        obj.name = "hint";
+        obj.transform.SetParent(t, false);
+        if(sceneID==0)
+            obj.transform.localPosition = new Vector2(-50, 50);
+        else if (sceneID == 1)
+            obj.transform.localPosition = new Vector2(0, 50);
+        Image img = obj.AddComponent<Image>();
+
+        if (type == 0)
+            img.color = Color.white;
+        else if (type == 1)
+            img.color = Color.blue;
+
+        AniController.Get(obj.gameObject).AddSprite(eventHint);
+        AniController.Get(obj.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
     }
 }

@@ -17,6 +17,8 @@ public class CollectAction : MonoBehaviour {
 
     //任务管理器
     QuestManager questManager;
+    //事件管理器
+    ChatEventManager eventmanager;
 
     //////////////////////
     //逻辑相关
@@ -42,8 +44,10 @@ public class CollectAction : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //获取事件控制器
+        //获取任务控制器
         questManager = transform.Find("/ToolsKit/QuestManager").GetComponent<QuestManager>();
+        //获取事件控制器
+        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
 
         //获取掉落配置表
         XmlTool xt = new XmlTool();
@@ -162,7 +166,7 @@ public class CollectAction : MonoBehaviour {
         questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.CollectGoods, dropMa);
         //更新物品信息
         PlayerInfo.AddGoodsInfo(dropMa.MateriralType, dropMa.ID, PlayerInfo.GoodsInfoType.CollectCount);
-
+        eventmanager.PreCheckEventList(1);
         ShowMaterialIcon(dropMa, rect);
     }
 

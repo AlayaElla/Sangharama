@@ -668,6 +668,8 @@ public class XmlTool
             //读取node内属性，把string转化为对应的属性
             if (events.GetAttribute("ID") != "")
                 _event.ID = int.Parse(events.GetAttribute("ID"));
+            if (events.GetAttribute("GroupType") != "")
+                _event.GroupType = int.Parse(events.GetAttribute("GroupType"));
             if (events.GetAttribute("EventType") != "")
             {
                 switch (events.GetAttribute("EventType"))
@@ -819,7 +821,7 @@ public class XmlTool
                                 _quest.QuestComplete.QuestType = QuestManager.QuestTypeList.Golds;
                                 break;
                             default:
-                                Debug.LogError("Unkown EventType:" + element.GetAttribute("QuestType") + "!!!!");
+                                Debug.LogError("Unkown QuestType:" + element.GetAttribute("QuestType") + "!!!!");
                                 break;
                         }
                     }

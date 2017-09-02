@@ -99,7 +99,9 @@ public class MapPathManager : MonoBehaviour {
 
         InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
-	}
+
+        eventmanager.PreCheckEventList(1);
+    }
 	
 	// Update is called once per frame
 	void Update () {
