@@ -62,6 +62,7 @@ public class ShopUI : MonoBehaviour {
             if (EventSystem.current.IsPointerOverGameObject())
             {
                 //是UI的时候，执行相关的UI操作
+                Debug.Log("点击到了UI");
                 return;
             }
 
