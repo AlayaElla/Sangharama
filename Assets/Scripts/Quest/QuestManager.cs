@@ -121,8 +121,16 @@ public class QuestManager : MonoBehaviour {
 
     public void AddShowQuest(int questID)
     {
-        AddQuestToList(questID);
-        UIInstance.AddQustUI(GetQuestInfoByID(questID));
+        PlayerInfo.QuestInfo info = PlayerInfo.GetQuestInfo(questID);
+        if (info.ID == 0)
+        {
+            AddQuestToList(questID);
+            UIInstance.AddQustUI(GetQuestInfoByID(questID));
+        }
+        else
+        {
+            Debug.Log("已经添加该任务: " + questID);
+        }
     }
 
     //添加任务到显示new的列表中
