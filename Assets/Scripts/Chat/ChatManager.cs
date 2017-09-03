@@ -52,6 +52,8 @@ public class ChatManager : MonoBehaviour {
     RectTransform BGLayer2;
     RectTransform CharacterLayer;
     RectTransform MaskLayer;
+    RectTransform ClickLayer;
+    Button btn_Skip;
     ChatBoard TextBoardLayer;
     Dictionary<string, RectTransform> CharacterRects;
     AudioSource AudioManager;
@@ -81,12 +83,12 @@ public class ChatManager : MonoBehaviour {
         //Debug.Log("chatmanager update!!!!");
 
         //检测鼠标点击事件
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKey(KeyCode.Escape))
         {
-            ClickToDoing();
+            SkipStory(gameObject);
         }
 
-	}
+    }
 
     //添加故事列表
     public void PushStoryList(ArrayList list)
@@ -222,7 +224,7 @@ public class ChatManager : MonoBehaviour {
         //创建面板
         GameObject StoryLayerObj = Resources.Load<GameObject>("Prefab/Chat/StoryLayer");
         StoryLayerObj = Instantiate(StoryLayerObj);
-        StoryLayerObj.transform.SetParent(transform.Find("/Canvas").transform, false);
+        StoryLayerObj.transform.SetParent(transform.Find("/ToolsKit/Canvas").transform, false);
 
         //获取组件
         GetLayerComponent(StoryLayerObj);
@@ -235,6 +237,8 @@ public class ChatManager : MonoBehaviour {
     {
         StoryBoardLayer = StoryLayerObj.GetComponent<RectTransform>();
         MaskLayer = StoryBoardLayer.FindChild("Mask").GetComponent<RectTransform>();
+        ClickLayer = StoryBoardLayer.FindChild("clickLayer").GetComponent<RectTransform>();
+        btn_Skip = StoryBoardLayer.FindChild("skip").GetComponent<Button>();
         BGLayer1 = StoryBoardLayer.FindChild("BG1").GetComponent<RectTransform>();
         BGLayer2 = StoryBoardLayer.FindChild("BG2").GetComponent<RectTransform>();
         CharacterLayer = StoryBoardLayer.FindChild("Character").GetComponent<RectTransform>();
@@ -250,6 +254,9 @@ public class ChatManager : MonoBehaviour {
 
         SpeakerAudioManager = StoryBoardLayer.GetComponent<AudioSource>();
         resourcesLoader = transform.Find("/ToolsKit/EventManager").GetComponent<ResourcesLoader>();
+
+        EventTriggerListener.Get(ClickLayer.gameObject).onClick = ClickToDoing;
+        EventTriggerListener.Get(btn_Skip.gameObject).onClick = SkipStory;
     }
 
     //初始化故事面板
@@ -1188,7 +1195,7 @@ public class ChatManager : MonoBehaviour {
         }
     }
 
-    void ClickToDoing()
+    void ClickToDoing(GameObject obj)
     {
         //如果完成所有动作
         if (NowStroyActionBox.NowIndex >= NowStroyActionBox.ActionList.Count)
@@ -2080,5 +2087,29 @@ public class ChatManager : MonoBehaviour {
             return BGLayer1;
         else
             return BGLayer2;
+    }
+
+    public void SkipStory(GameObject obj)
+    {
+        btn_Skip.gameObject.SetActive(false);     
+        for (int i = NowStroyActionBox.NowIndex; i < NowStroyActionBox.ActionList.Count; i++)
+        {
+            ChatAction.StoryAction action = (ChatAction.StoryAction)NowStroyActionBox.ActionList[i];
+            if (action.Command == "loadstory")
+            {
+                ChangeStory(action.Parameter[0]);
+                return;
+            }
+            else if (action.Command == "giveitem")
+            {
+                string[] items = action.Parameter[0].Split(':');
+                CharBag.AddGoodsByID(int.Parse(items[0]), int.Parse(items[1]));
+            }
+            else if (action.Command == "addquest")
+            {
+                questManager.AddShowQuest(int.Parse(action.Parameter[0]));
+            }
+        }
+        EndChatLayer();
     }
 }

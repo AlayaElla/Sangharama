@@ -11,6 +11,7 @@ bgm1,bgm2
 
 //对话列表
 [ChatList]
+<addquest 3>
 //<show 0.2,0,1,0,left,idle,npc1,notloop,click>
 {npc1:idle}这是<color=green>播放</color>bgm
 <playbgm bgm2>
@@ -60,4 +61,4 @@ bgm1,bgm2
 {npc1:idle}<color=green>还有其他功能等待后续添加吧~</color>
 {npc1:idle}<color=green>结束。</color>
 <hide 3,happy,npc1,notloop,click>
-<loadstory start>
+//<loadstory start>
