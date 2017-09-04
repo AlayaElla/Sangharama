@@ -61,4 +61,4 @@ bgm1,bgm2
 {npc1:idle}<color=green>还有其他功能等待后续添加吧~</color>
 {npc1:idle}<color=green>结束。</color>
 <hide 3,happy,npc1,notloop,click>
-//<loadstory start>
+<loadstory start>

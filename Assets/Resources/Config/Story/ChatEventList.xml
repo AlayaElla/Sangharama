@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ChatEventList>
 	<ChatEvent ID="1" GroupType="0" EventType="PutGoods" Num="3" Parameter="0,2" StoryName="start"/>
-	<ChatEvent ID="2" GroupType="0" EventType="SellGoods" Num="3" Parameter="0,3" StoryName="start"/>
-	<ChatEvent ID="3" GroupType="0" EventType="ComposeGoods" Num="3" Parameter="0,5" StoryName="start"/>
-	<ChatEvent ID="4" GroupType="1" EventType="CollectGoods" Num="5" Parameter="0,3" StoryName="start"/>
+	<ChatEvent ID="2" GroupType="0" EventType="SellGoods" Num="3" Parameter="0,3" StoryName="shop1_1"/>
+	<ChatEvent ID="3" GroupType="0" EventType="ComposeGoods" Num="3" Parameter="0,5" StoryName="shop1_1"/>
+	<ChatEvent ID="4" GroupType="1" EventType="CollectGoods" Num="5" Parameter="0,3" StoryName="shop1_2"/>
 	<ChatEvent ID="5" GroupType="1" EventType="ComposeProperty" Num="2" Parameter="1" StoryName="start"/>
 	<ChatEvent ID="6" GroupType="1" EventType="InShop" Num="4" StoryName="shop1_2"/>
-	<ChatEvent ID="7" GroupType="1" EventType="InMap" Num="10" StoryName="start"/>
-	<ChatEvent ID="8" GroupType="1" EventType="Arrive" Num="3" Parameter="2" EventItem="2,2" StoryName="start"/>
+	<ChatEvent ID="7" GroupType="1" EventType="InMap" Num="10" StoryName="shop1_1"/>
+	<ChatEvent ID="8" GroupType="1" EventType="Arrive" Num="3" Parameter="2" EventItem="2,2" StoryName="shop1_1"/>
 	<ChatEvent ID="9" GroupType="2" EventType="Mines" Num="10" StoryName="start"/>
 	<ChatEvent ID="10" GroupType="2" EventType="Golds" Num="100" StoryName="gold1_1"/>
 	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="3" EventItem="2,2" StoryName="start"/>
