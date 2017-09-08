@@ -728,6 +728,8 @@ public class MapPathManager : MonoBehaviour {
         //添加按钮响应
         EventTriggerListener.Get(btn_mine).onClick = CollectAction;
         EventTriggerListener.Get(btn_mineMask).onClick = CollectAction;
+
+        CloseHintSprite(root);
     }
 
     //关闭采集图标
@@ -792,6 +794,8 @@ public class MapPathManager : MonoBehaviour {
         LeanTween.scale(homeBoard.gameObject, new Vector3(1, 1, 1), 0.25f).setEase(LeanTweenType.easeOutBack);
         LeanTween.moveY(homeBoard, homeBoard.localPosition.y + 5, at).setLoopPingPong();
         LeanTween.moveY(homeText.rectTransform, homeText.rectTransform.localPosition.y + 5, at).setLoopPingPong();
+
+        CloseHintSprite(root);
     }
 
     //关闭回家面板
@@ -808,5 +812,16 @@ public class MapPathManager : MonoBehaviour {
        
     }
 
-
+    //关闭事件提示
+    void CloseHintSprite(RectTransform root)
+    {
+        Transform hintsprite = root.FindChild("hint");
+        if (hintsprite != null)
+        {
+            LeanTween.scale(hintsprite.gameObject, new Vector3(0, 0, 0), 0.25f).setOnComplete(()=>
+            {
+                Destroy(hintsprite.gameObject);
+            });
+        }
+    }
 }

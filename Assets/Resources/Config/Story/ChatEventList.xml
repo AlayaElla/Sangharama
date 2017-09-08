@@ -10,7 +10,7 @@
 	<ChatEvent ID="8" GroupType="1" EventType="Arrive" Num="3" Parameter="2" EventItem="2,2" StoryName="shop1_1"/>
 	<ChatEvent ID="9" GroupType="2" EventType="Mines" Num="10" StoryName="start"/>
 	<ChatEvent ID="10" GroupType="2" EventType="Golds" Num="100" StoryName="gold1_1"/>
-	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="3" EventItem="2,2" StoryName="start"/>
-	<ChatEvent ID="12" GroupType="1" EventType="Arrive" Num="1" Parameter="4" EventItem="2,2" StoryName="addquest"/>
-	<ChatEvent ID="13" GroupType="2" EventType="Arrive" Num="1" Parameter="5" EventItem="2,2" StoryName="giveitem"/>	
+	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="3" StoryName="start"/>
+	<ChatEvent ID="12" GroupType="1" EventType="Arrive" Num="1" Parameter="4" StoryName="addquest"/>
+	<ChatEvent ID="13" GroupType="2" EventType="Arrive" Num="1" Parameter="5" StoryName="giveitem"/>	
 </ChatEventList>

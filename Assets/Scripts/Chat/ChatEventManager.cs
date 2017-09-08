@@ -319,16 +319,16 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Arrive:
                     foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
                     {
-                        if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
+                        if (mapinfo.ID == _event.Parameter[0])
                         {
-                            if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            if (_event.Num <= mapinfo.InCount && !PlayerInfo.CheckEvents(_event.ID) && (_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
                             {
                                 ishit = true;
                                 PlayerInfo.AddEvents(_event.ID);
                                 Debug.Log("hit event: " + _event.ID);
                                 AddStroyName(_event);
-                                break;
                             }
+                            break;
                         }
                     }
                     break;
@@ -501,14 +501,14 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Arrive:
                     foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
                     {
-                        if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID))
+                        if (mapinfo.ID == _event.Parameter[0])
                         {
-                            if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            if (_event.Num <= mapinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID) && (_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
                             {
                                 Debug.Log("prehit event: " + _event.ID);
                                 preCheckEvent.Add(_event);
-                                break;
                             }
+                            break;
                         }
                     }
                     break;
@@ -567,21 +567,38 @@ public class ChatEventManager : MonoBehaviour {
         //type 2隐藏任务，直接跳过
         if (type == 2) return;
 
-        GameObject obj = new GameObject();
-        obj.name = "hint";
-        obj.transform.SetParent(t, false);
-        if(sceneID==0)
-            obj.transform.localPosition = new Vector2(-50, 50);
-        else if (sceneID == 1)
-            obj.transform.localPosition = new Vector2(0, 50);
-        Image img = obj.AddComponent<Image>();
+        Transform tt = t.FindChild("hint");
+        if (tt == null)
+        {
+            GameObject obj = new GameObject();
+            obj.name = "hint";
+            obj.transform.SetParent(t, false);
+            if (sceneID == 0)
+                obj.transform.localPosition = new Vector2(-50, 0);
+            else if (sceneID == 1)
+                obj.transform.localPosition = new Vector2(0, 0);
+            Image img = obj.AddComponent<Image>();
+            obj.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
+            if (type == 0)
+                img.color = Color.white;
+            else if (type == 1)
+                img.color = Color.blue;
 
-        if (type == 0)
-            img.color = Color.white;
-        else if (type == 1)
-            img.color = Color.blue;
+            AniController.Get(obj.gameObject).AddSprite(eventHint);
+            AniController.Get(obj.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+        }
+        else
+        {
+            Image img = tt.GetComponent<Image>();
+            tt.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
+            if (type == 0)
+                img.color = Color.white;
+            else if (type == 1)
+                img.color = Color.blue;
 
-        AniController.Get(obj.gameObject).AddSprite(eventHint);
-        AniController.Get(obj.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+            AniController.Get(tt.gameObject).AddSprite(eventHint);
+            AniController.Get(tt.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+        }
+
     }
 }
