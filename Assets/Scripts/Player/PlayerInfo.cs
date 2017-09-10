@@ -518,7 +518,7 @@ public class PlayerInfo : MonoBehaviour {
     }
 
     //增加任务状态
-    static public void AddQuestProgress(int quest,int max)
+    static public void AddQuestProgress(int quest, int num, int max)
     {
         for (int i = 0; i < playerinfo.QuestList.Count; i++)
         {

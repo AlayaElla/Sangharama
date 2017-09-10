@@ -243,7 +243,7 @@ public class QuestManager : MonoBehaviour {
                         {
                             if (p == _event.QuestComplete.Parameter[0] && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID) && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
                             {
-                                PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
                                 UIInstance.UpdateQuestUI(_event.ID);
                                 ishit = true;
                             }
@@ -257,25 +257,25 @@ public class QuestManager : MonoBehaviour {
                             {
                                 if (_event.QuestComplete.QuestType == QuestTypeList.PutGoods && _event.QuestComplete.QuestType == EventType)
                                 {
-                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
                                     ishit = true;
                                 }
                                 else if (_event.QuestComplete.QuestType == QuestTypeList.SellGoods && _event.QuestComplete.QuestType == EventType)
                                 {
-                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
                                     ishit = true;
                                 }
                                 else if (_event.QuestComplete.QuestType == QuestTypeList.ComposeGoods && _event.QuestComplete.QuestType == EventType)
                                 {
-                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
                                     ishit = true;
                                 }
                                 else if (_event.QuestComplete.QuestType == QuestTypeList.CollectGoods && _event.QuestComplete.QuestType == EventType)
                                 {
-                                    PlayerInfo.AddQuestProgress(_event.ID, _event.QuestComplete.Num);
+                                    PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
                                     UIInstance.UpdateQuestUI(_event.ID);
                                     ishit = true;
                                 }
@@ -289,6 +289,44 @@ public class QuestManager : MonoBehaviour {
         return ishit;
     }
 
+    //检查是否到达路点的任务
+    public bool CheckQuestListWithArrive(int point)
+    {
+        bool ishit = false;
+        foreach (QuestBase _event in NowQuestInfoList)
+        {
+            if (_event.QuestComplete.QuestType == QuestTypeList.Arrive
+                && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID)
+                && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo
+                && _event.QuestComplete.Parameter[0] == point)
+            {
+                PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
+                UIInstance.UpdateQuestUI(_event.ID);
+                ishit = true;
+            }
+        }
+        if (ishit == true) PlayerData.PlayerInfoData.Save(PlayerInfo.GetPlayerInfo());
+        return ishit;
+    }
+
+    //检查是否和获取多少金钱的任务
+    public bool CheckQuestListWithGold(int Num)
+    {
+        bool ishit = false;
+        foreach (QuestBase _event in NowQuestInfoList)
+        {
+            if (_event.QuestComplete.QuestType == QuestTypeList.Golds
+                && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID)
+                && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
+            {
+                PlayerInfo.AddQuestProgress(_event.ID, Num, _event.QuestComplete.Num);
+                UIInstance.UpdateQuestUI(_event.ID);
+                ishit = true;
+            }
+        }
+        if (ishit == true) PlayerData.PlayerInfoData.Save(PlayerInfo.GetPlayerInfo());
+        return ishit;
+    }
 
     public void TestQuest()
     {
