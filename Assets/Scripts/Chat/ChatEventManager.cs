@@ -521,7 +521,7 @@ public class ChatEventManager : MonoBehaviour {
             ShowEventHint(sceneID, preCheckEvent);
     }
 
-    public void ShowEventHint(int sceneID,ArrayList preCheckEvent)
+    void ShowEventHint(int sceneID,ArrayList preCheckEvent)
     {
         Transform root;
         if (sceneID == 0)
@@ -599,6 +599,5 @@ public class ChatEventManager : MonoBehaviour {
             AniController.Get(tt.gameObject).AddSprite(eventHint);
             AniController.Get(tt.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
         }
-
     }
 }

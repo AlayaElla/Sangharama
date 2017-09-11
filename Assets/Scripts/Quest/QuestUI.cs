@@ -141,4 +141,67 @@ public class QuestUI : MonoBehaviour {
             AniController.Get(hint.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
         }
     }
+
+    public void ShowEventHint(int sceneID, ArrayList preCheckQuest)
+    {
+        Transform root;
+        if (sceneID == 0)
+            root = GameObject.Find("Canvas/Button/").transform;
+        else if (sceneID == 1)
+            root = GameObject.Find("Canvas/Scroll View/Viewport/Content/map/").transform;
+        else
+            root = null;
+        //事件判断
+        foreach (PlayerInfo.QuestInfo _quest in preCheckQuest)
+        {
+            Transform p;
+            if (sceneID == 0)
+            {
+                if (_quest.TaskPoint > 1)
+                {
+                    CreateHintSprite(sceneID, root);
+                }
+                break;
+            }
+            else if (sceneID == 1)
+            {
+                p = root.FindChild("action" + _quest.TaskPoint + "/" + _quest.TaskPoint);
+                CreateHintSprite(sceneID, p);
+            }
+            else
+            {
+                Debug.Log("Unknow sceneID: " + sceneID);
+            }
+        }
+    }
+
+    void CreateHintSprite(int sceneID, Transform t)
+    {
+        Transform tt = t.FindChild("hint");
+        if (tt == null)
+        {
+            GameObject obj = new GameObject();
+            obj.name = "hint";
+            obj.transform.SetParent(t, false);
+            if (sceneID == 0)
+                obj.transform.localPosition = new Vector2(-50, 0);
+            else if (sceneID == 1)
+                obj.transform.localPosition = new Vector2(0, 0);
+            Image img = obj.AddComponent<Image>();
+            obj.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
+            img.color = Color.green;
+
+            AniController.Get(obj.gameObject).AddSprite(hintsprites);
+            AniController.Get(obj.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+        }
+        else
+        {
+            Image img = tt.GetComponent<Image>();
+            tt.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
+            img.color = Color.green;
+
+            AniController.Get(tt.gameObject).AddSprite(hintsprites);
+            AniController.Get(tt.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+        }
+    }
 }

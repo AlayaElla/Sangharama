@@ -37,6 +37,7 @@ public class ShopUI : MonoBehaviour {
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (4)")).onClick = PlayerInfo.ClearCompleteEvents;
 
         eventmanager.PreCheckEventList(0);
+        questManager.PreCheckQuest(0);
         //增加进入地图次数
         PlayerInfo.AddSenceInfo(0);
 

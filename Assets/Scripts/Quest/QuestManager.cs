@@ -186,7 +186,7 @@ public class QuestManager : MonoBehaviour {
     //查找任务组信息
     QuestGroupBase GetQuestGroupInfo(int groupID)
     {
-        foreach (QuestGroupBase g in QuestList)
+        foreach (QuestGroupBase g in QuesGrouptList)
         {
             if (g.ID == groupID)
             {
@@ -243,7 +243,7 @@ public class QuestManager : MonoBehaviour {
                         {
                             if (p == _event.QuestComplete.Parameter[0] && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID) && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
                             {
-                                PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
+                                if(PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num));
                                 UIInstance.UpdateQuestUI(_event.ID);
                                 ishit = true;
                             }
@@ -342,5 +342,21 @@ public class QuestManager : MonoBehaviour {
         newgoods.Quality = 80;
 
         CheckQuestListWithGoods(QuestTypeList.PutGoods, newgoods);
+    }
+
+    public void PreCheckQuest(int sceneID)
+    {
+        ArrayList questlist = PlayerInfo.GetPlayerInfo().QuestList;
+        ArrayList preCheckQuest = new ArrayList();
+        foreach (PlayerInfo.QuestInfo info in questlist)
+        {
+            if (info.Type == PlayerInfo.QuestInfo.QuestInfoType.WaitingCheck)
+            {
+                Debug.Log("prehit quest: " + info.ID);
+                preCheckQuest.Add(info);
+            }
+        }
+        if (preCheckQuest.Count > 0)
+            UIInstance.ShowEventHint(sceneID, preCheckQuest);
     }
 }

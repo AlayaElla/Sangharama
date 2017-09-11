@@ -103,6 +103,7 @@ public class MapPathManager : MonoBehaviour {
         AddPathPointListener();
 
         eventmanager.PreCheckEventList(1);
+        questManager.PreCheckQuest(1);
     }
 	
 	// Update is called once per frame
