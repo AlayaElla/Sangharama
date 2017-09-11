@@ -294,6 +294,7 @@ public class ShopUI : MonoBehaviour {
     {
         PlayerInfo.ChangeMoney(num);
         UpdateShopMoney();
+        questManager.CheckQuestListWithGold(num);
     }
 
 }

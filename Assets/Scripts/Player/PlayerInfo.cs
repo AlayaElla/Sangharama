@@ -525,7 +525,7 @@ public class PlayerInfo : MonoBehaviour {
             QuestInfo info = (QuestInfo)playerinfo.QuestList[i];
             if (info.ID == quest)
             {
-                Mathf.Clamp(info.Progress++, 0, max);
+                info.Progress = Mathf.Clamp(info.Progress + num, 0, max);
                 if (info.Progress >= max)
                     info.Type = QuestInfo.QuestInfoType.WaitingCheck;
                 playerinfo.QuestList[i] = info;

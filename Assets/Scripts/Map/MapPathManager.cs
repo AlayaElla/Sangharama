@@ -68,6 +68,7 @@ public class MapPathManager : MonoBehaviour {
 
     //事件管理器
     ChatEventManager eventmanager;
+    QuestManager questManager;
 
     // Use this for initialization
     void Start () {
@@ -96,6 +97,7 @@ public class MapPathManager : MonoBehaviour {
         collectAction = GameObject.Find("/CollectionTools/Colection").GetComponent<CollectAction>();
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
+        questManager = transform.Find("/ToolsKit/QuestManager").GetComponent<QuestManager>();
 
         InstPlayer(playerPoints.Nowpoint);
         AddPathPointListener();
@@ -358,7 +360,7 @@ public class MapPathManager : MonoBehaviour {
             {
                 eventmanager.StartStory();
             }
-
+            questManager.CheckQuestListWithArrive(playerPoints.Targetpoint);
             state = MoveState.Stay;
             AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
 
@@ -550,7 +552,7 @@ public class MapPathManager : MonoBehaviour {
         RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
         pathPoint.position = new Vector3(root.position.x, root.position.y + 20, root.position.z);
 
-        LeanTween.cancel(pathPoint.gameObject);
+        //LeanTween.cancel(pathPoint.gameObject);
 
         pathPoint.localScale = new Vector3(0, 0, 0);
 
@@ -737,11 +739,7 @@ public class MapPathManager : MonoBehaviour {
     {
         if (mineActionBoard.gameObject.activeSelf)
         {
-            LeanTween.cancel(mineActionBoard.gameObject);
-            LeanTween.scale(mineActionBoard.gameObject, new Vector3(0, 0, 0), 0.15f).setOnComplete(() =>
-            {
-                mineActionBoard.gameObject.SetActive(false);
-            });
+            mineActionBoard.gameObject.SetActive(false);
         }
     }
 

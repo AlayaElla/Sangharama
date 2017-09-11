@@ -32,7 +32,7 @@
 	</Quest>
 	<Quest ID="7" Questgroup="1" GroupID="7" Smallicon="actionIcon_26" Bigicon="actionIcon_24" Name="任务名称7" Des="这是任务描述7">
 		<Need Quest="7" Goods="0,7"/>
-		<Complete QuestType="Golds" Num="100" Parameter=""/>
+		<Complete QuestType="Golds" Num="1430" Parameter=""/>
 		<Award Golds="700" Exp="70" Goods="0,7" GoodsNum="7" Story="shop1_1" TaskPoint="6"/>
 	</Quest>
 	<Quest ID="8" Questgroup="2" GroupID="1" Smallicon="actionIcon_27" Bigicon="actionIcon_25" Name="任务名称8" Des="这是任务描述8">

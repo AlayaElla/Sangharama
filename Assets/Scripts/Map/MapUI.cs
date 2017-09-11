@@ -19,6 +19,7 @@ public class MapUI : MonoBehaviour {
 
     //事件管理器
     ChatEventManager eventmanager;
+    QuestManager questManager;
 
     // Use this for initialization
     void Start () {
@@ -30,15 +31,16 @@ public class MapUI : MonoBehaviour {
 
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
-        
+        questManager = transform.Find("/ToolsKit/QuestManager").GetComponent<QuestManager>();
+
         //临时增加采集次数
         AddMineCount(10 - playerInfo.MineCount,null,false);
-
-        //临时增加金币数
-        if (playerInfo.Money < 100)
-        {
-            AddMoney(100 - playerInfo.Money, null, false);
-        }
+        AddMoney(100, null, false);
+        ////临时增加金币数
+        //if (playerInfo.Money < 100)
+        //{
+        //    AddMoney(100 - playerInfo.Money, null, false);
+        //}
 
         //增加进入地图次数
         PlayerInfo.AddSenceInfo(1);
@@ -110,6 +112,7 @@ public class MapUI : MonoBehaviour {
         if (positon != null)
             FlyToIcon(moneyIcon.GetComponent<Image>(), positon, num);
 
+        questManager.CheckQuestListWithGold(num);
         return true;
     }
 
