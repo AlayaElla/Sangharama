@@ -218,11 +218,11 @@ public class QuestManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// 用于检查是否触发事件,物品判断的条件不管使用哪个EventType都一样
+    /// 用于检查是否触发事件,物品判断的条件不管使用哪个EventType都一样,point是玩家所在的位置
     /// </summary>
     /// <param name="EventType"></param>
     /// <returns></returns>
-    public bool CheckQuestListWithGoods(QuestTypeList EventType,CharBag.Goods goods)
+    public bool CheckQuestListWithGoods(QuestTypeList EventType,CharBag.Goods goods,int point)
     {
         bool ishit = false;
         //事件判断
@@ -243,8 +243,8 @@ public class QuestManager : MonoBehaviour {
                         {
                             if (p == _event.QuestComplete.Parameter[0] && _event.QuestComplete.Num > PlayerInfo.GetQuestProgress(_event.ID) && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
                             {
-                                if(PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num));
-                                UIInstance.UpdateQuestUI(_event.ID);
+                                PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
+                                UIInstance.UpdateQuestUI(_event.ID, point);
                                 ishit = true;
                             }
                         }
@@ -258,25 +258,25 @@ public class QuestManager : MonoBehaviour {
                                 if (_event.QuestComplete.QuestType == QuestTypeList.PutGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
-                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    UIInstance.UpdateQuestUI(_event.ID, point);
                                     ishit = true;
                                 }
                                 else if (_event.QuestComplete.QuestType == QuestTypeList.SellGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
-                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    UIInstance.UpdateQuestUI(_event.ID, point);
                                     ishit = true;
                                 }
                                 else if (_event.QuestComplete.QuestType == QuestTypeList.ComposeGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
-                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    UIInstance.UpdateQuestUI(_event.ID, point);
                                     ishit = true;
                                 }
                                 else if (_event.QuestComplete.QuestType == QuestTypeList.CollectGoods && _event.QuestComplete.QuestType == EventType)
                                 {
                                     PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
-                                    UIInstance.UpdateQuestUI(_event.ID);
+                                    UIInstance.UpdateQuestUI(_event.ID, point);
                                     ishit = true;
                                 }
                             }
@@ -301,7 +301,7 @@ public class QuestManager : MonoBehaviour {
                 && _event.QuestComplete.Parameter[0] == point)
             {
                 PlayerInfo.AddQuestProgress(_event.ID, 1, _event.QuestComplete.Num);
-                UIInstance.UpdateQuestUI(_event.ID);
+                UIInstance.UpdateQuestUI(_event.ID, point);
                 ishit = true;
             }
         }
@@ -310,7 +310,7 @@ public class QuestManager : MonoBehaviour {
     }
 
     //检查是否和获取多少金钱的任务
-    public bool CheckQuestListWithGold(int Num)
+    public bool CheckQuestListWithGold(int Num, int point)
     {
         bool ishit = false;
         foreach (QuestBase _event in NowQuestInfoList)
@@ -320,7 +320,7 @@ public class QuestManager : MonoBehaviour {
                 && PlayerInfo.GetQuestStatus(_event.ID) == PlayerInfo.QuestInfo.QuestInfoType.Todo)
             {
                 PlayerInfo.AddQuestProgress(_event.ID, Num, _event.QuestComplete.Num);
-                UIInstance.UpdateQuestUI(_event.ID);
+                UIInstance.UpdateQuestUI(_event.ID, point);
                 ishit = true;
             }
         }
@@ -341,7 +341,7 @@ public class QuestManager : MonoBehaviour {
         newgoods.Property = Materiral.GetMaterialProperty(type, id);
         newgoods.Quality = 80;
 
-        CheckQuestListWithGoods(QuestTypeList.PutGoods, newgoods);
+        CheckQuestListWithGoods(QuestTypeList.PutGoods, newgoods, 0);
     }
 
     public void PreCheckQuest(int sceneID)
@@ -358,5 +358,21 @@ public class QuestManager : MonoBehaviour {
         }
         if (preCheckQuest.Count > 0)
             UIInstance.ShowEventHint(sceneID, preCheckQuest);
+    }
+
+    public bool IsArriveWaitingCheckPoint(int point)
+    {
+        if (point < 0) return false;
+
+        ArrayList questlist = PlayerInfo.GetPlayerInfo().QuestList;
+        foreach (PlayerInfo.QuestInfo info in questlist)
+        {
+            if (info.Type == PlayerInfo.QuestInfo.QuestInfoType.WaitingCheck && info.TaskPoint == point)
+            {
+                UIInstance.OpenQuestBoard(info.ID, 0);
+                return true;
+            }
+        }
+        return false;
     }
 }

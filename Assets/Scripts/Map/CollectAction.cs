@@ -163,7 +163,7 @@ public class CollectAction : MonoBehaviour {
         //添加物品
         dropMa.UID = CharBag.AddGoods(dropMa);
 
-        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.CollectGoods, dropMa);
+        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.CollectGoods, dropMa, ap);
         //更新物品信息
         PlayerInfo.AddGoodsInfo(dropMa.MateriralType, dropMa.ID, PlayerInfo.GoodsInfoType.CollectCount);
         eventmanager.PreCheckEventList(1);

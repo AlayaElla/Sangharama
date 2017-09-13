@@ -12,5 +12,6 @@
 	<ChatEvent ID="10" GroupType="2" EventType="Golds" Num="10000" StoryName="gold1_1"/>
 	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="3" StoryName="start"/>
 	<ChatEvent ID="12" GroupType="1" EventType="Arrive" Num="1" Parameter="4" StoryName="addquest"/>
-	<ChatEvent ID="13" GroupType="2" EventType="Arrive" Num="1" Parameter="5" StoryName="giveitem"/>	
+	<ChatEvent ID="13" GroupType="2" EventType="Arrive" Num="1" Parameter="5" StoryName="giveitem"/>
+	<ChatEvent ID="14" GroupType="2" EventType="Arrive" Num="1" Parameter="2" StoryName="addquest2"/>
 </ChatEventList>

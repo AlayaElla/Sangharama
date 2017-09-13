@@ -18,11 +18,13 @@ public class UITEST : MonoBehaviour {
 
     public void LoadTestLevel()
     {
+        PlayerInfo.SetNowscene(1);
         SceneManager.LoadScene("Map");
     }
 
     public void LoadTest2Level()
     {
+        PlayerInfo.SetNowscene(0);
         SceneManager.LoadScene("Shop");        
     }
 

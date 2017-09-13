@@ -125,6 +125,7 @@ public class PlayerInfo : MonoBehaviour {
         public int TaskPoint;
         public int ID;     //ID
     }
+    static int Nowscene = 0;
 
 	// Use this for initialization
 	void Awake () {
@@ -557,4 +558,13 @@ public class PlayerInfo : MonoBehaviour {
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
+    static public int GetNowscene()
+    {
+        return Nowscene;
+    }
+
+    static public void SetNowscene(int NowsceneID)
+    {
+        Nowscene = NowsceneID;
+    }
 }

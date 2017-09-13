@@ -44,6 +44,7 @@ public class QuestUI : MonoBehaviour {
         {
             hint.gameObject.SetActive(true);
             AniController.Get(hint.gameObject).AddSprite(hintsprites);
+            hint.GetComponent<Image>().color = Color.green;
             AniController.Get(hint.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
         }
         EventTriggerListener.Get(questButton).onClick = OpenQuestBoard;
@@ -96,7 +97,7 @@ public class QuestUI : MonoBehaviour {
             //设置领取
             closebutton.GetComponent<Image>().color = Color.green;
             closebuttonText.text = "领取";
-            EventTriggerListener.Get(closebutton).onClick = CloseQuestBoard;
+            EventTriggerListener.Get(closebutton).onClick = GetQuestAward;
         }
         else
         {
@@ -124,7 +125,7 @@ public class QuestUI : MonoBehaviour {
         });
     }
 
-    public void UpdateQuestUI(int quest)
+    public void UpdateQuestUI(int quest,int point)
     {
         PlayerInfo.QuestInfo info = PlayerInfo.GetQuestInfo(quest);
         Transform questButton = QuestListUI.transform.FindChild(info.ID.ToString());
@@ -138,7 +139,9 @@ public class QuestUI : MonoBehaviour {
         {
             hint.gameObject.SetActive(true);
             AniController.Get(hint.gameObject).AddSprite(hintsprites);
+            hint.GetComponent<Image>().color = Color.green;
             AniController.Get(hint.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
+            questManager.PreCheckQuest(PlayerInfo.GetNowscene());
         }
     }
 
@@ -188,7 +191,9 @@ public class QuestUI : MonoBehaviour {
             else if (sceneID == 1)
                 obj.transform.localPosition = new Vector2(0, 0);
             Image img = obj.AddComponent<Image>();
-            obj.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
+            RectTransform rt = obj.GetComponent<RectTransform>();
+            rt.pivot = new Vector2(0.5f, 0);
+            rt.sizeDelta = new Vector2(70, 70);
             img.color = Color.green;
 
             AniController.Get(obj.gameObject).AddSprite(hintsprites);
@@ -197,11 +202,29 @@ public class QuestUI : MonoBehaviour {
         else
         {
             Image img = tt.GetComponent<Image>();
-            tt.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0);
+            RectTransform rt = tt.GetComponent<RectTransform>();
+            rt.pivot = new Vector2(0.5f, 0);
+            rt.sizeDelta = new Vector2(70, 70);
             img.color = Color.green;
 
             AniController.Get(tt.gameObject).AddSprite(hintsprites);
             AniController.Get(tt.gameObject).PlayAni(0, 3, AniController.AniType.Loop, 5);
         }
+    }
+
+    void GetQuestAward(GameObject go)
+    {
+        Transform Board = go.transform.parent.parent;
+        Transform root = Board.parent;
+
+        //Award
+        Transform awardGold = Board.transform.FindChild("QuestBoard/award/Gold");
+        Transform awardExp = Board.transform.FindChild("QuestBoard/award/Exp");
+        Transform AwardGoods = Board.transform.FindChild("QuestBoard/award/Goods");
+
+        LeanTween.moveLocalY(go.transform.parent.gameObject, Screen.height / 2 + 200, 0.3f).setEaseInBack().setOnComplete(() =>
+        {
+            Destroy(Board.gameObject);
+        });
     }
 }

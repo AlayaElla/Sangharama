@@ -11,6 +11,7 @@ public class ShopUI : MonoBehaviour {
     BagUI _bagInstance;
     GameObject _bagUI;
     Text Money;
+    Text Mine;
 
     //商店的商品列表
     CharBag.Goods[] goodslist = new CharBag.Goods[18];
@@ -22,7 +23,8 @@ public class ShopUI : MonoBehaviour {
     // Use this for initialization
     void Start () {
         _bagUI = Resources.Load<GameObject>("Prefab/BagUI");
-        Money = transform.Find("/Canvas/gold/Text").GetComponent<Text>();
+        Money = transform.Find("/ToolsKit/Canvas/PlayerInfo/glodBoard/Text").GetComponent<Text>();
+        Mine = transform.Find("/ToolsKit/Canvas/PlayerInfo/mineBoard/Text").GetComponent<Text>();
 
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
@@ -38,6 +40,7 @@ public class ShopUI : MonoBehaviour {
 
         eventmanager.PreCheckEventList(0);
         questManager.PreCheckQuest(0);
+        questManager.IsArriveWaitingCheckPoint(0);
         //增加进入地图次数
         PlayerInfo.AddSenceInfo(0);
 
@@ -176,7 +179,7 @@ public class ShopUI : MonoBehaviour {
         PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
         CharBag.SaveBagGoods();
 
-        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.PutGoods, goods);
+        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.PutGoods, goods, 0);
 
         //更新物品信息
         PlayerInfo.AddGoodsInfo(goods.MateriralType, goods.ID, PlayerInfo.GoodsInfoType.PutCount);
@@ -226,7 +229,7 @@ public class ShopUI : MonoBehaviour {
             transform.FindChild(priceiconpath).gameObject.SetActive(false);
             transform.FindChild(pricepath).gameObject.SetActive(false);
 
-            questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.SellGoods, goods.goods);
+            questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.SellGoods, goods.goods, 0);
 
             PlayerData.ShopGoodsData.SaveShopGoods(goodslist);
             //更新物品信息
@@ -288,6 +291,7 @@ public class ShopUI : MonoBehaviour {
         PlayerInfo.Info info = PlayerInfo.GetPlayerInfo();
 
         Money.text = info.Money.ToString();
+        Mine.text = info.MineCount.ToString();
     }
 
     //增加金币
@@ -295,7 +299,7 @@ public class ShopUI : MonoBehaviour {
     {
         PlayerInfo.ChangeMoney(num);
         UpdateShopMoney();
-        questManager.CheckQuestListWithGold(num);
+        questManager.CheckQuestListWithGold(num, -1);
     }
 
 }

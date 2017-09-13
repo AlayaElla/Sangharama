@@ -104,6 +104,8 @@ public class MapPathManager : MonoBehaviour {
 
         eventmanager.PreCheckEventList(1);
         questManager.PreCheckQuest(1);
+
+        questManager.IsArriveWaitingCheckPoint(1);
     }
 	
 	// Update is called once per frame
@@ -362,6 +364,7 @@ public class MapPathManager : MonoBehaviour {
                 eventmanager.StartStory();
             }
             questManager.CheckQuestListWithArrive(playerPoints.Targetpoint);
+            questManager.IsArriveWaitingCheckPoint(playerPoints.Targetpoint);
             state = MoveState.Stay;
             AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
 

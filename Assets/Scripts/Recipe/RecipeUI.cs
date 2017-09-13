@@ -647,7 +647,7 @@ public class RecipeUI : MonoBehaviour{
         //添加道具
         goods.UID = CharBag.AddGoods(goods);
 
-        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.ComposeGoods, goods);
+        questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.ComposeGoods, goods, 0);
         //更新物品信息
         PlayerInfo.AddGoodsInfo(goods.MateriralType, goods.ID, PlayerInfo.GoodsInfoType.RecipeCount);
 

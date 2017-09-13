@@ -5,12 +5,12 @@ using System.Collections;
 public class MapUI : MonoBehaviour {
 
     //金钱的面板
-    public RectTransform MoneyBoard;
+    RectTransform MoneyBoard;
     RectTransform moneyIcon;
     Text moneyText;
 
     //挖矿的面板
-    public RectTransform mineBoard;
+    RectTransform mineBoard;
     RectTransform mineIcon;
     Text mineText;
 
@@ -23,6 +23,8 @@ public class MapUI : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        MoneyBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/glodBoard").GetComponent<RectTransform>();
+        mineBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/mineBoard").GetComponent<RectTransform>();
         moneyIcon = MoneyBoard.FindChild("icon").GetComponent<RectTransform>();
         moneyText = MoneyBoard.FindChild("Text").GetComponent<Text>();
 
@@ -35,7 +37,7 @@ public class MapUI : MonoBehaviour {
 
         //临时增加采集次数
         AddMineCount(10 - playerInfo.MineCount,null,false);
-        AddMoney(100, null, false);
+        AddMoney(2000, null, false);
         ////临时增加金币数
         //if (playerInfo.Money < 100)
         //{
@@ -112,7 +114,7 @@ public class MapUI : MonoBehaviour {
         if (positon != null)
             FlyToIcon(moneyIcon.GetComponent<Image>(), positon, num);
 
-        questManager.CheckQuestListWithGold(num);
+        questManager.CheckQuestListWithGold(num, -1);
         return true;
     }
 
