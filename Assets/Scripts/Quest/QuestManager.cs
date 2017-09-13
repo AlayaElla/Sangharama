@@ -122,14 +122,14 @@ public class QuestManager : MonoBehaviour {
     public void AddShowQuest(int questID)
     {
         PlayerInfo.QuestInfo info = PlayerInfo.GetQuestInfo(questID);
-        if (info.ID == 0)
+        if (info.ID == 0&& !PlayerInfo.CheckCompleteQuest(questID))
         {
             AddQuestToList(questID);
             UIInstance.AddQustUI(GetQuestInfoByID(questID));
         }
         else
         {
-            Debug.Log("已经添加该任务: " + questID);
+            Debug.Log("已经添加该任务；或已经完成这个任务: " + questID);
         }
     }
 
@@ -167,6 +167,13 @@ public class QuestManager : MonoBehaviour {
         newQuest.TaskPoint = Quest.Award.TaskPoint;
         PlayerInfo.AddQuest(newQuest);
         AddQuestToNew(questID);
+    }
+
+    //移除任务信息
+    public void RemoveQuestToList(int questID)
+    {
+        if (NowQuestInfoList.Contains(questID))
+            NowQuestInfoList.Remove(questID);
     }
 
     //查找任务信息
@@ -332,16 +339,16 @@ public class QuestManager : MonoBehaviour {
     {
         PlayerInfo.ClearQuestList();
 
-        int type = 0;
-        int id = 2;
-        CharBag.Goods newgoods = new CharBag.Goods();
-        newgoods.MateriralType = type;
-        newgoods.ID = id;
-        newgoods.Number = 1;
-        newgoods.Property = Materiral.GetMaterialProperty(type, id);
-        newgoods.Quality = 80;
+        //int type = 0;
+        //int id = 2;
+        //CharBag.Goods newgoods = new CharBag.Goods();
+        //newgoods.MateriralType = type;
+        //newgoods.ID = id;
+        //newgoods.Number = 1;
+        //newgoods.Property = Materiral.GetMaterialProperty(type, id);
+        //newgoods.Quality = 80;
 
-        CheckQuestListWithGoods(QuestTypeList.PutGoods, newgoods, 0);
+        //CheckQuestListWithGoods(QuestTypeList.PutGoods, newgoods, 0);
     }
 
     public void PreCheckQuest(int sceneID)

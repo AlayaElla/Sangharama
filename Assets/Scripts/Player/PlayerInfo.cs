@@ -483,11 +483,21 @@ public class PlayerInfo : MonoBehaviour {
         PlayerData.PlayerInfoData.Save(playerinfo);
     }
 
-    //增加完成时间
+    //增加完成任务
     static public void AddCompleteQuest(int Quest)
     {
-        playerinfo.CompleteQuests.Add(Quest);
-        PlayerData.PlayerInfoData.Save(playerinfo);
+        RemoveQuest(Quest);
+        if (!playerinfo.CompleteQuests.Contains(Quest))
+        {
+            playerinfo.CompleteQuests.Add(Quest);
+            PlayerData.PlayerInfoData.Save(playerinfo);
+        }
+    }
+
+    //检查已完成任务
+    static public bool CheckCompleteQuest(int Quest)
+    {
+        return playerinfo.CompleteQuests.Contains(Quest);
     }
 
     //获取任务进度
@@ -555,7 +565,22 @@ public class PlayerInfo : MonoBehaviour {
     static public void ClearQuestList()
     {
         playerinfo.QuestList.Clear();
+        playerinfo.CompleteQuests.Clear();
         PlayerData.PlayerInfoData.Save(playerinfo);
+    }
+
+    //清空指定任务
+    static public void RemoveQuest(int quest)
+    {
+        for (int i = 0; i < playerinfo.QuestList.Count; i++)
+        {
+            QuestInfo info = (QuestInfo)playerinfo.QuestList[i];
+            if (info.ID == quest)
+            {
+                playerinfo.QuestList.Remove(info);
+                return;
+            }
+        }
     }
 
     static public int GetNowscene()

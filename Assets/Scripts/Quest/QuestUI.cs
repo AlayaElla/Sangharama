@@ -74,10 +74,10 @@ public class QuestUI : MonoBehaviour {
         GameObject Mask = Board.transform.FindChild("Mask").gameObject;
         GameObject questBoardBG = closebutton.transform.parent.gameObject;
         //Award
-        Text awardGoldNum = Board.transform.FindChild("QuestBoard/award/Gold/Num").GetComponent<Text>();
-        Text awardExpNum = Board.transform.FindChild("QuestBoard/award/Exp/Num").GetComponent<Text>();
+        Text awardGoldNum = Board.transform.FindChild("QuestBoard/award/GoldNum").GetComponent<Text>();
+        Text awardExpNum = Board.transform.FindChild("QuestBoard/award/ExpNum").GetComponent<Text>();
         Image AwardGoodsImage = Board.transform.FindChild("QuestBoard/award/Goods").GetComponent<Image>();
-        Text AwardGoodsNum = Board.transform.FindChild("QuestBoard/award/Goods/Num").GetComponent<Text>();
+        Text AwardGoodsNum = Board.transform.FindChild("QuestBoard/award/GoodsNum").GetComponent<Text>();
 
         //更新参数
         iconImage.sprite = Materiral.GetIconByName(quest.Bigicon);
@@ -216,15 +216,98 @@ public class QuestUI : MonoBehaviour {
     {
         Transform Board = go.transform.parent.parent;
         Transform root = Board.parent;
-
+        Transform MoneyBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/glodBoard");
+        Transform mineBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/mineBoard");
         //Award
         Transform awardGold = Board.transform.FindChild("QuestBoard/award/Gold");
         Transform awardExp = Board.transform.FindChild("QuestBoard/award/Exp");
         Transform AwardGoods = Board.transform.FindChild("QuestBoard/award/Goods");
 
+        QuestManager.QuestBase info = questManager.GetQuestInfoByID(int.Parse(Board.name));
+
+        //增加奖励
+        PlayerInfo.ChangeMoney(info.Award.Gold);
+        for (int i = 0; i < info.Award.GoodsNum; i++)
+        {
+            CharBag.AddGoodsByID(info.Award.Goods[0], info.Award.Goods[1]);
+        }
+
+        //完成任务
+        PlayerInfo.AddCompleteQuest(info.ID);
+        questManager.RemoveQuestToList(info.ID);
+        //销毁任务面板的任务
+        Transform questbutton = QuestListUI.transform.FindChild(info.ID.ToString());
+        if (questbutton != null) Destroy(questbutton.gameObject);
+
+        //生成金币
+        for (int i = 0; i < info.Award.Gold; i = i + 50)
+        {
+            Transform gold = Instantiate(awardGold, root);
+            gold.position = awardGold.position;
+            float randomrange = 100f;
+            float time = 0.5f;
+            LeanTween.moveY(gold.gameObject, gold.position.y+Random.Range(-randomrange,randomrange), time).setEase(LeanTweenType.easeOutSine);
+            LeanTween.moveX(gold.gameObject, gold.position.x + Random.Range(-randomrange, randomrange), time).setEase(LeanTweenType.easeOutSine);
+
+            LeanTween.moveX(gold.gameObject, MoneyBoard.position.x, time).setDelay(time * Random.Range(1.5f, 2f));
+            LeanTween.moveY(gold.gameObject, MoneyBoard.position.y, time).setDelay(time * Random.Range(1.5f, 2f)).setOnComplete(
+                ()=>
+                {
+                    Destroy(gold.gameObject);
+                });
+            if (i > 500) break;
+        }
+
+        //生成经验
+        for (int i = 0; i < info.Award.Exp; i = i + 50)
+        {
+            Transform exp = Instantiate(awardExp, root);
+            exp.position = awardExp.position;
+            float randomrange = 100f;
+            float time = 0.5f;
+            LeanTween.moveY(exp.gameObject, exp.position.y + Random.Range(-randomrange, randomrange), time).setEase(LeanTweenType.easeOutSine);
+            LeanTween.moveX(exp.gameObject, exp.position.x + Random.Range(-randomrange, randomrange), time).setEase(LeanTweenType.easeOutSine);
+
+            LeanTween.moveX(exp.gameObject, mineBoard.position.x, time).setDelay(time * Random.Range(1.5f, 2f));
+            LeanTween.moveY(exp.gameObject, mineBoard.position.y, time).setDelay(time * Random.Range(1.5f, 2f)).setOnComplete(
+                () =>
+                {
+                    Destroy(exp.gameObject);
+                });
+
+            if (i > 500) break;
+        }
+
+        //生成物品
+        for (int i = 0; i < info.Award.GoodsNum; i++)
+        {
+            Transform goods = Instantiate(AwardGoods, root);
+            goods.position = AwardGoods.position;
+            float randomrange = 100f;
+            float time = 0.5f;
+            LeanTween.moveY(goods.gameObject, AwardGoods.position.y + Random.Range(-randomrange, randomrange), time).setEase(LeanTweenType.easeOutSine);
+            LeanTween.moveX(goods.gameObject, AwardGoods.position.x + Random.Range(-randomrange, randomrange), time).setEase(LeanTweenType.easeOutSine);
+
+            LeanTween.moveX(goods.gameObject, mineBoard.position.x + 100, time).setDelay(time * Random.Range(1.5f, 2f));
+            LeanTween.moveY(goods.gameObject, mineBoard.position.y, time).setDelay(time * Random.Range(1.5f, 2f)).setOnComplete(
+                () =>
+                {
+                    Destroy(goods.gameObject);
+                });
+
+            if (i > 10) break;
+        }
+
         LeanTween.moveLocalY(go.transform.parent.gameObject, Screen.height / 2 + 200, 0.3f).setEaseInBack().setOnComplete(() =>
         {
             Destroy(Board.gameObject);
+        });
+
+        //延迟更新显示
+        LeanTween.delayedCall(0.5f* 2f, ()=>{
+
+            PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
+            MoneyBoard.FindChild("Text").GetComponent<Text>().text = playerInfo.Money.ToString();
         });
     }
 }
