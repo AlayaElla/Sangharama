@@ -357,7 +357,7 @@ public class MapPathManager : MonoBehaviour {
         {
             //增加路点次数信息
             PlayerInfo.AddMapInfo(playerPoints.Nowpoint);
-
+            PlayerInfo.SetNowscene(playerPoints.Nowpoint);
             //检测触发事件
             if (eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Arrive, true))
             {

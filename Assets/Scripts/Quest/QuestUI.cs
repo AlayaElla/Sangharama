@@ -66,6 +66,7 @@ public class QuestUI : MonoBehaviour {
         //获取面板组件
         Image iconImage = Board.transform.FindChild("QuestBoard/icon").GetComponent<Image>();
         Text questinfoText = Board.transform.FindChild("QuestBoard/questinfo/Text").GetComponent<Text>();
+        Text CompleteinfoText = Board.transform.FindChild("QuestBoard/questinfo/CompleteText").GetComponent<Text>();
         Text questnameText = Board.transform.FindChild("QuestBoard/questName/questText").GetComponent<Text>();
         Slider prograssBar = Board.transform.FindChild("QuestBoard/questName/progress").GetComponent<Slider>();
         Text prograssBarText = Board.transform.FindChild("QuestBoard/questName/progress/progressText").GetComponent<Text>();
@@ -94,10 +95,21 @@ public class QuestUI : MonoBehaviour {
         //设置按钮响应
         if (prograssBar.value >= 1)
         {
-            //设置领取
-            closebutton.GetComponent<Image>().color = Color.green;
-            closebuttonText.text = "领取";
-            EventTriggerListener.Get(closebutton).onClick = GetQuestAward;
+            if (PlayerInfo.GetNowscene() == quest.Award.TaskPoint)
+            {
+                //如果在任务地点则设置领取
+                closebutton.GetComponent<Image>().color = Color.green;
+                closebuttonText.text = "领取";
+                EventTriggerListener.Get(closebutton).onClick = GetQuestAward;
+            }
+            else
+            {
+                //关闭按钮
+                closebutton.GetComponent<Image>().color = Color.white;
+                closebuttonText.text = "关闭";
+                CompleteinfoText.text = quest.completedes;
+                EventTriggerListener.Get(closebutton).onClick = CloseQuestBoard;
+            }
         }
         else
         {
@@ -150,7 +162,7 @@ public class QuestUI : MonoBehaviour {
         Transform root;
         if (sceneID == 0)
             root = GameObject.Find("Canvas/Button/").transform;
-        else if (sceneID == 1)
+        else if (sceneID >= 1)
             root = GameObject.Find("Canvas/Scroll View/Viewport/Content/map/").transform;
         else
             root = null;
@@ -166,7 +178,7 @@ public class QuestUI : MonoBehaviour {
                 }
                 break;
             }
-            else if (sceneID == 1)
+            else if (sceneID >= 1)
             {
                 p = root.FindChild("action" + _quest.TaskPoint + "/" + _quest.TaskPoint);
                 CreateHintSprite(sceneID, p);
@@ -188,7 +200,7 @@ public class QuestUI : MonoBehaviour {
             obj.transform.SetParent(t, false);
             if (sceneID == 0)
                 obj.transform.localPosition = new Vector2(-50, 0);
-            else if (sceneID == 1)
+            else if (sceneID >= 1)
                 obj.transform.localPosition = new Vector2(0, 0);
             Image img = obj.AddComponent<Image>();
             RectTransform rt = obj.GetComponent<RectTransform>();

@@ -773,6 +773,8 @@ public class XmlTool
                 _quest.name = quest.GetAttribute("Name");
             if (quest.GetAttribute("Des") != "")
                 _quest.des = quest.GetAttribute("Des");
+            if (quest.GetAttribute("CompleteDes") != "")
+                _quest.completedes = quest.GetAttribute("CompleteDes");
 
             for (int i = 0; i < quest.ChildNodes.Count; i++)
             {

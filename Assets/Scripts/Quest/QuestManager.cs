@@ -22,6 +22,7 @@ public class QuestManager : MonoBehaviour {
         public string Bigicon;
         public string name;
         public string des;
+        public string completedes;
 
         //前置条件
         public struct QuestNeedBase
