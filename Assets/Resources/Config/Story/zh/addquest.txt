@@ -12,4 +12,4 @@
 [ChatList]
 //<addquest 2>
 //<addquest 1>
-<addquest 7>
+<addquest 6>
