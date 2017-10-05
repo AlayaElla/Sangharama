@@ -35,7 +35,7 @@ public class ScrollInfo : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         //适配rect的大小
         float fixwidth = scrollrect.GetComponent<RectTransform>().rect.width;
 
-        foreach (Transform element in scrollrect.transform.FindChild("PageList"))
+        foreach (Transform element in scrollrect.transform.Find("PageList"))
         {
             element.GetComponent<LayoutElement>().preferredWidth = fixwidth;
         }

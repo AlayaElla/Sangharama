@@ -127,8 +127,8 @@ public class PlayerInfo : MonoBehaviour {
     }
     static int Nowscene = 0;
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
         playerinfo = new Info();
         LoadPlayerInfo();
 	}
@@ -434,8 +434,11 @@ public class PlayerInfo : MonoBehaviour {
         info.ID = Event;
         info.Type = EventInfo.EventInfoType.Todo;
 
-        playerinfo.CompleteEvents.Add(info);
-        PlayerData.PlayerInfoData.Save(playerinfo);
+        if (!playerinfo.CompleteEvents.Contains(info))
+        {
+            playerinfo.CompleteEvents.Add(info);
+            PlayerData.PlayerInfoData.Save(playerinfo);
+        }
     }
 
     /// <summary>
@@ -455,10 +458,12 @@ public class PlayerInfo : MonoBehaviour {
     //设置事件为完成
     static public void SetEventsCompelete(int Event)
     {
+        //-1的id不是事件触发的，则跳过
+        if (Event == -1) return;
         for (int i = 0; i < playerinfo.CompleteEvents.Count; i++)
         {
             EventInfo info =(EventInfo)playerinfo.CompleteEvents[i];
-            if (info.ID == Event)
+            if (info.ID == Event&& info.Type== EventInfo.EventInfoType.Todo)
             {
                 info.Type = EventInfo.EventInfoType.Complete;
                 playerinfo.CompleteEvents[i] = info;

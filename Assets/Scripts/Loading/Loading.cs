@@ -17,9 +17,9 @@ public class Loading : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        loadingIcon = Instance.transform.FindChild("icon").GetComponent<RectTransform>();
-        loadingBG = Instance.transform.FindChild("LoadingBG").GetComponent<RectTransform>();
-        progressText = Instance.transform.FindChild("loadingText").GetComponent<Text>();
+        loadingIcon = Instance.transform.Find("icon").GetComponent<RectTransform>();
+        loadingBG = Instance.transform.Find("LoadingBG").GetComponent<RectTransform>();
+        progressText = Instance.transform.Find("loadingText").GetComponent<Text>();
         LoadingLayer = Instance.transform.GetComponent<CanvasGroup>();
         progressText.text = "loading...";
         LoadingLayer.alpha = 0;
@@ -60,7 +60,7 @@ public class Loading : MonoBehaviour {
         {
             GameObject loadingobj = (GameObject)Resources.Load("Prefab/LoadingLayer");
             loadingobj = Instantiate(loadingobj);
-            Instance = loadingobj.transform.FindChild("Loading").GetComponent<Loading>();
+            Instance = loadingobj.transform.Find("Loading").GetComponent<Loading>();
 
             DontDestroyOnLoad(loadingobj);
         }
@@ -254,7 +254,7 @@ public class Loading : MonoBehaviour {
             www = new WWW("file:///" + GetDataPath("Sound/" + character.Value.Voice) + ".wav");
             yield return www;
             //Debug.Log(www.url);
-            tempAudio = www.audioClip;
+            tempAudio = www.GetAudioClip();
 
             if (tempAudio == null) Debug.LogError("Can't find " + "Sound/" + character.Value.Voice);
             storyResPack.NowResourcesBox.voices.Add(character.Key, tempAudio);
@@ -293,7 +293,7 @@ public class Loading : MonoBehaviour {
                 www = new WWW("file:///" + GetDataPath("Sound/" + name + ".mp3"));
                 yield return www;
                 //Debug.Log(www.url);
-                tempAudio = www.audioClip;
+                tempAudio = www.GetAudioClip();
 
 
                 //tempSprite = Resources.Load<Sprite>("Texture/story/bg/" + name);

@@ -8,7 +8,7 @@ public class Hint : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        hintsp = transform.FindChild("hint").GetComponent<SpriteRenderer>();
+        hintsp = transform.Find("hint").GetComponent<SpriteRenderer>();
         hintsp.color = new Color(hintsp.color.r, hintsp.color.g, hintsp.color.b, 0);
 	}
 

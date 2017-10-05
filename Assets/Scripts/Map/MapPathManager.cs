@@ -70,6 +70,9 @@ public class MapPathManager : MonoBehaviour {
     ChatEventManager eventmanager;
     QuestManager questManager;
 
+    static bool isInStory = false;
+    static bool isCheckEvent = true;
+
     // Use this for initialization
     void Start () {
         //获取路径配置表
@@ -78,16 +81,16 @@ public class MapPathManager : MonoBehaviour {
         playerPoints.Nowpoint = startpoint;
 
         //获取价格文本，确定和取消按钮
-        priceText = priceBoard.FindChild("price/pricetext").GetComponent<Text>();
-        btn_priceOK = priceBoard.FindChild("ok").GetComponent<RectTransform>();
-        btn_priceCancle = priceBoard.FindChild("cancle").GetComponent<RectTransform>();
-        btn_okMask = priceBoard.FindChild("okMask").GetComponent<RectTransform>();
+        priceText = priceBoard.Find("price/pricetext").GetComponent<Text>();
+        btn_priceOK = priceBoard.Find("ok").GetComponent<RectTransform>();
+        btn_priceCancle = priceBoard.Find("cancle").GetComponent<RectTransform>();
+        btn_okMask = priceBoard.Find("okMask").GetComponent<RectTransform>();
         //获取采集文本和采集按钮
-        MineText = mineActionBoard.FindChild("Text").GetComponent<Text>();
-        btn_mine = mineActionBoard.FindChild("mine").GetComponent<RectTransform>();
-        btn_mineMask = mineActionBoard.FindChild("mineMask").GetComponent<RectTransform>();
+        MineText = mineActionBoard.Find("Text").GetComponent<Text>();
+        btn_mine = mineActionBoard.Find("mine").GetComponent<RectTransform>();
+        btn_mineMask = mineActionBoard.Find("mineMask").GetComponent<RectTransform>();
         //获取回家文版
-        homeText = homeBoard.FindChild("Text").GetComponent<Text>();
+        homeText = homeBoard.Find("Text").GetComponent<Text>();
 
         //读取角色配置表
         charaModle = GameObject.Find("/CollectionTools/CharacterModle").GetComponent<CharacterModle>();
@@ -110,8 +113,15 @@ public class MapPathManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-	}
+        if (isInStory)
+            return;
+        //检查事件
+        if (!isInStory && isCheckEvent == false)
+        {
+            isCheckEvent = true;
+            CheckEvent();
+        }
+    }
 
     public static Path[] GetPathList()
     {
@@ -358,13 +368,20 @@ public class MapPathManager : MonoBehaviour {
             //增加路点次数信息
             PlayerInfo.AddMapInfo(playerPoints.Nowpoint);
             PlayerInfo.SetNowscene(playerPoints.Nowpoint);
+
             //检测触发事件
             if (eventmanager.CheckEventList(ChatEventManager.ChatEvent.EventTypeList.Arrive, true))
             {
                 eventmanager.StartStory();
             }
-            questManager.CheckQuestListWithArrive(playerPoints.Targetpoint);
-            questManager.IsArriveWaitingCheckPoint(playerPoints.Targetpoint);
+            else
+            {
+                questManager.CheckQuestListWithArrive(playerPoints.Targetpoint);
+                questManager.IsArriveWaitingCheckPoint(playerPoints.Targetpoint);
+                eventmanager.PreCheckEventList(1);
+                questManager.PreCheckQuest(1);
+            }
+
             state = MoveState.Stay;
             AniController.Get(MovePlayer).PlayAniBySkin("down", AniController.AniType.LoopBack, 5);
 
@@ -817,7 +834,7 @@ public class MapPathManager : MonoBehaviour {
     //关闭事件提示
     void CloseHintSprite(RectTransform root)
     {
-        Transform hintsprite = root.FindChild("hint");
+        Transform hintsprite = root.Find("hint");
         if (hintsprite != null)
         {
             LeanTween.scale(hintsprite.gameObject, new Vector3(0, 0, 0), 0.25f).setOnComplete(()=>
@@ -825,5 +842,20 @@ public class MapPathManager : MonoBehaviour {
                 Destroy(hintsprite.gameObject);
             });
         }
+    }
+
+    public static void ChangeStoryState()
+    {
+        isInStory = !isInStory;
+        if(isInStory==false)
+            isCheckEvent = false;
+    }
+
+    void CheckEvent()
+    {
+        questManager.CheckQuestListWithArrive(playerPoints.Targetpoint);
+        questManager.IsArriveWaitingCheckPoint(playerPoints.Targetpoint);
+        eventmanager.PreCheckEventList(1);
+        questManager.PreCheckQuest(1);
     }
 }

@@ -7,6 +7,7 @@ public class ShopUI : MonoBehaviour {
 
     static bool isopenRecipe = true;
     static bool isInStory = false;
+    static bool isCheckEvent = true;
 
     BagUI _bagInstance;
     GameObject _bagUI;
@@ -38,9 +39,6 @@ public class ShopUI : MonoBehaviour {
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (3)")).onClick = OpenSpecialItemBagAll;
         EventTriggerListener.Get(GameObject.Find("Canvas/Button (4)")).onClick = PlayerInfo.ClearCompleteEvents;
 
-        eventmanager.PreCheckEventList(0);
-        questManager.PreCheckQuest(0);
-        questManager.IsArriveWaitingCheckPoint(0);
         //增加进入地图次数
         PlayerInfo.AddSenceInfo(0);
 
@@ -52,6 +50,12 @@ public class ShopUI : MonoBehaviour {
         {
             eventmanager.StartStory();
         }
+        else
+        {
+            eventmanager.PreCheckEventList(0);
+            questManager.PreCheckQuest(0);
+            questManager.IsArriveWaitingCheckPoint(0);
+        }
     }
 	
 	// Update is called once per frame
@@ -59,6 +63,13 @@ public class ShopUI : MonoBehaviour {
 
         if (isInStory)
             return;
+
+        //检查事件
+        if (!isInStory && isCheckEvent == false)
+        {
+            isCheckEvent = true;
+            CheckEvent();
+        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -116,6 +127,15 @@ public class ShopUI : MonoBehaviour {
     public static void ChangeStoryState()
     {
         isInStory = !isInStory;
+        if (isInStory == false)
+            isCheckEvent = false;
+    }
+
+    void CheckEvent()
+    {
+        eventmanager.PreCheckEventList(0);
+        questManager.PreCheckQuest(0);
+        questManager.IsArriveWaitingCheckPoint(0);
     }
 
     public static void ChangeRecipeUiState()
@@ -159,15 +179,15 @@ public class ShopUI : MonoBehaviour {
         //添加选中的商品到商品列
         goodslist[p.ID - 1] = goods;
         string path=p.ID.ToString() + "/itemIcon";
-        transform.FindChild(path).GetComponent<SpriteRenderer>().sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
+        transform.Find(path).GetComponent<SpriteRenderer>().sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
 
         //显示商品价格
         string priceiconpath = p.ID.ToString() + "/price/icon";
         string pricepath = p.ID.ToString() + "/price/text";
 
-        transform.FindChild(priceiconpath).gameObject.SetActive(true);
-        transform.FindChild(pricepath).gameObject.SetActive(true);
-        transform.FindChild(pricepath).GetComponent<TextMesh>().text = goods.Price.ToString();
+        transform.Find(priceiconpath).gameObject.SetActive(true);
+        transform.Find(pricepath).gameObject.SetActive(true);
+        transform.Find(pricepath).GetComponent<TextMesh>().text = goods.Price.ToString();
 
 
         //移除背包中的商品
@@ -198,13 +218,13 @@ public class ShopUI : MonoBehaviour {
         }
 
         string path = p.ID.ToString() + "/itemIcon";
-        transform.FindChild(path).GetComponent<SpriteRenderer>().sprite = null;
+        transform.Find(path).GetComponent<SpriteRenderer>().sprite = null;
 
         //取消显示价格
         string priceiconpath = p.ID.ToString() + "/price/icon";
         string pricepath = p.ID.ToString() + "/price/text";
-        transform.FindChild(priceiconpath).gameObject.SetActive(false);
-        transform.FindChild(pricepath).gameObject.SetActive(false);
+        transform.Find(priceiconpath).gameObject.SetActive(false);
+        transform.Find(pricepath).gameObject.SetActive(false);
 
         _bagInstance.CloseBagMenu(gameObject);
         ChangeRecipeUiState();
@@ -221,13 +241,13 @@ public class ShopUI : MonoBehaviour {
             goodslist[goods.slotID - 1] = new CharBag.Goods();
 
             string path = goods.slotID.ToString() + "/itemIcon";
-            transform.FindChild(path).GetComponent<SpriteRenderer>().sprite = null;
+            transform.Find(path).GetComponent<SpriteRenderer>().sprite = null;
 
             //取消显示价格
             string priceiconpath = goods.slotID.ToString() + "/price/icon";
             string pricepath = goods.slotID.ToString() + "/price/text";
-            transform.FindChild(priceiconpath).gameObject.SetActive(false);
-            transform.FindChild(pricepath).gameObject.SetActive(false);
+            transform.Find(priceiconpath).gameObject.SetActive(false);
+            transform.Find(pricepath).gameObject.SetActive(false);
 
             questManager.CheckQuestListWithGoods(QuestManager.QuestTypeList.SellGoods, goods.goods, 0);
 
@@ -271,16 +291,16 @@ public class ShopUI : MonoBehaviour {
         {
             string priceiconpath = (i + 1).ToString() + "/price/icon";
             string pricepath = (i + 1).ToString() + "/price/text";
-            transform.FindChild(priceiconpath).gameObject.SetActive(false);
-            transform.FindChild(pricepath).gameObject.SetActive(false);
+            transform.Find(priceiconpath).gameObject.SetActive(false);
+            transform.Find(pricepath).gameObject.SetActive(false);
 
             if (goodslist[i].Name != null && goodslist[i].ID != 0)
             {
-                transform.FindChild(priceiconpath).gameObject.SetActive(true);
-                transform.FindChild(pricepath).gameObject.SetActive(true);
+                transform.Find(priceiconpath).gameObject.SetActive(true);
+                transform.Find(pricepath).gameObject.SetActive(true);
 
                 string path = (i+1).ToString() + "/itemIcon";
-                transform.FindChild(path).GetComponent<SpriteRenderer>().sprite = Materiral.GetMaterialIcon(goodslist[i].MateriralType, goodslist[i].ID);
+                transform.Find(path).GetComponent<SpriteRenderer>().sprite = Materiral.GetMaterialIcon(goodslist[i].MateriralType, goodslist[i].ID);
             }
         }
     }

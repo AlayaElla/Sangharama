@@ -25,11 +25,11 @@ public class MapUI : MonoBehaviour {
     void Start () {
         MoneyBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/glodBoard").GetComponent<RectTransform>();
         mineBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/mineBoard").GetComponent<RectTransform>();
-        moneyIcon = MoneyBoard.FindChild("icon").GetComponent<RectTransform>();
-        moneyText = MoneyBoard.FindChild("Text").GetComponent<Text>();
+        moneyIcon = MoneyBoard.Find("icon").GetComponent<RectTransform>();
+        moneyText = MoneyBoard.Find("Text").GetComponent<Text>();
 
-        mineIcon = mineBoard.FindChild("icon").GetComponent<RectTransform>();
-        mineText = mineBoard.FindChild("Text").GetComponent<Text>();
+        mineIcon = mineBoard.Find("icon").GetComponent<RectTransform>();
+        mineText = mineBoard.Find("Text").GetComponent<Text>();
 
         //获取事件控制器
         eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
@@ -37,7 +37,7 @@ public class MapUI : MonoBehaviour {
 
         //临时增加采集次数
         AddMineCount(10 - playerInfo.MineCount,null,false);
-        AddMoney(100, null, false);
+        AddMoney(1000, null, false);
         ////临时增加金币数
         //if (playerInfo.Money < 100)
         //{

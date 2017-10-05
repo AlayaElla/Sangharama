@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--GroupType:0:故事事件；1:任务事件；2:隐藏事件 -->
 <ChatEventList>
 	<ChatEvent ID="1" GroupType="0" EventType="PutGoods" Num="3" Parameter="0,2" StoryName="start"/>
 	<ChatEvent ID="2" GroupType="0" EventType="SellGoods" Num="3" Parameter="0,3" StoryName="shop1_1"/>
@@ -7,11 +8,17 @@
 	<ChatEvent ID="5" GroupType="1" EventType="ComposeProperty" Num="2" Parameter="1" StoryName="start"/>
 	<ChatEvent ID="6" GroupType="1" EventType="InShop" Num="100" StoryName="shop1_2"/>
 	<ChatEvent ID="7" GroupType="1" EventType="InMap" Num="100" StoryName="shop1_1"/>
-	<ChatEvent ID="8" GroupType="1" EventType="Arrive" Num="3" Parameter="2" EventItem="2,2" StoryName="shop1_1"/>
-	<ChatEvent ID="9" GroupType="2" EventType="Mines" Num="1000" StoryName="start"/>
-	<ChatEvent ID="10" GroupType="2" EventType="Golds" Num="10000" StoryName="gold1_1"/>
-	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="3" StoryName="start"/>
-	<ChatEvent ID="12" GroupType="1" EventType="Arrive" Num="1" Parameter="4" StoryName="addquest"/>
-	<ChatEvent ID="13" GroupType="2" EventType="Arrive" Num="1" Parameter="5" StoryName="giveitem"/>
-	<ChatEvent ID="14" GroupType="2" EventType="Arrive" Num="1" Parameter="2" StoryName="addquest2"/>
+	<ChatEvent ID="8" GroupType="2" EventType="Mines" Num="1000" StoryName="start"/>
+	<ChatEvent ID="9" GroupType="2" EventType="Golds" Num="10000" StoryName="gold1_1"/>
+	<ChatEvent ID="10" GroupType="0" EventType="InMap" Num="1" StoryName="addquest"/>
+	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="4" StoryName="giveitem"/>
+	<ChatEvent ID="12" GroupType="0" EventType="Arrive" Num="300" Parameter="3" StoryName="start"/>
+	<ChatEvent ID="13" GroupType="0" EventType="InShop" Num="200" StoryName="start"/>
+	
+	<ChatEvent ID="100" GroupType="0" EventType="Arrive" Num="1" Parameter="2" NeedQuest="7" StoryName="start"/>
+	<ChatEvent ID="101" GroupType="0" EventType="Arrive" Num="1" Parameter="5" EventItem="2,1" StoryName="start"/>
+	<ChatEvent ID="102" GroupType="0" EventType="Arrive" Num="1" Parameter="2" StoryName="start"/>
+	
+	<ChatEvent ID="1000" EventType="Quest" StoryName="shop1_1"/>
+	<ChatEvent ID="1001" EventType="Quest" StoryName="start"/>
 </ChatEventList>

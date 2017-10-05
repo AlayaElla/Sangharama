@@ -13,5 +13,5 @@ test,1
 <setbg test,2,sametime>
 <show 0.2,0,1,0,left,idle,npc1,notloop,sametime>
 {npc1:idle}给你一个东西！
-<giveitem 2:2>
+<giveitem 2:1>
 {npc1:idle}好了收到了！

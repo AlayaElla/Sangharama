@@ -236,21 +236,21 @@ public class ChatManager : MonoBehaviour {
     void GetLayerComponent(GameObject StoryLayerObj)
     {
         StoryBoardLayer = StoryLayerObj.GetComponent<RectTransform>();
-        MaskLayer = StoryBoardLayer.FindChild("Mask").GetComponent<RectTransform>();
-        ClickLayer = StoryBoardLayer.FindChild("clickLayer").GetComponent<RectTransform>();
-        btn_Skip = StoryBoardLayer.FindChild("skip").GetComponent<Button>();
-        BGLayer1 = StoryBoardLayer.FindChild("BG1").GetComponent<RectTransform>();
-        BGLayer2 = StoryBoardLayer.FindChild("BG2").GetComponent<RectTransform>();
-        CharacterLayer = StoryBoardLayer.FindChild("Character").GetComponent<RectTransform>();
-        TextBoardLayer.WordsBacklayer = StoryBoardLayer.FindChild("TextBoard").GetComponent<RectTransform>();
-        TextBoardLayer.WordsOutLayer = StoryBoardLayer.FindChild("TextBoard/OutBoard").GetComponent<RectTransform>();
-        TextBoardLayer.WordsText = StoryBoardLayer.FindChild("TextBoard/Text").GetComponent<Text>();
+        MaskLayer = StoryBoardLayer.Find("Mask").GetComponent<RectTransform>();
+        ClickLayer = StoryBoardLayer.Find("clickLayer").GetComponent<RectTransform>();
+        btn_Skip = StoryBoardLayer.Find("skip").GetComponent<Button>();
+        BGLayer1 = StoryBoardLayer.Find("BG1").GetComponent<RectTransform>();
+        BGLayer2 = StoryBoardLayer.Find("BG2").GetComponent<RectTransform>();
+        CharacterLayer = StoryBoardLayer.Find("Character").GetComponent<RectTransform>();
+        TextBoardLayer.WordsBacklayer = StoryBoardLayer.Find("TextBoard").GetComponent<RectTransform>();
+        TextBoardLayer.WordsOutLayer = StoryBoardLayer.Find("TextBoard/OutBoard").GetComponent<RectTransform>();
+        TextBoardLayer.WordsText = StoryBoardLayer.Find("TextBoard/Text").GetComponent<Text>();
 
-        TextBoardLayer.NameBackLayer = StoryBoardLayer.FindChild("TextBoard/NameBoard").GetComponent<RectTransform>();
-        TextBoardLayer.NameOutLayer = StoryBoardLayer.FindChild("TextBoard/NameBoard/OutBoard").GetComponent<RectTransform>();
-        TextBoardLayer.NameText = StoryBoardLayer.FindChild("TextBoard/NameBoard/Text").GetComponent<Text>();
+        TextBoardLayer.NameBackLayer = StoryBoardLayer.Find("TextBoard/NameBoard").GetComponent<RectTransform>();
+        TextBoardLayer.NameOutLayer = StoryBoardLayer.Find("TextBoard/NameBoard/OutBoard").GetComponent<RectTransform>();
+        TextBoardLayer.NameText = StoryBoardLayer.Find("TextBoard/NameBoard/Text").GetComponent<Text>();
 
-        TextBoardLayer.ClickHintLayer = StoryBoardLayer.FindChild("ClickHint").GetComponent<RectTransform>();
+        TextBoardLayer.ClickHintLayer = StoryBoardLayer.Find("ClickHint").GetComponent<RectTransform>();
 
         SpeakerAudioManager = StoryBoardLayer.GetComponent<AudioSource>();
         resourcesLoader = transform.Find("/ToolsKit/EventManager").GetComponent<ResourcesLoader>();
@@ -316,10 +316,15 @@ public class ChatManager : MonoBehaviour {
                 });
             });
 
-        if (NowScene == "Shop")
+        if (PlayerInfo.GetNowscene() == 0)
         {
             ShopUI.ChangeStoryState();
             Character.ChangeStoryState();
+        }
+
+        if (PlayerInfo.GetNowscene() >0)
+        {
+            MapPathManager.ChangeStoryState();
         }
 
         if (questManager.GetNewQuests().Count > 0)

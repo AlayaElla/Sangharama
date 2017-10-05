@@ -11,10 +11,13 @@ public class QuestUI : MonoBehaviour {
     GameObject QuestCanvas;
 
     QuestManager questManager;
+    ChatEventManager eventmanager;
+
     public Sprite[] hintsprites;
     // Use this for initialization
     void Start () {
         questManager = gameObject.GetComponent<QuestManager>();
+        eventmanager = transform.Find("/ToolsKit/EventManager").GetComponent<ChatEventManager>();
 
         QuestListUI = GameObject.Find("ToolsKit/Canvas/QuestlList/Viewport/Content");
         QuestCanvas= GameObject.Find("ToolsKit/Canvas");
@@ -33,9 +36,9 @@ public class QuestUI : MonoBehaviour {
         questButton.name = quest.ID.ToString();
         questButton.transform.SetParent(QuestListUI.transform, false);
 
-        Image iconImage = questButton.transform.FindChild("icon").GetComponent<Image>();
-        Slider prograssBar = questButton.transform.FindChild("progress").GetComponent<Slider>();
-        Transform hint = questButton.transform.FindChild("hint");
+        Image iconImage = questButton.transform.Find("icon").GetComponent<Image>();
+        Slider prograssBar = questButton.transform.Find("progress").GetComponent<Slider>();
+        Transform hint = questButton.transform.Find("hint");
 
         iconImage.sprite = Materiral.GetIconByName(quest.Smallicon);
         prograssBar.value = (float)PlayerInfo.GetQuestProgress(quest.ID) / quest.QuestComplete.Num;
@@ -64,21 +67,21 @@ public class QuestUI : MonoBehaviour {
         Board.transform.SetParent(QuestCanvas.transform, false);
 
         //获取面板组件
-        Image iconImage = Board.transform.FindChild("QuestBoard/icon").GetComponent<Image>();
-        Text questinfoText = Board.transform.FindChild("QuestBoard/questinfo/Text").GetComponent<Text>();
-        Text CompleteinfoText = Board.transform.FindChild("QuestBoard/questinfo/CompleteText").GetComponent<Text>();
-        Text questnameText = Board.transform.FindChild("QuestBoard/questName/questText").GetComponent<Text>();
-        Slider prograssBar = Board.transform.FindChild("QuestBoard/questName/progress").GetComponent<Slider>();
-        Text prograssBarText = Board.transform.FindChild("QuestBoard/questName/progress/progressText").GetComponent<Text>();
-        GameObject closebutton = Board.transform.FindChild("QuestBoard/Close").gameObject;
-        Text closebuttonText = closebutton.transform.FindChild("Text").GetComponent<Text>();
-        GameObject Mask = Board.transform.FindChild("Mask").gameObject;
+        Image iconImage = Board.transform.Find("QuestBoard/icon").GetComponent<Image>();
+        Text questinfoText = Board.transform.Find("QuestBoard/questinfo/Text").GetComponent<Text>();
+        Text CompleteinfoText = Board.transform.Find("QuestBoard/questinfo/CompleteText").GetComponent<Text>();
+        Text questnameText = Board.transform.Find("QuestBoard/questName/questText").GetComponent<Text>();
+        Slider prograssBar = Board.transform.Find("QuestBoard/questName/progress").GetComponent<Slider>();
+        Text prograssBarText = Board.transform.Find("QuestBoard/questName/progress/progressText").GetComponent<Text>();
+        GameObject closebutton = Board.transform.Find("QuestBoard/Close").gameObject;
+        Text closebuttonText = closebutton.transform.Find("Text").GetComponent<Text>();
+        GameObject Mask = Board.transform.Find("Mask").gameObject;
         GameObject questBoardBG = closebutton.transform.parent.gameObject;
         //Award
-        Text awardGoldNum = Board.transform.FindChild("QuestBoard/award/GoldNum").GetComponent<Text>();
-        Text awardExpNum = Board.transform.FindChild("QuestBoard/award/ExpNum").GetComponent<Text>();
-        Image AwardGoodsImage = Board.transform.FindChild("QuestBoard/award/Goods").GetComponent<Image>();
-        Text AwardGoodsNum = Board.transform.FindChild("QuestBoard/award/GoodsNum").GetComponent<Text>();
+        Text awardGoldNum = Board.transform.Find("QuestBoard/award/GoldNum").GetComponent<Text>();
+        Text awardExpNum = Board.transform.Find("QuestBoard/award/ExpNum").GetComponent<Text>();
+        Image AwardGoodsImage = Board.transform.Find("QuestBoard/award/Goods").GetComponent<Image>();
+        Text AwardGoodsNum = Board.transform.Find("QuestBoard/award/GoodsNum").GetComponent<Text>();
 
         //更新参数
         iconImage.sprite = Materiral.GetIconByName(quest.Bigicon);
@@ -140,9 +143,9 @@ public class QuestUI : MonoBehaviour {
     public void UpdateQuestUI(int quest,int point)
     {
         PlayerInfo.QuestInfo info = PlayerInfo.GetQuestInfo(quest);
-        Transform questButton = QuestListUI.transform.FindChild(info.ID.ToString());
-        Slider prograssBar = questButton.transform.FindChild("progress").GetComponent<Slider>();
-        Transform hint = questButton.transform.FindChild("hint");
+        Transform questButton = QuestListUI.transform.Find(info.ID.ToString());
+        Slider prograssBar = questButton.transform.Find("progress").GetComponent<Slider>();
+        Transform hint = questButton.transform.Find("hint");
 
         prograssBar.value = (float)info.Progress / info.Goal;
 
@@ -180,7 +183,8 @@ public class QuestUI : MonoBehaviour {
             }
             else if (sceneID >= 1)
             {
-                p = root.FindChild("action" + _quest.TaskPoint + "/" + _quest.TaskPoint);
+                int taskpoint = _quest.TaskPoint < 1 ? _quest.TaskPoint : 1;
+                p = root.Find("action" + _quest.TaskPoint + "/" + taskpoint);
                 CreateHintSprite(sceneID, p);
             }
             else
@@ -192,7 +196,8 @@ public class QuestUI : MonoBehaviour {
 
     void CreateHintSprite(int sceneID, Transform t)
     {
-        Transform tt = t.FindChild("hint");
+        if (t == null) return;
+        Transform tt = t.Find("hint");
         if (tt == null)
         {
             GameObject obj = new GameObject();
@@ -231,9 +236,9 @@ public class QuestUI : MonoBehaviour {
         Transform MoneyBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/glodBoard");
         Transform mineBoard = transform.Find("/ToolsKit/Canvas/PlayerInfo/mineBoard");
         //Award
-        Transform awardGold = Board.transform.FindChild("QuestBoard/award/Gold");
-        Transform awardExp = Board.transform.FindChild("QuestBoard/award/Exp");
-        Transform AwardGoods = Board.transform.FindChild("QuestBoard/award/Goods");
+        Transform awardGold = Board.transform.Find("QuestBoard/award/Gold");
+        Transform awardExp = Board.transform.Find("QuestBoard/award/Exp");
+        Transform AwardGoods = Board.transform.Find("QuestBoard/award/Goods");
 
         QuestManager.QuestBase info = questManager.GetQuestInfoByID(int.Parse(Board.name));
 
@@ -248,7 +253,7 @@ public class QuestUI : MonoBehaviour {
         PlayerInfo.AddCompleteQuest(info.ID);
         questManager.RemoveQuestToList(info.ID);
         //销毁任务面板的任务
-        Transform questbutton = QuestListUI.transform.FindChild(info.ID.ToString());
+        Transform questbutton = QuestListUI.transform.Find(info.ID.ToString());
         if (questbutton != null) Destroy(questbutton.gameObject);
 
         //生成金币
@@ -313,13 +318,22 @@ public class QuestUI : MonoBehaviour {
         LeanTween.moveLocalY(go.transform.parent.gameObject, Screen.height / 2 + 200, 0.3f).setEaseInBack().setOnComplete(() =>
         {
             Destroy(Board.gameObject);
+
+            //添加完成的事件
+            if(info.Award.Event!=0)
+                eventmanager.AddStroyWithEventID(info.Award.Event);
+
+            if (!questManager.IsArriveWaitingCheckPoint(0))
+            {
+                eventmanager.StartStory();
+            }
         });
 
         //延迟更新显示
         LeanTween.delayedCall(0.5f* 2f, ()=>{
 
             PlayerInfo.Info playerInfo = PlayerInfo.GetPlayerInfo();
-            MoneyBoard.FindChild("Text").GetComponent<Text>().text = playerInfo.Money.ToString();
+            MoneyBoard.Find("Text").GetComponent<Text>().text = playerInfo.Money.ToString();
         });
     }
 }

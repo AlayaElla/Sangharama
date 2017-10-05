@@ -1,6 +1,6 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
-//npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
+npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
 
 [Background]
 //test,1
@@ -12,4 +12,5 @@
 [ChatList]
 //<addquest 2>
 //<addquest 1>
-<addquest 6>
+<addquest 7>
+<addquest 8>

@@ -68,28 +68,28 @@ public class ItemInfoUI : MonoBehaviour {
 
         //基本属性
         goodsUIBase = new GoodsBase();
-        goodsUIBase.nameText = InfoPlane.transform.FindChild("Title/Text").GetComponent<Text>();
-        goodsUIBase.goodsIMG = InfoPlane.transform.FindChild("IMG/Image").GetComponent<Image>();
-        goodsUIBase.MaterialtypeText = InfoPlane.transform.FindChild("TextInfo/MaterialType").GetComponent<Text>();
-        goodsUIBase.numText = InfoPlane.transform.FindChild("TextInfo/Num").GetComponent<Text>();
-        goodsUIBase.qualityText = InfoPlane.transform.FindChild("TextInfo/Quality").GetComponent<Text>();
-        goodsUIBase.priceText = InfoPlane.transform.FindChild("TextInfo/Price").GetComponent<Text>();
+        goodsUIBase.nameText = InfoPlane.transform.Find("Title/Text").GetComponent<Text>();
+        goodsUIBase.goodsIMG = InfoPlane.transform.Find("IMG/Image").GetComponent<Image>();
+        goodsUIBase.MaterialtypeText = InfoPlane.transform.Find("TextInfo/MaterialType").GetComponent<Text>();
+        goodsUIBase.numText = InfoPlane.transform.Find("TextInfo/Num").GetComponent<Text>();
+        goodsUIBase.qualityText = InfoPlane.transform.Find("TextInfo/Quality").GetComponent<Text>();
+        goodsUIBase.priceText = InfoPlane.transform.Find("TextInfo/Price").GetComponent<Text>();
 
         //物品效果
-        goodsUIBase.effect = ScrollPages.transform.FindChild("PageList/Page1/Effect/EffectName/Text").GetComponent<Text>();
+        goodsUIBase.effect = ScrollPages.transform.Find("PageList/Page1/Effect/EffectName/Text").GetComponent<Text>();
 
         //物品属性
         goodsUIBase.propertys = new GameObject[4];
         for (int i = 0; i < 4; i++)
         {
-            goodsUIBase.propertys[i] = ScrollPages.transform.FindChild("PageList/Page1/Property/List").GetChild(i).gameObject;
+            goodsUIBase.propertys[i] = ScrollPages.transform.Find("PageList/Page1/Property/List").GetChild(i).gameObject;
         }
 
         //物品类型
-        goodsUIBase.typeText = ScrollPages.transform.FindChild("PageList/Page2/Type/TypeList/Text").GetComponent<Text>();
+        goodsUIBase.typeText = ScrollPages.transform.Find("PageList/Page2/Type/TypeList/Text").GetComponent<Text>();
 
         //物品描述
-        goodsUIBase.des = ScrollPages.transform.FindChild("PageList/Page2/Info/TextBox/Text").GetComponent<Text>();
+        goodsUIBase.des = ScrollPages.transform.Find("PageList/Page2/Info/TextBox/Text").GetComponent<Text>();
 
         //初始化
         effect = new Materiral.Effect();

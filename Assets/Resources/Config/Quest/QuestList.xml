@@ -1,48 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <QuestList>
 	<Quest ID="1" Questgroup="1" GroupID="1" Smallicon="actionIcon_20" Bigicon="actionIcon_18" Name="开店第一步" Des="上架一些&lt;color=red>坚硬的兽牙&lt;/color&gt;来吸引客人进店吧。" CompleteDes="回到商店吧~">
-		<Need Quest="1" Goods="0,1"/>
 		<Complete QuestType="PutGoods" Num="3" Parameter="0,2"/>
-		<Award Golds="100" Exp="10" Goods="0,1" GoodsNum="1" Story="shop1_1" TaskPoint="0"/>
+		<Award Golds="100" Exp="10" Goods="0,1" GoodsNum="1" Event="1" TaskPoint="0"/>
 	</Quest>
 	<Quest ID="2" Questgroup="1" GroupID="2" Smallicon="actionIcon_21" Bigicon="actionIcon_19" Name="第一桶金" Des="&lt;color=red>坚硬的兽牙&lt;/color&gt;虽然不是什么好东西，但是卖出一些还是可以勉强维持生计的。" CompleteDes="回到商店吧~">
-		<Need Quest="2" Goods="0,2"/>
 		<Complete QuestType="SellGoods" Num="3" Parameter="0,2"/>
-		<Award Golds="200" Exp="20" Goods="0,2" GoodsNum="2" Story="shop1_1" TaskPoint="1"/>
+		<Award Golds="200" Exp="20" Goods="0,2" GoodsNum="2" Event="1" TaskPoint="1"/>
 	</Quest>
 	<Quest ID="3" Questgroup="1" GroupID="3" Smallicon="actionIcon_22" Bigicon="actionIcon_20" Name="炼金天赋觉醒" Des="炼金开起来很有意思，试着调和1个&lt;color=red>研磨粉&lt;/color&gt;吧。" CompleteDes="回到商店吧~">
-		<Need Quest="3" Goods="0,3"/>
 		<Complete QuestType="ComposeGoods" Num="1" Parameter="0,5"/>
-		<Award Golds="300" Exp="30" Goods="0,3" GoodsNum="3" Story="shop1_1" TaskPoint="2"/>
+		<Award Golds="300" Exp="30" Goods="0,3" GoodsNum="3" Event="1" TaskPoint="2"/>
 	</Quest>
 	<Quest ID="4" Questgroup="1" GroupID="4" Smallicon="actionIcon_23" Bigicon="actionIcon_21" Name="采集" Des="店里破烂的快要长蟑螂了。。我们一定需要做些什么。先去城外挖点&lt;color=red>坚硬的兽牙&lt;/color&gt;吧。" CompleteDes="回到商店吧~">
-		<Need Quest="4" Goods="0,4"/>
 		<Complete QuestType="CollectGoods" Num="3" Parameter="0,2"/>
-		<Award Golds="400" Exp="40" Goods="0,4" GoodsNum="4" Story="shop1_1" TaskPoint="3"/>
+		<Award Golds="400" Exp="40" Goods="0,4" GoodsNum="4" Event="1" TaskPoint="3"/>
 	</Quest>
 	<Quest ID="5" Questgroup="1" GroupID="5" Smallicon="actionIcon_24" Bigicon="actionIcon_22" Name="调和的精髓" Des="调和出属性&lt;color=red>火焰奇迹&lt;/color&gt;。" CompleteDes="回到商店吧~">
-		<Need Quest="5" Goods="0,5"/>
 		<Complete QuestType="ComposeProperty" Num="3" Parameter="1"/>
-		<Award Golds="500" Exp="50" Goods="0,5" GoodsNum="5" Story="shop1_1" TaskPoint="4"/>
+		<Award Golds="500" Exp="50" Goods="0,5" GoodsNum="5" Event="1" TaskPoint="4"/>
 	</Quest>
 	<Quest ID="6" Questgroup="1" GroupID="6" Smallicon="actionIcon_25" Bigicon="actionIcon_23" Name="熟客" Des="我们需要仔细调查一下&lt;color=red>空心菜桥&lt;/color&gt;。造访那里3次吧。" CompleteDes="回到商店吧~">
-		<Need Quest="6" Goods="0,6"/>
 		<Complete QuestType="Arrive" Num="3" Parameter="2"/>
-		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="1" Story="shop1_1" TaskPoint="0"/>
+		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="1" Event="1" TaskPoint="0"/>
 	</Quest>
-	<Quest ID="7" Questgroup="1" GroupID="7" Smallicon="actionIcon_26" Bigicon="actionIcon_24" Name="任务名称7" Des="这是任务描述7" CompleteDes="完成描述7">
-		<Need Quest="7" Goods="0,7"/>
-		<Complete QuestType="Golds" Num="100" Parameter=""/>
-		<Award Golds="700" Exp="70" Goods="0,7" GoodsNum="2" Story="shop1_1" TaskPoint="2"/>
+	<Quest ID="7" Questgroup="1" GroupID="7" Smallicon="actionIcon_26" Bigicon="actionIcon_24" Name="任务名称7" Des="到达路点2" CompleteDes="完成描述7">
+		<Complete QuestType="Arrive" Num="1" Parameter="2"/>
+		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="1" Event="1000" TaskPoint="0"/>
 	</Quest>
-	<Quest ID="8" Questgroup="2" GroupID="1" Smallicon="actionIcon_27" Bigicon="actionIcon_25" Name="任务名称8" Des="这是任务描述8" CompleteDes="完成描述8">
-		<Need/>
-		<Complete QuestType="Arrive" Num="3" Parameter="3"/>
-		<Award Golds="800" Exp="80" Goods="0,8" GoodsNum="3" Story="shop1_1" TaskPoint="3"/>
-	</Quest>
-	<Quest ID="9" Questgroup="3" GroupID="1" Smallicon="actionIcon_28" Bigicon="actionIcon_26" Name="任务名称9" Des="这是任务描述9" CompleteDes="完成描述9">
-		<Need/>
-		<Complete QuestType="Arrive" Num="3" Parameter="4"/>
-		<Award Golds="900" Exp="90" Goods="0,9" GoodsNum="4" Story="shop1_1" TaskPoint="8"/>
+	<Quest ID="8" Questgroup="2" GroupID="1" Smallicon="actionIcon_27" Bigicon="actionIcon_25" Name="任务名称8" Des="到达路点3" CompleteDes="完成描述8">
+		<Complete QuestType="Arrive" Num="1" Parameter="3"/>
+		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="1" Event="1001" TaskPoint="0"/>
 	</Quest>
 </QuestList>

@@ -33,7 +33,7 @@ public class SmallNoticeUI : MonoBehaviour {
     public void OpenNotice(string str, float durationtime,Transform t)
     {
         GameObject _notice = Instantiate(smallNoticeObject);
-        Text info = _notice.transform.FindChild("Text").GetComponent<Text>();
+        Text info = _notice.transform.Find("Text").GetComponent<Text>();
         info.text = str;
         int line = Mathf.CeilToInt(info.preferredWidth / Screen.width);
         NoticeDuratrionTime = durationtime;
@@ -45,7 +45,7 @@ public class SmallNoticeUI : MonoBehaviour {
             c = t.gameObject.GetComponent<Canvas>();
             t = t.parent;
         }
-        Transform list = c.transform.FindChild("NoticeList");
+        Transform list = c.transform.Find("NoticeList");
         if (list == null)
         {
             list = Instantiate(smallNoticeList).transform;
@@ -85,7 +85,7 @@ public class SmallNoticeUI : MonoBehaviour {
             c = t.gameObject.GetComponent<Canvas>();
             t = t.parent;
         }
-        Transform list = c.transform.FindChild("NoticeList");
+        Transform list = c.transform.Find("NoticeList");
         if (list == null)
         {
             list = Instantiate(smallNoticeList).transform;

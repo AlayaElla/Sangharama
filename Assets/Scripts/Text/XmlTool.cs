@@ -704,6 +704,9 @@ public class XmlTool
                     case "Golds":
                         _event.EventType = ChatEventManager.ChatEvent.EventTypeList.Golds;
                         break;
+                    case "Quest":
+                        _event.EventType = ChatEventManager.ChatEvent.EventTypeList.Quests;
+                        break;
                     default:
                         Debug.LogError("Unkown EventType:" + events.GetAttribute("EventType") + "!!!!");
                         break;
@@ -729,6 +732,8 @@ public class XmlTool
                     _event.EventItem[i] = int.Parse(EventItemList[i]);
                 }
             }
+            if (events.GetAttribute("NeedQuest") != "")
+                _event.NeedQuest = int.Parse(events.GetAttribute("NeedQuest"));
             if (events.GetAttribute("StoryName") != "")
                 _event.StoryName = events.GetAttribute("StoryName");
             //添加进itemList中
@@ -780,20 +785,21 @@ public class XmlTool
             {
                 XmlElement element = (XmlElement)quest.ChildNodes[i];
 
-                if (element.Name == "Need")
-                {
-                    if (element.GetAttribute("Quest") != "")
-                        _quest.QuestNeed.PreQuest = int.Parse(element.GetAttribute("Quest"));
-                    if (element.GetAttribute("Goods") != "")
-                    {
-                        string[] Goods = element.GetAttribute("Goods").Split(',');
-                        _quest.QuestNeed.NeedGoods = new int[Goods.Length];
-                        for (int j = 0; j < Goods.Length; j++)
-                        {
-                            _quest.QuestNeed.NeedGoods[j] = int.Parse(Goods[j]);
-                        }
-                    }
-                }
+                //暂时不需要前置条件
+                //if (element.Name == "Need")
+                //{
+                //    if (element.GetAttribute("Quest") != "")
+                //        _quest.QuestNeed.PreQuest = int.Parse(element.GetAttribute("Quest"));
+                //    if (element.GetAttribute("Goods") != "")
+                //    {
+                //        string[] Goods = element.GetAttribute("Goods").Split(',');
+                //        _quest.QuestNeed.NeedGoods = new int[Goods.Length];
+                //        for (int j = 0; j < Goods.Length; j++)
+                //        {
+                //            _quest.QuestNeed.NeedGoods[j] = int.Parse(Goods[j]);
+                //        }
+                //    }
+                //}
 
                 if (element.Name == "Complete")
                 {
@@ -857,8 +863,8 @@ public class XmlTool
                     }
                     if (element.GetAttribute("GoodsNum") != "")
                         _quest.Award.GoodsNum = int.Parse(element.GetAttribute("GoodsNum"));
-                    if (element.GetAttribute("Story") != "")
-                        _quest.Award.Stroy = element.GetAttribute("Story");
+                    if (element.GetAttribute("Event") != "")
+                        _quest.Award.Event = int.Parse(element.GetAttribute("Event"));
                     if (element.GetAttribute("TaskPoint") != "")
                         _quest.Award.TaskPoint = int.Parse(element.GetAttribute("TaskPoint"));
                 }

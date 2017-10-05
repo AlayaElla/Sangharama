@@ -204,11 +204,11 @@ public class CollectAction : MonoBehaviour {
         Image sr = materiralicon.AddComponent<Image>();
         sr.sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
         materiralicon.transform.position = rect.position;
-        materiralicon.transform.SetParent(MateriralList.FindChild("ListBox"));
+        materiralicon.transform.SetParent(MateriralList.Find("ListBox"));
         materiralicon.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
 
         //由路点落到list处
-        RectTransform er = MateriralList.FindChild("ListBox").GetComponent<RectTransform>();
+        RectTransform er = MateriralList.Find("ListBox").GetComponent<RectTransform>();
         LeanTween.move(materiralicon, new Vector3(er.position.x, er.rect.height, 0), 0.25f);
         LeanTween.scale(materiralicon, new Vector3(0, 0, 0), 0.4f).setEase(LeanTweenType.easeInBack).setDestroyOnComplete(true).setOnComplete(() =>
         {
@@ -219,34 +219,34 @@ public class CollectAction : MonoBehaviour {
     IEnumerator ShowMateriralInList(CharBag.Goods goods)
     {
         yield return null;
-        float listHeight = MateriralList.FindChild("ListBox").GetComponent<RectTransform>().rect.height;
+        float listHeight = MateriralList.Find("ListBox").GetComponent<RectTransform>().rect.height;
         GameObject materiral = Instantiate(bt_materiral);
 
         //获取materiral的颜色
         Color _color_image = materiral.GetComponent<Image>().color;
-        Color _color_text = materiral.transform.FindChild("Text").GetComponent<Text>().color;
+        Color _color_text = materiral.transform.Find("Text").GetComponent<Text>().color;
         Color from = new Color(0, 0, 0, 0);
 
         materiral.GetComponent<Image>().color = from;
-        materiral.transform.FindChild("Text").GetComponent<Text>().color = from;
+        materiral.transform.Find("Text").GetComponent<Text>().color = from;
 
         //获取materiral的大小
         RectTransform rec_mat = bt_materiral.GetComponent<RectTransform>(); 
 
         //添加进入列表中
-        materiral.transform.SetParent(MateriralList.FindChild("ListBox"));
+        materiral.transform.SetParent(MateriralList.Find("ListBox"));
         //materiral.transform.SetAsFirstSibling();
 
         //如果显示数目超过顶部，则对齐顶部
-        if (MateriralList.FindChild("ListBox").transform.childCount * rec_mat.rect.height > listHeight)
+        if (MateriralList.Find("ListBox").transform.childCount * rec_mat.rect.height > listHeight)
         {
-            GameObject materiallist = MateriralList.FindChild("ListBox").gameObject;
-            LeanTween.moveLocalY(materiallist, MateriralList.FindChild("ListBox").transform.localPosition.y - rec_mat.rect.height, 0.15f);
+            GameObject materiallist = MateriralList.Find("ListBox").gameObject;
+            LeanTween.moveLocalY(materiallist, MateriralList.Find("ListBox").transform.localPosition.y - rec_mat.rect.height, 0.15f);
         }
 
 
-        float dis = MateriralList.FindChild("ListBox").GetComponent<RectTransform>().rect.height / 2;    //dis为中心点;抵消local的偏差，使用local0点为中心点
-        float button_pos = -dis + (rec_mat.rect.height / 2) + (MateriralList.FindChild("ListBox").transform.childCount - 1) * rec_mat.rect.height;
+        float dis = MateriralList.Find("ListBox").GetComponent<RectTransform>().rect.height / 2;    //dis为中心点;抵消local的偏差，使用local0点为中心点
+        float button_pos = -dis + (rec_mat.rect.height / 2) + (MateriralList.Find("ListBox").transform.childCount - 1) * rec_mat.rect.height;
 
 
         materiral.GetComponent<RectTransform>().localPosition = new Vector3(0, dis + button_pos);
@@ -264,13 +264,13 @@ public class CollectAction : MonoBehaviour {
         LeanTween.value(materiral, from, _color_text, 0.25f).setOnUpdate(
             (Color col) =>
             {
-                materiral.transform.FindChild("Text").GetComponent<Text>().color = col;
+                materiral.transform.Find("Text").GetComponent<Text>().color = col;
             }
             );
 
         //显示名称
-        materiral.transform.FindChild("Text").GetComponent<Text>().text = goods.Name;
-        materiral.transform.FindChild("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
+        materiral.transform.Find("Text").GetComponent<Text>().text = goods.Name;
+        materiral.transform.Find("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
 
         EventTriggerListener.Get(materiral).parameter = goods;
         EventTriggerListener.Get(materiral).onClickByParameter = ShowMateriralInfo;
@@ -279,7 +279,7 @@ public class CollectAction : MonoBehaviour {
     void MaterialListToTop()
     {
         //找到最后一个按钮的rect，用来确定最高的位置，高度需要用世界坐标来确认
-        RectTransform MateriralRect = MateriralList.FindChild("ListBox").GetChild(MateriralList.FindChild("ListBox").childCount - 1).transform.GetComponent<RectTransform>();
+        RectTransform MateriralRect = MateriralList.Find("ListBox").GetChild(MateriralList.Find("ListBox").childCount - 1).transform.GetComponent<RectTransform>();
 
         //获取目标位置
         float movetarget = MateriralList.position.y + MateriralList.GetComponent<RectTransform>().rect.height / 2 - MateriralRect.rect.height / 2;
@@ -290,7 +290,7 @@ public class CollectAction : MonoBehaviour {
 
         Debug.Log(MateriralList.transform.position + "   material:" + MateriralRect.position + "   movetarget:" + movetarget + "   movedis:" + movedis);
 
-        GameObject material = MateriralList.FindChild("ListBox").gameObject;
+        GameObject material = MateriralList.Find("ListBox").gameObject;
 
         LeanTween.moveY(material, material.transform.position.y + movedis, 0.25f);
         //Debug.Log("Move!");

@@ -31,13 +31,15 @@ public class ChatEventManager : MonoBehaviour {
             InMap,              //进入地图界面
             Arrive,         //到达路点
             Mines,              //挖掘次数
-            Golds               //金币数
+            Golds,              //金币数
+            Quests              //任务事件，不用判断
         };
         public int GroupType;   //事件类型 0:故事事件；1:任务事件；2:隐藏事件
         public EventTypeList EventType;
         public int Num;
         public int[] Parameter;
         public int[] EventItem;
+        public int NeedQuest;
         public string StoryName;
     }
 
@@ -55,10 +57,14 @@ public class ChatEventManager : MonoBehaviour {
         Scene scence = SceneManager.GetActiveScene();
         Debug.Log("Now scence: " + scence.name);
 
-        if (scence.name == "Shop")
+        if (PlayerInfo.GetNowscene() == 0)
         {
             ShopUI.ChangeStoryState();
             Character.ChangeStoryState();
+        }
+        if (PlayerInfo.GetNowscene() > 0)
+        {
+            MapPathManager.ChangeStoryState();
         }
 
         if (chatmanager == null)
@@ -124,7 +130,8 @@ public class ChatEventManager : MonoBehaviour {
                         {
                             if (pinfo.ID == _event.Parameter[0] && _event.Num <= pinfo.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
                             {
-                                if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    && (_event.NeedQuest==0||(_event.NeedQuest!=0&&PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                 {
                                     ishit = true;
                                     PlayerInfo.AddEvents(_event.ID);
@@ -144,7 +151,8 @@ public class ChatEventManager : MonoBehaviour {
                             {
                                 if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.PutGoods && _event.Num <= items.PutCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -155,7 +163,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.SellGoods && _event.Num <= items.SellCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -166,7 +175,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.ComposeGoods && _event.Num <= items.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -177,7 +187,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (items.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.CollectGoods && _event.Num <= items.CollectCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -194,7 +205,8 @@ public class ChatEventManager : MonoBehaviour {
                             {
                                 if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.PutGoods && _event.Num <= minds.PutCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -205,7 +217,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.SellGoods && _event.Num <= minds.SellCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -216,7 +229,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.ComposeGoods && _event.Num <= minds.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -227,7 +241,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (minds.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.CollectGoods && _event.Num <= minds.CollectCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -244,7 +259,8 @@ public class ChatEventManager : MonoBehaviour {
                             {
                                 if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.PutGoods && _event.Num <= spitems.PutCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -255,7 +271,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.SellGoods && _event.Num <= spitems.SellCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -266,7 +283,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.ComposeGoods && _event.Num <= spitems.RecipeCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -277,7 +295,8 @@ public class ChatEventManager : MonoBehaviour {
                                 }
                                 else if (spitems.ID == _event.Parameter[1] && _event.EventType == ChatEvent.EventTypeList.CollectGoods && _event.Num <= spitems.CollectCount && !PlayerInfo.CheckEvents(_event.ID))
                                 {
-                                    if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                    if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                        && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                                     {
                                         ishit = true;
                                         PlayerInfo.AddEvents(_event.ID);
@@ -294,7 +313,8 @@ public class ChatEventManager : MonoBehaviour {
                     PlayerInfo.SenceInfo shop_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[0];
                     if (_event.Num <= shop_senceinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                         {
                             ishit = true;
                             PlayerInfo.AddEvents(_event.ID);
@@ -307,7 +327,8 @@ public class ChatEventManager : MonoBehaviour {
                     PlayerInfo.SenceInfo map_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[1];
                     if (_event.Num <= map_senceinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                         {
                             ishit = true;
                             PlayerInfo.AddEvents(_event.ID);
@@ -319,9 +340,10 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Arrive:
                     foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
                     {
-                        if (mapinfo.ID == _event.Parameter[0])
+                        if (mapinfo.ID == _event.Parameter[0] && _event.Num <= mapinfo.InCount && !PlayerInfo.CheckEvents(_event.ID))
                         {
-                            if (_event.Num <= mapinfo.InCount && !PlayerInfo.CheckEvents(_event.ID) && (_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                             {
                                 ishit = true;
                                 PlayerInfo.AddEvents(_event.ID);
@@ -335,7 +357,8 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Mines:
                     if (_event.Num <= playerInfo.MineCount && !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                         {
                             ishit = true;
                             PlayerInfo.AddEvents(_event.ID);
@@ -347,7 +370,8 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Golds:
                     if (_event.Num <= playerInfo.Money&& !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                         {
                             ishit = true;
                             PlayerInfo.AddEvents(_event.ID);
@@ -398,6 +422,8 @@ public class ChatEventManager : MonoBehaviour {
             case ChatEvent.EventTypeList.Golds:
                 if (type2 == ChatEvent.EventTypeList.Golds) ishit = true;
                 break;
+            case ChatEvent.EventTypeList.Quests:
+                break;
             default:
                 Debug.LogWarning("Can't Check EventType:" + type1 + "!");
                 ishit = false;
@@ -408,7 +434,18 @@ public class ChatEventManager : MonoBehaviour {
 
     void AddStroyName(ChatEvent events)
     {
-        StoryList.Add(events);
+        if(!StoryList.Contains(events))
+            StoryList.Add(events);
+    }
+
+    public void AddStroyWithEventID(int id)
+    {
+        ChatEvent ct = FindEvetByID(id);
+        if (ct.StoryName != null)
+        {
+            PlayerInfo.AddEvents(id);
+            AddStroyName(ct);
+        }
     }
 
     /// <summary>
@@ -478,7 +515,8 @@ public class ChatEventManager : MonoBehaviour {
                     PlayerInfo.SenceInfo shop_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[0];
                     if (_event.Num <= shop_senceinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                         {
                             Debug.Log("prehit event: " + _event.ID);
                             preCheckEvent.Add(_event);
@@ -491,7 +529,8 @@ public class ChatEventManager : MonoBehaviour {
                     PlayerInfo.SenceInfo map_senceinfo = (PlayerInfo.SenceInfo)playerInfo.SenceInfoList[1];
                     if (_event.Num <= map_senceinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID))
                     {
-                        if ((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                        if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                         {
                             Debug.Log("prehit event: " + _event.ID);
                             preCheckEvent.Add(_event);
@@ -501,9 +540,10 @@ public class ChatEventManager : MonoBehaviour {
                 case ChatEvent.EventTypeList.Arrive:
                     foreach (PlayerInfo.MapInfo mapinfo in playerInfo.MapInfoList)
                     {
-                        if (mapinfo.ID == _event.Parameter[0])
+                        if (mapinfo.ID == _event.Parameter[0]&& _event.Num <= mapinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID))
                         {
-                            if (_event.Num <= mapinfo.InCount + 1 && !PlayerInfo.CheckEvents(_event.ID) && (_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                            if (((_event.EventItem == null) || (_event.EventItem != null && CharBag.ContainsGoods(_event.EventItem[0], _event.EventItem[1])))
+                                && (_event.NeedQuest == 0 || (_event.NeedQuest != 0 && PlayerInfo.CheckCompleteQuest(_event.NeedQuest))))
                             {
                                 Debug.Log("prehit event: " + _event.ID);
                                 preCheckEvent.Add(_event);
@@ -538,7 +578,7 @@ public class ChatEventManager : MonoBehaviour {
             {
                 case ChatEvent.EventTypeList.InShop:
                     if (sceneID == 0) break;
-                    p = root.FindChild("action1/1");
+                    p = root.Find("action1/1");
                     CreateHintSprite(sceneID,p, _event.GroupType);
                     break;
                 case ChatEvent.EventTypeList.InMap:
@@ -552,7 +592,7 @@ public class ChatEventManager : MonoBehaviour {
                         break;
                     };
 
-                    p = root.FindChild("action" + _event.Parameter[0] + "/" + _event.Parameter[0]);
+                    p = root.Find("action" + _event.Parameter[0] + "/" + _event.Parameter[0]);
                     CreateHintSprite(sceneID,p, _event.GroupType);
                     break;
                 default:
@@ -567,7 +607,7 @@ public class ChatEventManager : MonoBehaviour {
         //type 2隐藏任务，直接跳过
         if (type == 2) return;
 
-        Transform tt = t.FindChild("hint");
+        Transform tt = t.Find("hint");
         if (tt == null)
         {
             GameObject obj = new GameObject();

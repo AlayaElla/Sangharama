@@ -24,13 +24,13 @@ public class QuestManager : MonoBehaviour {
         public string des;
         public string completedes;
 
-        //前置条件
-        public struct QuestNeedBase
-        {
-            public int PreQuest;
-            public int[] NeedGoods;
-        }
-        public QuestNeedBase QuestNeed;
+        ////前置条件 暂时不需要
+        //public struct QuestNeedBase
+        //{
+        //    public int PreQuest;
+        //    public int[] NeedGoods;
+        //}
+        //public QuestNeedBase QuestNeed;
 
         //达成条件
         public struct QuestCompleteBase
@@ -48,7 +48,7 @@ public class QuestManager : MonoBehaviour {
             public int Exp;
             public int[] Goods;
             public int GoodsNum;
-            public string Stroy;
+            public int Event;
             public int TaskPoint;
         }
         public AwardBase Award;

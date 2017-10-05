@@ -42,10 +42,10 @@ public class BagUI : MonoBehaviour {
 	// Use this for initialization
     public void Initialize(int type)
     {
-        scrollList = BagMenuUI.transform.FindChild("ScrollList/BagList").gameObject;
-        _fitter = scrollList.transform.FindChild("GridLayoutPanel").GetComponent<ContentSizeFitter>();
+        scrollList = BagMenuUI.transform.Find("ScrollList/BagList").gameObject;
+        _fitter = scrollList.transform.Find("GridLayoutPanel").GetComponent<ContentSizeFitter>();
         iteminfo = Resources.Load<GameObject>("Prefab/ItemInfoUI");
-        shopGoods = transform.FindChild("ShopGoods").gameObject;
+        shopGoods = transform.Find("ShopGoods").gameObject;
 
         //获取背包数据
         _bagList = CharBag.GetGoodsList();
@@ -104,9 +104,9 @@ public class BagUI : MonoBehaviour {
         {
             CharBag.Goods currentGoods = (CharBag.Goods)p.obj;
 
-            Image _image = shopGoods.transform.FindChild("Image").GetComponent<Image>();
-            Text _text = shopGoods.transform.FindChild("Text").GetComponent<Text>();
-            Button _button = shopGoods.transform.FindChild("Button").GetComponent<Button>();
+            Image _image = shopGoods.transform.Find("Image").GetComponent<Image>();
+            Text _text = shopGoods.transform.Find("Text").GetComponent<Text>();
+            Button _button = shopGoods.transform.Find("Button").GetComponent<Button>();
 
             _text.text = "当前上架的商品:";
             _text.transform.localPosition = new Vector3(_text.transform.position.x, 50, _text.transform.position.z);
@@ -133,16 +133,16 @@ public class BagUI : MonoBehaviour {
             button.transform.SetParent(_fitter.transform);
 
             button.name = _map.ID.ToString();
-            button.transform.FindChild("Text").GetComponent<Text>().text = _map.Name;
-            button.transform.FindChild("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_map.MateriralType, _map.ID);
+            button.transform.Find("Text").GetComponent<Text>().text = _map.Name;
+            button.transform.Find("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_map.MateriralType, _map.ID);
 
             //显示数量
-            button.transform.FindChild("num").gameObject.SetActive(true);
-            button.transform.FindChild("num/Text").GetComponent<Text>().text = _map.Number.ToString();
+            button.transform.Find("num").gameObject.SetActive(true);
+            button.transform.Find("num/Text").GetComponent<Text>().text = _map.Number.ToString();
 
             //显示价格
-            button.transform.FindChild("PriceBoard").gameObject.SetActive(true);
-            button.transform.FindChild("PriceBoard/Text").GetComponent<Text>().text = _map.Price.ToString();
+            button.transform.Find("PriceBoard").gameObject.SetActive(true);
+            button.transform.Find("PriceBoard/Text").GetComponent<Text>().text = _map.Price.ToString();
 
             //设置参数容器中的参数
             Parameter.Box _p = new Parameter.Box();
@@ -212,12 +212,12 @@ public class BagUI : MonoBehaviour {
                 button.transform.SetParent(_fitter.transform);
 
                 button.name = _map.ID.ToString();
-                button.transform.FindChild("Text").GetComponent<Text>().text = _map.Name;
-                button.transform.FindChild("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_map.MateriralType, _map.ID);
+                button.transform.Find("Text").GetComponent<Text>().text = _map.Name;
+                button.transform.Find("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_map.MateriralType, _map.ID);
                 
                 //显示数量
-                button.transform.FindChild("num").gameObject.SetActive(true);
-;               button.transform.FindChild("num/Text").GetComponent<Text>().text = _map.Number.ToString();
+                button.transform.Find("num").gameObject.SetActive(true);
+;               button.transform.Find("num/Text").GetComponent<Text>().text = _map.Number.ToString();
 
                 //设置参数容器中的参数
                 Parameter.Box _p = new Parameter.Box();
@@ -236,7 +236,7 @@ public class BagUI : MonoBehaviour {
                     if (_map.UID == _slot.slot.UID)
                     {
                         button.name = _map.ID.ToString();
-                        button.transform.FindChild("Text").GetComponent<Text>().text = _map.Name + " <color=red>(E)</color>";
+                        button.transform.Find("Text").GetComponent<Text>().text = _map.Name + " <color=red>(E)</color>";
                         button.transform.GetComponent<Image>().color = Color.gray;
 
                         OnClickInScorll.Get(button.transform).onClickByParameter = null;
@@ -273,16 +273,16 @@ public class BagUI : MonoBehaviour {
             button.transform.SetParent(_fitter.transform);
 
             button.name = _map.ID.ToString();
-            button.transform.FindChild("Text").GetComponent<Text>().text = _map.Name;
-            button.transform.FindChild("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_map.MateriralType, _map.ID);
+            button.transform.Find("Text").GetComponent<Text>().text = _map.Name;
+            button.transform.Find("Image").GetComponent<Image>().sprite = Materiral.GetMaterialIcon(_map.MateriralType, _map.ID);
 
             //显示数量
-            button.transform.FindChild("num").gameObject.SetActive(true);
-            button.transform.FindChild("num/Text").GetComponent<Text>().text = _map.Number.ToString();
+            button.transform.Find("num").gameObject.SetActive(true);
+            button.transform.Find("num/Text").GetComponent<Text>().text = _map.Number.ToString();
 
             //显示价格
-            button.transform.FindChild("PriceBoard").gameObject.SetActive(true);
-            button.transform.FindChild("PriceBoard/Text").GetComponent<Text>().text = _map.Price.ToString();
+            button.transform.Find("PriceBoard").gameObject.SetActive(true);
+            button.transform.Find("PriceBoard/Text").GetComponent<Text>().text = _map.Price.ToString();
 
             //设置参数容器中的参数
             Parameter.Box _p = new Parameter.Box();
@@ -309,7 +309,7 @@ public class BagUI : MonoBehaviour {
     IEnumerator SetListToTop()
     {
         yield return null;
-        RectTransform rect = scrollList.transform.FindChild("GridLayoutPanel").GetComponent<RectTransform>();
+        RectTransform rect = scrollList.transform.Find("GridLayoutPanel").GetComponent<RectTransform>();
 
         rect.localPosition = new Vector3(rect.localPosition.x, -(rect.sizeDelta.y / 2));
 
