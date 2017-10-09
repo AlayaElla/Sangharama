@@ -85,7 +85,7 @@ public class QuestUI : MonoBehaviour {
 
         //更新参数
         iconImage.sprite = Materiral.GetIconByName(quest.Bigicon);
-        questinfoText.text = quest.des;
+        questinfoText.text = TextParser.SpecialString(quest.des);
         questnameText.text = quest.name;
         awardGoldNum.text = "x" + quest.Award.Gold;
         awardExpNum.text= "x" + quest.Award.Exp;

@@ -128,12 +128,35 @@ public class MapPathManager : MonoBehaviour {
         return PathList;
     }
 
+    public static string GetPathName(int point)
+    {
+        if (PathList == null)
+        {
+            XmlTool xt = new XmlTool();
+            ArrayList _list = xt.loadPathXmlToArray();
+            PathList = new Path[_list.Count];
+            _list.CopyTo(PathList);
+        }
+
+        foreach (Path p in PathList)
+        {
+            if (p.Map == point)
+            {
+                return p.Name;
+            }
+        }
+        return "Not find!";
+    }
+
     void GetPathConfig()
     {
-        XmlTool xt = new XmlTool();
-        ArrayList _list = xt.loadPathXmlToArray();
-        PathList = new Path[_list.Count];
-        _list.CopyTo(PathList);
+        if (PathList == null)
+        {
+            XmlTool xt = new XmlTool();
+            ArrayList _list = xt.loadPathXmlToArray();
+            PathList = new Path[_list.Count];
+            _list.CopyTo(PathList);
+        }     
         GetPrePath(PathList);
         SetPoints();
     }

@@ -428,4 +428,40 @@ public class Materiral : MonoBehaviour {
         else
             return null;
     }
+
+    //获取名称
+    static public string GetMaterialName(int m_type, int ID)
+    {
+        if (m_type == 0)
+        {
+            foreach (Items _item in itemList)
+            {
+                if (_item.ID == ID)
+                {
+                    return _item.Name;
+                }
+            }
+            return "Not find!";  //如果找不到则返回0
+        }
+        else if (m_type == 1)
+        {
+            foreach (Minds _mind in mindList)
+            {
+                if (_mind.ID == ID)
+                    return _mind.Name;
+            }
+            return "Not find!";  //如果找不到则返回0
+        }
+        else if (m_type == 2)
+        {
+            foreach (SpecialItem _sp in specialItemList)
+            {
+                if (_sp.ID == ID)
+                    return _sp.Name;
+            }
+            return "Not find!";  //如果找不到则返回0
+        }
+        else
+            return "Not find!";
+    }
 }

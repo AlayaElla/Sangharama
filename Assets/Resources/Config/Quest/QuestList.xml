@@ -24,11 +24,11 @@
 		<Complete QuestType="Arrive" Num="3" Parameter="2"/>
 		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="1" Event="1" TaskPoint="0"/>
 	</Quest>
-	<Quest ID="7" Questgroup="1" GroupID="7" Smallicon="actionIcon_26" Bigicon="actionIcon_24" Name="任务名称7" Des="到达路点2" CompleteDes="完成描述7">
+	<Quest ID="7" Questgroup="1" GroupID="7" Smallicon="actionIcon_26" Bigicon="actionIcon_24" Name="任务名称7" Des="现在的时间是：[localtime] ！！" CompleteDes="完成描述7">
 		<Complete QuestType="Arrive" Num="1" Parameter="2"/>
 		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="1" Event="1000" TaskPoint="0"/>
 	</Quest>
-	<Quest ID="8" Questgroup="2" GroupID="1" Smallicon="actionIcon_27" Bigicon="actionIcon_25" Name="任务名称8" Des="到达路点3" CompleteDes="完成描述8">
+	<Quest ID="8" Questgroup="2" GroupID="1" Smallicon="actionIcon_27" Bigicon="actionIcon_25" Name="任务名称8" Des="到达[point 2]，就可以获得[item 2:1]，然后去到[point 3]" CompleteDes="完成描述8">
 		<Complete QuestType="Arrive" Num="1" Parameter="3"/>
 		<Award Golds="600" Exp="60" Goods="0,6" GoodsNum="1" Event="1001" TaskPoint="0"/>
 	</Quest>
