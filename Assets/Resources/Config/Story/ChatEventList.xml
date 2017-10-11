@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--GroupType:0:故事事件；1:任务事件；2:隐藏事件 -->
-<ChatEventList>
+<!--
+测试事件
 	<ChatEvent ID="1" GroupType="0" EventType="PutGoods" Num="3" Parameter="0,2" StoryName="start"/>
 	<ChatEvent ID="2" GroupType="0" EventType="SellGoods" Num="3" Parameter="0,3" StoryName="shop1_1"/>
 	<ChatEvent ID="3" GroupType="0" EventType="ComposeGoods" Num="3" Parameter="0,5" StoryName="shop1_1"/>
@@ -14,11 +15,13 @@
 	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="4" StoryName="giveitem"/>
 	<ChatEvent ID="12" GroupType="0" EventType="Arrive" Num="300" Parameter="3" StoryName="start"/>
 	<ChatEvent ID="13" GroupType="0" EventType="InShop" Num="200" StoryName="start"/>
+-->
+
+
+<ChatEventList>
+	<ChatEvent ID="1" GroupType="1" EventType="InShop" Num="1" StoryName="addquest"/>
+	<ChatEvent ID="2" GroupType="0" EventType="Arrive" Num="1" Parameter="2" NeedQuest="7" StoryName="start"/>
 	
-	<ChatEvent ID="100" GroupType="0" EventType="Arrive" Num="1" Parameter="2" NeedQuest="7" StoryName="start"/>
-	<ChatEvent ID="101" GroupType="0" EventType="Arrive" Num="1" Parameter="5" EventItem="2,1" StoryName="start"/>
-	<ChatEvent ID="102" GroupType="0" EventType="Arrive" Num="1" Parameter="2" StoryName="start"/>
-	
-	<ChatEvent ID="1000" EventType="Quest" StoryName="shop1_1"/>
-	<ChatEvent ID="1001" EventType="Quest" StoryName="start"/>
+	<ChatEvent ID="1000" EventType="Quest" StoryName="test1"/>
+	<ChatEvent ID="1001" EventType="Quest" StoryName="test3"/>
 </ChatEventList>

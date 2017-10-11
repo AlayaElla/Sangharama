@@ -763,7 +763,7 @@ public class MapPathManager : MonoBehaviour {
 
         string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
         RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
-        mineActionBoard.position = new Vector3(root.position.x, root.position.y + 80, root.position.z);
+        mineActionBoard.localPosition = new Vector3(root.localPosition.x, root.localPosition.y + 80, root.localPosition.z);
 
         LeanTween.cancel(mineActionBoard.gameObject);
         mineActionBoard.localScale = new Vector3(0, 0, 0);

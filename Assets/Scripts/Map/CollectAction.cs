@@ -231,7 +231,8 @@ public class CollectAction : MonoBehaviour {
         materiral.transform.Find("Text").GetComponent<Text>().color = from;
 
         //获取materiral的大小
-        RectTransform rec_mat = bt_materiral.GetComponent<RectTransform>(); 
+        RectTransform rec_mat = bt_materiral.GetComponent<RectTransform>();
+        rec_mat.localScale = new Vector3(1, 1, 1);
 
         //添加进入列表中
         materiral.transform.SetParent(MateriralList.Find("ListBox"));

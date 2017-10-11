@@ -1,0 +1,18 @@
+//角色名<id:角色ID;image:立绘>
+[Character]
+npc1<name:我是谁;image:lili;windows:board8;voice:voice1>
+
+[Background]
+
+
+[Sound]
+
+
+//对话列表
+[ChatList]
+<show 0.2,0,1,0,left,idle,npc1,notloop,click>
+{npc1:idle}你好，我也不知道我是谁。
+{npc1:angry}反正也是接受任务来的。
+{npc1:happy}以后说不定是我来帮助你。
+{npc1:happy}拿给给你下一个任务吧。
+<addquest 1>

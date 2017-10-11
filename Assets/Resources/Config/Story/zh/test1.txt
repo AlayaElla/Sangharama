@@ -14,8 +14,7 @@ black
 //<addquest 1>
 <setbg black,0.01,auto>
 <windowmove 0,0.4,0.1,linear,notloop,auto>
-{npc1:idle}好吧其实现在什么都没了.....
-{npc1:idle}下面你会接受一个任务。
-{npc1:idle}做不做随便你，只是按照现在的完成状态。。
-{npc1:idle}不做就没有其他剧情了。
-<addquest 4>
+{npc1:idle}很好！
+{npc1:idle}你顺利完成了第一个任务。
+{npc1:idle}之后就让她来帮助你吧。
+<loadstory test2>
