@@ -190,7 +190,7 @@ public class MapUI : MonoBehaviour {
             obj.transform.SetParent(MoneyBoard.parent);
 
             obj.transform.position = imgrect.position;
-            float randomlength = Random.Range(-100f, 100f);
+            float randomlength = 0;
 
             float time = 0.5f;
             float dely = i * 0.05f;

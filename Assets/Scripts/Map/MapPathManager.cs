@@ -481,15 +481,16 @@ public class MapPathManager : MonoBehaviour {
 
             for (int i = 0; i < _ts.Length; i++)
             {
-                vecs[i + 1] = _ts[i].position - _map.position;
+                //vecs[i + 1] = _ts[i].position - _map.position;
+                vecs[i + 1] = _ts[i].position;
             }
             vecs[0] = vecs[1];
             vecs[vecs.Length - 1] = vecs[vecs.Length - 2];
 
             state = MoveState.Moving;
             LTSpline cr = new LTSpline(vecs);
-            float time = cr.distance / 400;
-            LeanTween.moveLocal(MovePlayer.gameObject, cr, time).setOnComplete(() =>
+            float time = cr.distance / 5;
+            LeanTween.move(MovePlayer.gameObject, cr, time).setOnComplete(() =>
                 {
                     playerPoints.Nowpoint = playerPoints.Nextpoint;
                     MovePath();
@@ -634,7 +635,7 @@ public class MapPathManager : MonoBehaviour {
 
         string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
         RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
-        priceBoard.position = new Vector3(root.position.x, root.position.y + 80, root.position.z);
+        priceBoard.localPosition = new Vector3(root.localPosition.x, root.localPosition.y + 80, root.position.z);
 
         priceText.text = setPrice(Bestpaths);
 
@@ -828,7 +829,7 @@ public class MapPathManager : MonoBehaviour {
 
         string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
         RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
-        homeBoard.position = new Vector3(root.position.x, root.position.y + 80, root.position.z);
+        homeBoard.localPosition = new Vector3(root.localPosition.x, root.localPosition.y + 80, root.position.z);
 
         LeanTween.cancel(homeBoard.gameObject);
         homeBoard.localScale = new Vector3(0, 0, 0);
