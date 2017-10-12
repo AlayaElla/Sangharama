@@ -65,15 +65,21 @@ public class PlayerData : MonoBehaviour {
             {
                 IFormatter serializer = new BinaryFormatter();
                 string path = PathKit.GetResourcesPath() + name;
+                if (File.Exists(path))
+                {
+                    FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                    datas = serializer.Deserialize(fs) as ArrayList;
+                    fs.Close();
 
-                datas = serializer.Deserialize(fs) as ArrayList;
-                fs.Close();
+                    CharBag.UpdateGoods(datas);
 
-                CharBag.UpdateGoods(datas);
-
-                Debug.Log("loaded bag");
+                    Debug.Log("loaded bag");
+                }
+                else
+                {
+                    Debug.Log("找不到背包存档!");
+                }
             }
             catch (IOException e)
             {
@@ -102,15 +108,21 @@ public class PlayerData : MonoBehaviour {
             {
                 IFormatter serializer = new BinaryFormatter();
                 string path = PathKit.GetResourcesPath() + name;
+                if (File.Exists(path))
+                {
+                    FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                    datas = serializer.Deserialize(fs) as ArrayList;
+                    fs.Close();
 
-                datas = serializer.Deserialize(fs) as ArrayList;
-                fs.Close();
-
-                Debug.Log("loaded playerinfo");
-                return datas;
-
+                    Debug.Log("loaded playerinfo");
+                    return datas;
+                }
+                else
+                {
+                    Debug.Log("找不到商店角色存档!");
+                    return null;
+                }
                 //CharBag.UpdateGoods(datas);
             }
             catch (IOException e)
@@ -144,15 +156,21 @@ public class PlayerData : MonoBehaviour {
             {
                 IFormatter serializer = new BinaryFormatter();
                 string path = PathKit.GetResourcesPath() + name;
+                if (File.Exists(path))
+                {
+                    FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
 
-                FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                    datas = serializer.Deserialize(fs) as ArrayList;
+                    fs.Close();
 
-                datas = serializer.Deserialize(fs) as ArrayList;
-                fs.Close();
-
-                Debug.Log("loaded bag");
-                return datas;
-                
+                    Debug.Log("loaded bag");
+                    return datas;
+                }
+                else
+                {
+                    Debug.Log("找不到商店物品存档!");    
+                    return null;
+                }
                 //CharBag.UpdateGoods(datas);
             }
             catch (IOException e)

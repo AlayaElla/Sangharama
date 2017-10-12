@@ -204,22 +204,25 @@ public class CollectAction : MonoBehaviour {
         Image sr = materiralicon.AddComponent<Image>();
         sr.sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
         materiralicon.transform.position = rect.position;
-        materiralicon.transform.SetParent(MateriralList.Find("ListBox"));
+        materiralicon.transform.SetParent(MateriralList.Find("ListBox"), true);
+        materiralicon.transform.localScale = new Vector3(1, 1, 1);
         materiralicon.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
 
         //由路点落到list处
         RectTransform er = MateriralList.Find("ListBox").GetComponent<RectTransform>();
-        LeanTween.move(materiralicon, new Vector3(er.position.x, er.rect.height, 0), 0.25f);
+        LeanTween.moveLocal(materiralicon, new Vector3(er.localPosition.x, er.rect.height, 0), 1f);
         LeanTween.scale(materiralicon, new Vector3(0, 0, 0), 0.4f).setEase(LeanTweenType.easeInBack).setDestroyOnComplete(true).setOnComplete(() =>
         {
             StartCoroutine(ShowMateriralInList(goods));
         });
+
     }
 
     IEnumerator ShowMateriralInList(CharBag.Goods goods)
     {
         yield return null;
         float listHeight = MateriralList.Find("ListBox").GetComponent<RectTransform>().rect.height;
+        float listWidth = MateriralList.Find("ListBox").GetComponent<RectTransform>().rect.width;
         GameObject materiral = Instantiate(bt_materiral);
 
         //获取materiral的颜色
@@ -232,10 +235,9 @@ public class CollectAction : MonoBehaviour {
 
         //获取materiral的大小
         RectTransform rec_mat = bt_materiral.GetComponent<RectTransform>();
-        rec_mat.localScale = new Vector3(1, 1, 1);
 
         //添加进入列表中
-        materiral.transform.SetParent(MateriralList.Find("ListBox"));
+        materiral.transform.SetParent(MateriralList.Find("ListBox"), false);
         //materiral.transform.SetAsFirstSibling();
 
         //如果显示数目超过顶部，则对齐顶部

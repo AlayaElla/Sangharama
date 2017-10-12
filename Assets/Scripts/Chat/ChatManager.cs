@@ -1839,11 +1839,13 @@ public class ChatManager : MonoBehaviour {
             int count = int.Parse(action.LoopType);
             LeanTween.scale(character, lastscale, float.Parse(action.Parameter[2])).setEase(GetAniLeanTweenType(action.CharacterID)).setOnComplete(() =>
             {
-                if (count >= 1)
+                if (count > 1)
                     LeanTween.scale(character, scalevector, float.Parse(action.Parameter[2])).setEase(GetLeanTweenType(action.CharacterID)).setLoopPingPong(count - 1).setOnComplete(() =>
                     {
                         SetActionState(ChatAction.NOWSTATE.DONE, index);
                     });
+                else if (count ==1)
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
             });
         }
         else

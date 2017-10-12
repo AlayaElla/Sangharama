@@ -1,16 +1,14 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
-npc1<name:我是谁;image:lili;windows:board8;voice:voice1>
+npc1<name:我是谁;image:lili;windows:board1;voice:voice1>
 
 [Background]
 
-
 [Sound]
-
 
 //对话列表
 [ChatList]
-<show 0.2,0,1,0,left,idle,npc1,notloop,auto>
+<show 0.5,0,0.5,0,left,happy,npc1,notloop,auto>
 {npc1:happy}恭喜！
 {npc1:angry}啊呀，没剧本了。
 {npc1:angry}麻痹，后面的慢慢来吧。

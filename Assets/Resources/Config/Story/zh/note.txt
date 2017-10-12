@@ -135,3 +135,11 @@ rourou<name:肉肉;image:rourou;windows:1;voice:voice1>
 	click						——点击进入下一步
 	auto						——完成后自动进入下一步
 	sametime					——同事开始下一步
+	
+	
+	
+	
+例子：
+//文字框展开的效果
+//<windowscale 1,0,0.01,linear,notloop,auto>
+//<windowscale 1,1,1,linear,notloop,sametime>

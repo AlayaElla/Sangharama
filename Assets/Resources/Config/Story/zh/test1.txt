@@ -1,20 +1,77 @@
 //角色名<id:角色ID;image:立绘>
 [Character]
 npc1<name: ;image:lili;windows:board8;voice:voice1>
+npc2<name:我是谁;image:lili;windows:board1;voice:voice2>
+npc3<name:审判者;image:maria;windows:board2;voice:voice1>
 
 [Background]
-black
+black,none
 
 [Sound]
 
-
 //对话列表
 [ChatList]
-//<addquest 2>
-//<addquest 1>
 <setbg black,0.01,auto>
 <windowmove 0,0.4,0.1,linear,notloop,auto>
+<windowmove 0.01,-0.01,3,easeInOutQuad,pingpong,sametime>
 {npc1:idle}很好！
 {npc1:idle}你顺利完成了第一个任务。
 {npc1:idle}之后就让她来帮助你吧。
-<loadstory test2>
+{npc1:idle}<a>
+
+<setbg none,2,sametime>
+<stop WINDOW,sametime>
+<show -0.2,0,1,0,left,idle,npc2,notloop,auto>
+<windowmove 0,-0.39,0.01,linear,notloop,auto>
+{npc2:idle}.......
+{npc2:idle}你好...
+{npc2:idle}我也不知道我是谁...
+{npc2:angry}反正也是接受任务来的。
+{npc2:angry}啊？\n为什么我要这个样子？
+{npc2:angry}因为不想啊，我为什么要露脸啊？
+{npc2:idle}<a>
+
+<hide 1,idle,npc2,notloop,sametime>
+<setbg black,0.01,auto>
+<windowmove 0,0.4,0.01,linear,notloop,auto>
+<windowmove 0.01,-0.01,3,easeInOutQuad,pingpong,sametime>
+{npc1:idle}.......
+{npc1:idle}这家伙是个傲娇...
+{npc1:idle}你等下!
+{npc1:idle}<a>
+
+<setbg none,2,sametime>
+<stop WINDOW,sametime>
+<windowmove 0,-0.39,0.01,linear,notloop,auto>
+
+//显示角色
+<show 1.5,0,0.01,0,left,angry,npc3,notloop,sametime>
+<show -0.2,0,1,0,left,idle,npc2,notloop,auto>
+//移动
+<move -0.2,0,1,linear,npc3,notloop,auto>
+<move -0.21,-0.01,0.15,easeOutBack,npc2,2,sametime>
+<move -0.21,-0.01,0.15,easeOutBack,npc3,2,sametime>
+{npc2:angry}啊！！！！
+{npc2:angry}啊！！！！！！
+{npc2:angry}<a>
+<hide 1,idle,npc3,notloop,auto>
+<stop npc2,sametime>
+<move 0.5,0,2,linear,npc2,notloop,auto>
+{npc2:angry}额。。。好吧..
+{npc2:angry}以后是我来帮助你。。。。
+{npc2:angry}拿给给你下一个任务吧。
+<addquest 1>
+
+<hide 1,idle,npc2,notloop,sametime>
+<setbg black,0.01,auto>
+<windowmove 0,0.4,0.01,linear,notloop,auto>
+<windowmove 0.01,-0.01,3,easeInOutQuad,pingpong,sametime>
+{npc1:idle}笑一个！
+{npc1:idle}<a>
+
+<setbg none,2,sametime>
+<stop WINDOW,sametime>
+<show 0.5,0,0.5,0,left,angry,npc2,notloop,auto>
+<windowmove 0,-0.39,0.01,linear,notloop,auto>
+{npc2:angry}.......
+{npc2:happy}嘿嘿嘿.....

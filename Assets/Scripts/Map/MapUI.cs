@@ -37,12 +37,12 @@ public class MapUI : MonoBehaviour {
 
         //临时增加采集次数
         AddMineCount(10 - playerInfo.MineCount,null,false);
-        AddMoney(1000, null, false);
+        //AddMoney(1000, null, false);
         ////临时增加金币数
-        //if (playerInfo.Money < 100)
-        //{
-        //    AddMoney(100 - playerInfo.Money, null, false);
-        //}
+        if (playerInfo.Money < 100)
+        {
+            AddMoney(100 - playerInfo.Money, null, false);
+        }
 
         //增加进入地图次数
         PlayerInfo.AddSenceInfo(1);

@@ -268,7 +268,10 @@ public class ShopUI : MonoBehaviour {
 
     //保存上架的商品
     void UpdateShopGoodsData()
-    {       
+    {
+#if _Debug
+        Debug.Log("读取商店物品存档..");
+#endif
         ArrayList _shopgoods = PlayerData.ShopGoodsData.LoadData();
         if (_shopgoods != null)
         {
@@ -278,15 +281,15 @@ public class ShopUI : MonoBehaviour {
                 goodslist[i] = (CharBag.Goods)_shopgoods[i];
             }
         }
-        else
-        {
-            Debug.Log("don't have shopgoods datas!");
-        }
     }
 
     //进入商店场景时显示上架的商品
     void InitShopGoods()
     {
+#if _Debug
+        Debug.Log("配置商店物品..");
+#endif
+
         for (int i = 0; i < goodslist.Length; i++)
         {
             string priceiconpath = (i + 1).ToString() + "/price/icon";
@@ -308,6 +311,10 @@ public class ShopUI : MonoBehaviour {
     //进入商店时，显示金币
     void UpdateShopMoney()
     {
+#if _Debug
+        Debug.Log("读取角色存档..");
+#endif
+
         PlayerInfo.Info info = PlayerInfo.GetPlayerInfo();
 
         Money.text = info.Money.ToString();
