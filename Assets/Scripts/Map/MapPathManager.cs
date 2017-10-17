@@ -887,28 +887,67 @@ public class MapPathManager : MonoBehaviour {
     public InputField inputField;
     public void CenterOnPoint()
     {
+        GameObject pathparticle = Resources.Load<GameObject>("Texture/map/pathopen");
+        if (pathparticle == null) { Debug.Log("找不到Texture/map/pathopen粒子!"); return; }
         int point = 0;
-        if (!int.TryParse(inputField.text, out point))
+        string[] points = inputField.text.Split('_');
+        if (points.Length != 2) { Debug.Log("can't find pathline:" + "pathLine_" + inputField.text); return; }
+
+
+        if (!int.TryParse(points[1], out point))
         {
-            Debug.Log("错误！");
+            Debug.Log("can't find pathline:" + "pathLine_" + inputField.text);
         }
         else
         {
             string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
+            string pathline = "/Canvas/Scroll View/Viewport/Content/map/pathList/" + "pathLine_" + inputField.text;
+            Transform t = transform.Find(pathline);
+            Transform centertrans ;
             RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
             RectTransform content = root.parent.parent.parent.GetComponent<RectTransform>();
             RectTransform centerpoint = content.parent.Find("center").GetComponent<RectTransform>();
-            Vector3 dis = centerpoint.position - root.position;
 
-            LeanTween.moveLocal(content.gameObject, content.localPosition + dis * 100, 1).setEase(LeanTweenType.easeInOutSine);
+            if (t != null)
+            {
+                t.gameObject.SetActive(true);
+                root.parent.gameObject.SetActive(true);
+
+                root.GetComponent<CanvasGroup>().alpha = 0;
+                for (int i = 0; i < t.childCount; i++)
+                {
+                    t.GetChild(i).GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                }
+
+                centertrans = t.GetChild(t.childCount / 2);
+            }
+            else
+            {
+                Debug.Log("can't find pathline:" + "pathLine_" + inputField.text);
+                return;
+            }
+
+            Vector3 dis = content.localPosition + (centerpoint.position - centertrans.position) * 100;
+            LeanTween.moveLocal(content.gameObject, dis, 1).setEase(LeanTweenType.easeInOutSine).setOnComplete(()=>
+            {
+                for (int i = 0; i < t.childCount; i++)
+                {
+                    float time = i * 0.15f;
+                    Transform chlid = t.GetChild(i);
+                    ParticleSystem ps = Instantiate(pathparticle, chlid).GetComponent<ParticleSystem>();
+                    var main = ps.main;
+                    main.startDelay = time;
+                    LeanTween.color(chlid.GetComponent<RectTransform>(), Color.white, 0.5f).setDelay(time);
+
+                    if (i == t.childCount - 1)
+                    {
+                        LeanTween.alphaCanvas(root.GetComponent<CanvasGroup>(), 1, 0.5f).setDelay(time);
+                    }
+                }
+            });
         }
 
 
-    }
-
-    Vector3 GetContentWorldPoint(RectTransform target)
-    {
-        return target.parent.parent.parent.TransformPoint(target.localPosition);
     }
 
 }
