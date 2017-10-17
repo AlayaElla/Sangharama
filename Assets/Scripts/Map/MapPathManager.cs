@@ -882,4 +882,33 @@ public class MapPathManager : MonoBehaviour {
         eventmanager.PreCheckEventList(1);
         questManager.PreCheckQuest(1);
     }
+
+
+    public InputField inputField;
+    public void CenterOnPoint()
+    {
+        int point = 0;
+        if (!int.TryParse(inputField.text, out point))
+        {
+            Debug.Log("错误！");
+        }
+        else
+        {
+            string actionRoot = "Canvas/Scroll View/Viewport/Content/map/action" + point + "/" + point;
+            RectTransform root = GameObject.Find(actionRoot).GetComponent<RectTransform>();
+            RectTransform content = root.parent.parent.parent.GetComponent<RectTransform>();
+            RectTransform centerpoint = content.parent.Find("center").GetComponent<RectTransform>();
+            Vector3 dis = centerpoint.position - root.position;
+
+            LeanTween.moveLocal(content.gameObject, content.localPosition + dis * 100, 1).setEase(LeanTweenType.easeInOutSine);
+        }
+
+
+    }
+
+    Vector3 GetContentWorldPoint(RectTransform target)
+    {
+        return target.parent.parent.parent.TransformPoint(target.localPosition);
+    }
+
 }
