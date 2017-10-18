@@ -1,0 +1,17 @@
+//角色名<id:角色ID;image:立绘>
+[Character]
+npc1<name:他喵的坑;image:lili;windows:board1;voice:voice1>
+
+[Background]
+//test,1
+
+[Sound]
+
+
+//对话列表
+[ChatList]
+{npc1:idle}很久很久以前...
+{npc1:idle}在一片未开拓的大陆上....
+<openpath 1_2>
+{npc1:idle}很久很久以前...
+{npc1:idle}在一片未开拓的大陆上....

@@ -109,8 +109,6 @@ public class ChatManager : MonoBehaviour {
         storyName = storyname;
         Debug.Log("Start: " + storyname);
 
-        ChatLoader loader = new ChatLoader();
-
         //初始化
         NowConfig = new ChatConfig();
         NowStroyActionBox = new ChatActionBox();
@@ -1190,6 +1188,38 @@ public class ChatManager : MonoBehaviour {
                 SetActionState(ChatAction.NOWSTATE.DONE, index);
                 SetActionIndex(index + 1);
                 DoingAction(NowStroyActionBox.NowIndex);
+                break;
+            case "openpath":
+                SetActionState(ChatAction.NOWSTATE.DOING, index);
+                if (PlayerInfo.GetNowscene() > 0)
+                {
+                    MapPathManager pm = transform.Find("/CollectionTools/Colection").GetComponent<MapPathManager>();
+                    pm.CenterOnPoint(action.Parameter[0],()=>
+                    {
+                        //如果是最后一个动作，则停止自动
+                        if (index >= NowStroyActionBox.ActionList.Count)
+                        {
+                            SetActionState(ChatAction.NOWSTATE.DONE, index);
+                            return;
+                        }
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        SetActionIndex(index + 1);
+                        DoingAction(NowStroyActionBox.NowIndex);
+                    });
+                }
+                else
+                {
+                    Debug.Log("不在地图场景中，不能执行解锁地图功能！   path:" + action.Parameter[0]);
+                    //如果是最后一个动作，则停止自动
+                    if (index >= NowStroyActionBox.ActionList.Count)
+                    {
+                        SetActionState(ChatAction.NOWSTATE.DONE, index);
+                        return;
+                    }
+                    SetActionState(ChatAction.NOWSTATE.DONE, index);
+                    SetActionIndex(index + 1);
+                    DoingAction(NowStroyActionBox.NowIndex);
+                }
                 break;
             default:
                 Debug.Log("Don't have Action: <color=red>" + action.Command + "</color> in <color=green>" + storyName + ".txt</color>!");
