@@ -204,7 +204,7 @@ public class CollectAction : MonoBehaviour {
         Image sr = materiralicon.AddComponent<Image>();
         sr.sprite = Materiral.GetMaterialIcon(goods.MateriralType, goods.ID);
         materiralicon.transform.position = rect.position;
-        materiralicon.transform.SetParent(MateriralList.Find("ListBox"), true);
+        materiralicon.transform.SetParent(MateriralList.Find("ListBox"), false);
         materiralicon.transform.localScale = new Vector3(1, 1, 1);
         materiralicon.GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
 

@@ -11,15 +11,5 @@ bgm1,bgm2
 
 //对话列表
 [ChatList]
-<playbgm bgm1>
-<setbg test,2,sametime>
-<show 0.2,0,1,0,left,idle,npc1,notloop,sametime>
 {npc1:idle}第一句话，测试对话！
-{npc1:idle}<t 0.5>第一句话，测试对话！
-<stopbgm>
-{npc1:idle}第一句话，测试对话！
-<setbg 1,2,sametime>
-<playbgm bgm2>
-{npc1:idle}第2句话，测试对话！
-//<giveitem 2:3>
-//<loadstory shop1_2>
+<giveitem 2:1>

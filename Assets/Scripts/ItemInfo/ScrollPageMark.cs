@@ -55,7 +55,7 @@ public class ScrollPageMark : MonoBehaviour
     {
         Toggle t = GameObject.Instantiate<Toggle>(togglePrefab);
         t.gameObject.SetActive(true);
-        t.transform.SetParent(toggleGroup.transform);
+        t.transform.SetParent(toggleGroup.transform, false);
         t.transform.localScale = Vector3.one;
         t.transform.localPosition = Vector3.zero;
         return t;

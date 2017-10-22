@@ -135,7 +135,7 @@ public class RecipeUI : MonoBehaviour{
         for (int i = 0; i < recipeMap.ReicipeList.Count; i++)
         {
             GameObject button = Instantiate(recipeButton);
-            button.transform.SetParent(_fitter.transform);
+            button.transform.SetParent(_fitter.transform, false);
 
             Recipe.RecipeMap _map = (Recipe.RecipeMap)recipeMap.ReicipeList[i];
 
@@ -263,7 +263,7 @@ public class RecipeUI : MonoBehaviour{
         for (int i = 0; i < num; i++)
         {
             GameObject recipeSlot = Instantiate(btn_recipeSlot);
-            recipeSlot.transform.SetParent(recipeSlotsList.transform);
+            recipeSlot.transform.SetParent(recipeSlotsList.transform, false);
 
             //设置按钮位置
             targetAngel = 360 / num * i;
@@ -482,7 +482,7 @@ public class RecipeUI : MonoBehaviour{
         _btn.transform.Find("Bottom").GetComponent<Image>().enabled = false;
         _btn.transform.position = _slot.button.transform.position;
         _btn.transform.localScale = _slot.button.transform.localScale;
-        _btn.transform.SetParent(Plane.transform);
+        _btn.transform.SetParent(Plane.transform, false);
 
         Vector3 _movepos=new Vector3();
         Vector3 tmp = GetPropertyPos(PropertyBox.Count + 1);
@@ -588,7 +588,7 @@ public class RecipeUI : MonoBehaviour{
                         EventTriggerListener.Get(btn_startRecipe.gameObject).onClick = CloseRecipe;
 
                         targetgoods = Instantiate(btn_recipeSlot);
-                        targetgoods.transform.SetParent(recipeUI.transform);
+                        targetgoods.transform.SetParent(recipeUI.transform, false);
                         targetgoods.transform.SetAsLastSibling();
                         targetgoods.transform.position = recipeSlotsList.transform.position;
                         targetgoods.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -705,7 +705,7 @@ public class RecipeUI : MonoBehaviour{
 
             int proID = _slot.Property[i];
             RectTransform _property = Instantiate(PropertyListElement).GetComponent<RectTransform>();
-            _property.transform.SetParent(PropertyListGrid.transform);
+            _property.transform.SetParent(PropertyListGrid.transform, false);
 
             _property.localPosition = GetPropertyPos(PropertyBox.Count + 1);
             _property.sizeDelta = GetPropertySize(PropertyBox.Count + 1);

@@ -43,7 +43,7 @@ public class ItemInfoUI : MonoBehaviour {
     {
         RectTransform infoRect = this.GetComponent<RectTransform>();
 
-        infoRect.SetParent(GameObject.Find("Canvas").transform);
+        infoRect.SetParent(GameObject.Find("Canvas").transform, false);
         infoRect.SetAsLastSibling();
 
         infoRect.sizeDelta = new Vector2(0, 0);

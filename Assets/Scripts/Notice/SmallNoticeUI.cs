@@ -50,12 +50,12 @@ public class SmallNoticeUI : MonoBehaviour {
         {
             list = Instantiate(smallNoticeList).transform;
             list.name = "NoticeList";
-            list.transform.SetParent(c.transform);
+            list.transform.SetParent(c.transform, false);
             list.transform.localScale = new Vector3(1, 1, 1);
             list.transform.SetAsLastSibling();
         }
 
-        _notice.transform.SetParent(list.transform);
+        _notice.transform.SetParent(list.transform, false);
         _notice.transform.localScale = new Vector3(1, 1, 1);
         _notice.transform.SetAsLastSibling();
 
@@ -92,7 +92,7 @@ public class SmallNoticeUI : MonoBehaviour {
         {
             list = Instantiate(smallNoticeList).transform;
             list.name = "NoticeList";
-            list.transform.SetParent(c.transform);
+            list.transform.SetParent(c.transform, false);
             list.transform.SetAsLastSibling();
         }
 

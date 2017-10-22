@@ -15,12 +15,19 @@
 	<ChatEvent ID="11" GroupType="0" EventType="Arrive" Num="1" Parameter="4" StoryName="giveitem"/>
 	<ChatEvent ID="12" GroupType="0" EventType="Arrive" Num="300" Parameter="3" StoryName="start"/>
 	<ChatEvent ID="13" GroupType="0" EventType="InShop" Num="200" StoryName="start"/>
+	
+	//必要任务的触发
+	<ChatEvent ID="2" GroupType="0" EventType="Arrive" Num="1" Parameter="2" NeedQuest="7" StoryName="start"/>
+	
+	//必要物品的触发
+	<ChatEvent ID="13" GroupType="0" EventType="InShop" Num="200" EventItem="0,1" StoryName="start"/>
 -->
 
 
 <ChatEventList>
-	<ChatEvent ID="1" GroupType="1" EventType="InShop" Num="1" StoryName="addquest"/>
-	<ChatEvent ID="2" GroupType="0" EventType="Arrive" Num="1" Parameter="2" NeedQuest="7" StoryName="start"/>
+	<ChatEvent ID="1" GroupType="1" EventType="InShop" Num="1" StoryName="start"/>
+	<ChatEvent ID="2" GroupType="1" EventType="InMap" Num="1" EventItem="2,1" StoryName="openpath"/>
+
 	
 	<ChatEvent ID="1000" EventType="Quest" StoryName="test1"/>
 	<ChatEvent ID="1001" EventType="Quest" StoryName="test3"/>

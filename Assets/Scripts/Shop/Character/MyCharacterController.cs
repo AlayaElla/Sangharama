@@ -493,7 +493,7 @@ public class MyCharacterController : MonoBehaviour {
         _sprite.sortingLayerName = "Character";
 
         //设定道具的为角色的子物件
-        goods.transform.SetParent(this.transform);
+        goods.transform.SetParent(this.transform, false);
         goods.transform.position = goodsVertor;
 
         //把物体移动到头上

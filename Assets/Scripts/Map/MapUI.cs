@@ -187,7 +187,7 @@ public class MapUI : MonoBehaviour {
             RectTransform imgrect = img.GetComponent<RectTransform>();
             obj.GetComponent<RectTransform>().sizeDelta = imgrect.sizeDelta;
 
-            obj.transform.SetParent(MoneyBoard.parent);
+            obj.transform.SetParent(MoneyBoard.parent, false);
 
             obj.transform.position = imgrect.position;
             float randomlength = 0;
@@ -225,7 +225,7 @@ public class MapUI : MonoBehaviour {
             RectTransform imgrect = img.GetComponent<RectTransform>();
             obj.GetComponent<RectTransform>().sizeDelta = imgrect.sizeDelta;
 
-            obj.transform.SetParent(MoneyBoard.parent);
+            obj.transform.SetParent(MoneyBoard.parent, false);
 
             obj.transform.position = rect.position;
             float randomlength = Random.Range(-100f, 100f);

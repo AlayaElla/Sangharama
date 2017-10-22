@@ -29,7 +29,7 @@ public class BagUI : MonoBehaviour {
 
     void Start()
     {
-        this.transform.SetParent(GameObject.Find("Canvas").transform);
+        this.transform.SetParent(GameObject.Find("Canvas").transform, false);
         this.transform.SetAsLastSibling();
 
         RectTransform infoRect = this.GetComponent<RectTransform>();
@@ -61,7 +61,7 @@ public class BagUI : MonoBehaviour {
             shopGoods.SetActive(true);
         }
 
-        this.transform.SetParent(GameObject.Find("Canvas").transform);
+        this.transform.SetParent(GameObject.Find("Canvas").transform,false);
         this.transform.SetAsLastSibling();
 	}
 	
@@ -130,7 +130,7 @@ public class BagUI : MonoBehaviour {
                 continue;
 
             GameObject button = Instantiate(btn_menu);
-            button.transform.SetParent(_fitter.transform);
+            button.transform.SetParent(_fitter.transform, false);
 
             button.name = _map.ID.ToString();
             button.transform.Find("Text").GetComponent<Text>().text = _map.Name;
@@ -209,7 +209,7 @@ public class BagUI : MonoBehaviour {
 
                 //创建按钮
                 GameObject button = Instantiate(btn_menu);
-                button.transform.SetParent(_fitter.transform);
+                button.transform.SetParent(_fitter.transform, false);
 
                 button.name = _map.ID.ToString();
                 button.transform.Find("Text").GetComponent<Text>().text = _map.Name;
@@ -270,7 +270,7 @@ public class BagUI : MonoBehaviour {
             }
 
             GameObject button = Instantiate(btn_menu);
-            button.transform.SetParent(_fitter.transform);
+            button.transform.SetParent(_fitter.transform, false);
 
             button.name = _map.ID.ToString();
             button.transform.Find("Text").GetComponent<Text>().text = _map.Name;
