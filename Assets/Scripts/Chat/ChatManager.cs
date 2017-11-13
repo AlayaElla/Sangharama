@@ -1282,7 +1282,7 @@ public class ChatManager : MonoBehaviour {
                             rt = GetCharacterRectTransform(_action.CharacterID);
                             LeanTween.cancel(rt.gameObject);
                             Destroy(rt.gameObject);
-                            CharacterRects.Remove(action.CharacterID);
+                            CharacterRects.Remove(_action.CharacterID);
                             SetActionState(ChatAction.NOWSTATE.DONE, i);
                             break;
                         case "move":
@@ -1334,7 +1334,7 @@ public class ChatManager : MonoBehaviour {
                             break;
                         case "rotate":
                             rt = GetCharacterRectTransform(_action.CharacterID);
-                            float angle = float.Parse(action.Parameter[0]);
+                            float angle = float.Parse(_action.Parameter[0]);
                             //如果是循环，则无视
                             if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
                             {
@@ -1400,7 +1400,7 @@ public class ChatManager : MonoBehaviour {
                             break;
                         case "windowrotate":
                             rt = TextBoardLayer.WordsBacklayer;
-                            float windowangle = float.Parse(action.Parameter[0]);
+                            float windowangle = float.Parse(_action.Parameter[0]);
                             //如果是循环，则无视
                             if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
                             {
@@ -1466,7 +1466,7 @@ public class ChatManager : MonoBehaviour {
                             break;
                         case "bgrotate":
                             rt = GetBGLayer();
-                            float bgangle = float.Parse(action.Parameter[0]);
+                            float bgangle = float.Parse(_action.Parameter[0]);
                             //如果是循环，则无视
                             if (_action.LoopType != "loop" && _action.LoopType != "pingpong")
                             {
@@ -1486,7 +1486,7 @@ public class ChatManager : MonoBehaviour {
                         case "talk":
                             LeanTween.cancel(TextBoardLayer.WordsText.gameObject);
                             //如果是设置文字速度的自动模式，则可以点击加速
-                            if (action.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
+                            if (_action.SkipType == ChatAction.SKIPTYPE.TimeAUTO)
                             {
                                 for (int wordsindex = NowStroyActionBox.NowIndex; wordsindex < NowStroyActionBox.ActionList.Count; wordsindex++)
                                 {
@@ -1515,7 +1515,7 @@ public class ChatManager : MonoBehaviour {
                                 TextBoardLayer.WordsText.text = lastWords;
                                 SetActionState(ChatAction.NOWSTATE.DONE, i);
                             }
-                            WaitingForClick(action.CharacterID);
+                            WaitingForClick(_action.CharacterID);
                             break;
                     }
                 }
